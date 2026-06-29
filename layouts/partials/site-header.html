@@ -43,9 +43,11 @@
         <div class="tool-switcher-menu">
           {{ range $tools }}
             {{ $toolName := .navName | default .name }}
+            {{ $toolHref := .href | relURL }}
             {{ if $isZH }}{{ with index hugo.Data.zh_tools .id }}{{ $toolName = .name }}{{ end }}{{ end }}
             {{ if $isTW }}{{ with index hugo.Data.zh_tw_tools .id }}{{ $toolName = .name }}{{ end }}{{ end }}
-            <a href="{{ .href | relURL }}" class="{{ if eq $current .href }}active{{ end }}">
+            {{ if $isZH }}{{ $toolHref = printf "zh/tools/%s/" .id | relURL }}{{ else if $isTW }}{{ $toolHref = printf "zh-tw/tools/%s/" .id | relURL }}{{ end }}
+            <a href="{{ $toolHref }}" class="{{ if eq $current $toolHref }}active{{ end }}">
               <span class="tool-menu-icon" aria-hidden="true">{{ partial "tool-icon.html" .id }}</span>
               <span>{{ $toolName }}</span>
             </a>

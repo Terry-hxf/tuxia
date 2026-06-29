@@ -1,23 +1,45 @@
 {{ $toolId := .Params.toolId | default "" }}
 {{ if and (eq $toolId "") .File }}{{ $toolId = .File.BaseFileName }}{{ end }}
-{{ with index hugo.Data.tool_seo $toolId }}
+{{ $pageLang := .Params.pageLang | default "en" }}
+{{ $isZH := eq $pageLang "zh-CN" }}
+{{ $isTW := eq $pageLang "zh-TW" }}
+{{ $seo := index hugo.Data.tool_seo $toolId }}
+{{ $toolName := .Params.heading | default .Title }}
+{{ $toolSummary := .Params.summary | default .Params.description }}
+{{ $toolFaq := slice }}
+{{ if $isZH }}
+  {{ with index hugo.Data.zh_tool_guides $toolId }}{{ $seo = . }}{{ end }}
+  {{ with index hugo.Data.zh_tools $toolId }}
+    {{ $toolName = .name }}
+    {{ $toolSummary = .summary }}
+    {{ $toolFaq = .faq }}
+  {{ end }}
+{{ else if $isTW }}
+  {{ with index hugo.Data.zh_tw_tool_guides $toolId }}{{ $seo = . }}{{ end }}
+  {{ with index hugo.Data.zh_tw_tools $toolId }}
+    {{ $toolName = .name }}
+    {{ $toolSummary = .summary }}
+    {{ $toolFaq = .faq }}
+  {{ end }}
+{{ end }}
+{{ with $seo }}
 <section class="tool-seo-section" aria-labelledby="tool-seo-title">
   <div class="container tool-seo-container">
     <div class="tool-seo-head">
-      <p class="section-label">Tool Guide</p>
-      <h2 id="tool-seo-title">{{ .title }} Guide and FAQ</h2>
-      <p>{{ .intro }}</p>
+      <p class="section-label">{{ if $isTW }}工具指南{{ else if $isZH }}工具指南{{ else }}Tool Guide{{ end }}</p>
+      <h2 id="tool-seo-title">{{ if or $isZH $isTW }}{{ $toolName }}{{ if $isTW }}指南與常見問題{{ else }}指南和常见问题{{ end }}{{ else }}{{ .title }} Guide and FAQ{{ end }}</h2>
+      <p>{{ if or $isZH $isTW }}{{ $toolSummary }}{{ else }}{{ .intro }}{{ end }}</p>
     </div>
 
     <div class="tool-seo-grid">
       <article class="tool-seo-card">
-        <h3>Best for</h3>
+        <h3>{{ if $isTW }}適合使用{{ else if $isZH }}适合使用{{ else }}Best for{{ end }}</h3>
         <ul>
           {{ range .bestFor }}<li>{{ . }}</li>{{ end }}
         </ul>
       </article>
       <article class="tool-seo-card">
-        <h3>How to use it</h3>
+        <h3>{{ if $isTW }}使用方式{{ else if $isZH }}使用方式{{ else }}How to use it{{ end }}</h3>
         <ol>
           {{ range .steps }}<li>{{ . }}</li>{{ end }}
         </ol>
@@ -25,16 +47,25 @@
     </div>
 
     <aside class="tool-seo-privacy">
-      <strong>Privacy note:</strong> {{ .privacy }}
+      <strong>{{ if $isTW }}隱私說明：{{ else if $isZH }}隐私说明：{{ else }}Privacy note:{{ end }}</strong> {{ .privacy }}
     </aside>
 
     <div class="tool-faq">
-      <h3>Frequently asked questions</h3>
+      <h3>{{ if $isTW }}常見問題{{ else if $isZH }}常见问题{{ else }}Frequently asked questions{{ end }}</h3>
+      {{ if or $isZH $isTW }}
+        {{ range $toolFaq }}
+        <details>
+          <summary>{{ .question }}</summary>
+          <p>{{ .answer }}</p>
+        </details>
+        {{ end }}
+      {{ else }}
       {{ range .faq }}
       <details>
         <summary>{{ .question }}</summary>
         <p>{{ .answer }}</p>
       </details>
+      {{ end }}
       {{ end }}
     </div>
   </div>

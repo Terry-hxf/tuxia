@@ -2,51 +2,39 @@
 {{ $isTW := eq (.Params.pageLang | default "zh-CN") "zh-TW" }}
 {{ $toolId := .Params.toolId }}
 {{ $tool := cond $isTW (index hugo.Data.zh_tw_tools $toolId) (index hugo.Data.zh_tools $toolId) }}
-{{ $guide := cond $isTW (index hugo.Data.zh_tw_tool_guides $toolId) (index hugo.Data.zh_tool_guides $toolId) }}
-{{ $listURL := cond $isTW ("zh-tw/" | relURL) ("zh/" | relURL) }}
+{{ $sourcePage := site.GetPage (printf "tools/%s.html" $toolId) }}
 {{ partial "site-header.html" . }}
 
-<main class="seo-page-shell">
-  <section class="container">
-    <div class="seo-hero">
-      <p class="section-label">TUXIA {{ if $isTW }}圖匣工具{{ else }}图匣工具{{ end }}</p>
-      <h1>{{ $tool.name }}</h1>
-      <p>{{ $tool.summary }}</p>
-      <div class="seo-action-row">
-        <a class="btn btn-primary" href="{{ printf "tools/%s.html" $toolId | relURL }}">{{ if $isTW }}打開工具工作區{{ else }}打开工具工作台{{ end }}</a>
-        <a class="btn btn-ghost" href="{{ $listURL }}">{{ if $isTW }}返回繁體工具列表{{ else }}返回简体工具列表{{ end }}</a>
+<main class="tool-page-shell">
+  <section class="tool-intro-band">
+    <div class="container tool-intro-grid">
+      <div>
+        <p class="section-label">TUXIA {{ if $isTW }}圖匣工具{{ else }}图匣工具{{ end }}</p>
+        <h1>{{ $tool.name }}</h1>
+        <p>{{ $tool.summary }}</p>
       </div>
+      {{ with $sourcePage.Params.badges }}
+      <div class="tool-intro-panel" aria-label="{{ if $isTW }}工具能力{{ else }}工具能力{{ end }}">
+        {{ range . }}
+          {{ $badge := . }}
+          {{ if $isTW }}
+            {{ $badge = partial "localize-tool-content.html" (dict "content" $badge "lang" "zh-TW") }}
+          {{ else }}
+            {{ $badge = partial "localize-tool-content.html" (dict "content" $badge "lang" "zh-CN") }}
+          {{ end }}
+          <span>{{ $badge }}</span>
+        {{ end }}
+      </div>
+      {{ end }}
     </div>
-
-    <article class="seo-content-panel">
-      <h2>{{ if $isTW }}功能說明{{ else }}功能说明{{ end }}</h2>
-      <p>{{ $tool.summary }}</p>
-      {{ with $guide }}
-      <h2>{{ if $isTW }}適合使用的場景{{ else }}适合使用的场景{{ end }}</h2>
-      <ul>
-        {{ range .bestFor }}<li>{{ . }}</li>{{ end }}
-      </ul>
-
-      <h2>{{ if $isTW }}使用步驟{{ else }}使用步骤{{ end }}</h2>
-      <ol>
-        {{ range .steps }}<li>{{ . }}</li>{{ end }}
-      </ol>
-
-      <h2>{{ if $isTW }}隱私說明{{ else }}隐私说明{{ end }}</h2>
-      <p>{{ .privacy }}</p>
-      {{ end }}
-
-      <h2>{{ if $isTW }}常見問題{{ else }}常见问题{{ end }}</h2>
-      {{ range $tool.faq }}
-      <details>
-        <summary>{{ .question }}</summary>
-        <p>{{ .answer }}</p>
-      </details>
-      {{ end }}
-    </article>
   </section>
+
+  {{ partial "common-scripts.html" . }}
+  {{ if $sourcePage }}
+    {{ partial "localize-tool-content.html" (dict "content" $sourcePage.Content "lang" (.Params.pageLang | default "zh-CN")) | safeHTML }}
+  {{ end }}
+  {{ partial "tool-seo.html" . }}
 </main>
 
 {{ partial "site-footer.html" . }}
-{{ partial "common-scripts.html" . }}
 {{ end }}
