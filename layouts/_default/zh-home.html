@@ -1,58 +1,183 @@
+{{ define "head_extra" }}
+<style>
+  .hero { padding: 58px 0 42px; text-align: center; }
+  .hero h1 { margin-bottom: 14px; font-size: clamp(2rem, 5vw, 3.2rem); }
+  .hero h1 em { font-style: normal; color: var(--accent); background: none; -webkit-text-fill-color: currentColor; }
+  .hero-subtitle { font-size: 1.02rem; color: var(--text-secondary); max-width: 680px; margin: 0 auto 22px; line-height: 1.8; }
+  .hero-stats { display: inline-grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; padding: 4px; border: 1px solid var(--border); border-radius: 12px; background: rgba(255,255,255,0.78); box-shadow: var(--shadow-sm); max-width: 580px; width: 100%; margin: 0 auto; }
+  .hero-stat { text-align: center; padding: 14px 18px; border-right: 1px solid var(--border); }
+  .hero-stat:last-child { border-right: 0; }
+  .hero-stat-num { font-size: 1rem; font-weight: 750; color: var(--text); }
+  .hero-stat-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+  .tools-section { padding: 18px 0 62px; }
+  .tools-section .section-header { margin-bottom: 22px; }
+  .tools-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  .tool-card { min-height: 142px; display: grid; grid-template-columns: 44px 1fr; gap: 14px; padding: 20px; background: rgba(255,255,255,0.82); border: 1px solid var(--border); border-radius: var(--radius); text-decoration: none; color: inherit; transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease, background 180ms ease; cursor: pointer; position: relative; overflow: hidden; }
+  .tool-card::after { content: ""; position: absolute; right: 18px; top: 22px; width: 8px; height: 8px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; color: #93c5fd; transform: rotate(-45deg); opacity: 0; transition: opacity 180ms ease, transform 180ms ease; }
+  .tool-card:hover { border-color: #9ec5f3; background: #ffffff; box-shadow: 0 14px 34px rgba(37,99,235,0.08); transform: translateY(-2px); }
+  .tool-card:hover::after { opacity: 1; transform: translateX(3px) rotate(-45deg); }
+  .tool-icon-wrap { width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: var(--accent); background: #eff6ff; }
+  .tool-icon-wrap svg { width: 22px; height: 22px; }
+  .tool-info { min-width: 0; padding-right: 12px; }
+  .tool-info h3 { font-size: 0.96rem; margin-bottom: 7px; letter-spacing: 0; }
+  .tool-info p { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.62; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .tool-meta { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 4px 8px; border-radius: var(--radius-full); background: #f8fafc; color: #2563eb; font-size: 0.68rem; font-weight: 600; }
+  .tool-meta::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0.72; }
+  .features-section { padding: 52px 0; background: rgba(255,255,255,0.72); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .feature-card { text-align: left; padding: 22px; transition: all var(--transition); border: 1px solid transparent; border-radius: var(--radius); }
+  .feature-card:hover { background: #ffffff; border-color: var(--border); box-shadow: var(--shadow-sm); }
+  .feature-icon-c { width: 42px; height: 42px; border-radius: 10px; background: var(--accent-subtle); display: flex; align-items: center; justify-content: center; margin: 0 0 14px; color: var(--accent); }
+  .feature-icon-c svg { width: 20px; height: 20px; }
+  .feature-card h3 { margin-bottom: 5px; font-size: 0.95rem; }
+  .feature-card p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; }
+  .steps-section { padding: 52px 0; }
+  .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; max-width: 820px; margin: 0 auto; }
+  .step-item { text-align: left; position: relative; padding: 18px 18px 18px 64px; border: 1px solid var(--border); border-radius: var(--radius); background: rgba(255,255,255,0.78); }
+  .step-num { position: absolute; left: 18px; top: 18px; width: 32px; height: 32px; border-radius: 9px; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 750; box-shadow: 0 6px 14px rgba(37,99,235,0.16); }
+  .step-arrow { display: none; }
+  .step-item h3 { font-size: 0.9rem; margin-bottom: 4px; }
+  .step-item p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.6; }
+  .cta-section { padding: 42px 0 50px; text-align: center; background: rgba(255,255,255,0.7); border-top: 1px solid var(--border); }
+  .cta-section h2 { margin-bottom: 10px; }
+  @media (max-width: 768px) {
+    .hero { padding: 44px 0 34px; }
+    .features-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+    .tools-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tool-card { min-height: 136px; padding: 18px; }
+    .steps-grid { grid-template-columns: 1fr; max-width: 420px; }
+  }
+  @media (max-width: 520px) {
+    .hero-stats { grid-template-columns: 1fr; max-width: 360px; }
+    .hero-stat { border-right: 0; border-bottom: 1px solid var(--border); padding: 12px 14px; }
+    .hero-stat:last-child { border-bottom: 0; }
+    .tools-grid { grid-template-columns: 1fr; }
+    .tool-card { min-height: auto; grid-template-columns: 40px 1fr; padding: 16px; }
+    .tool-icon-wrap { width: 40px; height: 40px; }
+  }
+</style>
+{{ end }}
+
 {{ define "main" }}
 {{ $isTW := eq (.Params.pageLang | default "zh-CN") "zh-TW" }}
-{{ $tools := cond $isTW hugo.Data.zh_tw_tools hugo.Data.zh_tools }}
+{{ $langPrefix := cond $isTW "zh-tw" "zh" }}
+{{ $toolCopy := dict
+  "base64" (dict "zhName" "图片 Base64 工作台" "twName" "圖片 Base64 工作區" "zhDesc" "在同一页完成图片转 Base64、Base64 还原图片、预览、复制和下载，适合图标、邮件模板、CSS 嵌入和开发调试。" "twDesc" "在同一頁完成圖片轉 Base64、Base64 還原圖片、預覽、複製和下載，適合圖示、郵件範本、CSS 嵌入和開發除錯。" "zhMeta" "双向转换" "twMeta" "雙向轉換")
+  "online" (dict "zhName" "图片在线链接" "twName" "圖片線上連結" "zhDesc" "使用自己的 ImgBB API Key 上传图片并生成可分享链接，适合临时分享、素材外链和跨设备查看。" "twDesc" "使用自己的 ImgBB API Key 上傳圖片並產生可分享連結，適合臨時分享、素材外連和跨裝置查看。" "zhMeta" "ImgBB 上传" "twMeta" "ImgBB 上傳")
+  "qrcode-gen" (dict "zhName" "二维码生成工作台" "twName" "QR Code 產生工作區" "zhDesc" "输入文本或链接即可生成二维码，可调尺寸、容错等级、颜色、样式、Logo，并导出 PNG 或 SVG。" "twDesc" "輸入文字或連結即可產生 QR Code，可調尺寸、容錯等級、顏色、樣式、Logo，並匯出 PNG 或 SVG。" "zhMeta" "实时预览" "twMeta" "即時預覽")
+  "qrcode-dec" (dict "zhName" "二维码解码器" "twName" "QR Code 解碼器" "zhDesc" "上传二维码图片，识别其中的文本或网址，然后复制结果或直接打开链接。" "twDesc" "上傳 QR Code 圖片，識別其中的文字或網址，然後複製結果或直接開啟連結。" "zhMeta" "内容识别" "twMeta" "內容識別")
+  "compress" (dict "zhName" "图片压缩工具" "twName" "圖片壓縮工具" "zhDesc" "对比原图和压缩后图片，调节质量，并在浏览器中导出 PNG、JPG、WebP 或 SVG。" "twDesc" "對比原圖和壓縮後圖片，調整品質，並在瀏覽器中匯出 PNG、JPG、WebP 或 SVG。" "zhMeta" "前后对比" "twMeta" "前後對比")
+  "convert" (dict "zhName" "图片格式转换" "twName" "圖片格式轉換" "zhDesc" "预览上传图片并转换为 PNG、JPG、WebP、BMP 或 SVG，无需安装额外软件。" "twDesc" "預覽上傳圖片並轉換為 PNG、JPG、WebP、BMP 或 SVG，無需安裝額外軟體。" "zhMeta" "多格式导出" "twMeta" "多格式匯出")
+  "resize" (dict "zhName" "图片尺寸调整" "twName" "圖片尺寸調整" "zhDesc" "按宽度、高度或百分比调整图片尺寸，锁定比例，使用快捷缩放并导出常见格式。" "twDesc" "按寬度、高度或百分比調整圖片尺寸，鎖定比例，使用快速縮放並匯出常見格式。" "zhMeta" "宽高缩放" "twMeta" "寬高縮放")
+  "crop" (dict "zhName" "图片裁剪" "twName" "圖片裁切" "zhDesc" "在画布上拖拽裁剪区域，使用预设比例、旋转图片、预览裁剪并下载结果。" "twDesc" "在畫布上拖曳裁切區域，使用預設比例、旋轉圖片、預覽裁切並下載結果。" "zhMeta" "画布编辑" "twMeta" "畫布編輯")
+  "watermark" (dict "zhName" "图片加水印" "twName" "圖片加浮水印" "zhDesc" "本地添加文字水印或图片水印，可选择单个、行列或满屏排列，然后导出带水印图片。" "twDesc" "本機加入文字浮水印或圖片浮水印，可選擇單個、行列或滿版排列，然後匯出帶浮水印圖片。" "zhMeta" "本地水印" "twMeta" "本機浮水印")
+  "retouch" (dict "zhName" "局部擦除/马赛克" "twName" "局部擦除/馬賽克" "zhDesc" "涂抹图片局部区域，进行轻量修复或马赛克遮挡，适合清理瑕疵和保护隐私。" "twDesc" "塗抹圖片局部區域，進行輕量修復或馬賽克遮擋，適合清理瑕疵和保護隱私。" "zhMeta" "修复打码" "twMeta" "修復打碼")
+  "palette" (dict "zhName" "图片配色提取" "twName" "圖片配色擷取" "zhDesc" "从图片提取主色，并在预览图上悬停读取实时 HEX、RGB 和 HSL 颜色值。" "twDesc" "從圖片擷取主色，並在預覽圖上懸停讀取即時 HEX、RGB 和 HSL 色值。" "zhMeta" "实时取色" "twMeta" "即時取色")
+  "exif" (dict "zhName" "EXIF 元数据查看" "twName" "EXIF 中繼資料查看" "zhDesc" "上传照片并查看预览、相机型号、拍摄时间、光圈、快门、ISO、尺寸和 GPS 元数据。" "twDesc" "上傳照片並查看預覽、相機型號、拍攝時間、光圈、快門、ISO、尺寸和 GPS 中繼資料。" "zhMeta" "元数据查看" "twMeta" "中繼資料查看")
+}}
 {{ partial "site-header.html" . }}
 
-<main class="seo-page-shell">
-  <section class="container">
-    <div class="seo-hero">
-      <p class="section-label">TUXIA {{ if $isTW }}圖匣{{ else }}图匣{{ end }}</p>
-      <h1>{{ if $isTW }}免費線上圖片工具箱{{ else }}免费在线图片工具箱{{ end }}</h1>
-      <p>{{ if $isTW }}圖匣 TUXIA 提供圖片壓縮、格式轉換、尺寸調整、裁切、加浮水印、局部擦除和馬賽克、QR Code、Base64、圖片取色和 EXIF 中繼資料查看等工具。除圖片線上連結產生外，常用圖片處理都在瀏覽器本機完成。{{ else }}图匣 TUXIA 提供图片压缩、格式转换、尺寸调整、裁剪、加水印、局部擦除和马赛克、二维码、Base64、图片取色和 EXIF 元数据查看等工具。除图片在线链接生成外，常用图片处理都在浏览器本地完成。{{ end }}</p>
-      <div class="seo-action-row">
-        <a class="btn btn-primary" href="{{ "" | relURL }}">{{ if $isTW }}打開英文首頁{{ else }}打开英文主页{{ end }}</a>
-        <a class="btn btn-ghost" href="{{ "tools/compress.html" | relURL }}">{{ if $isTW }}開始壓縮圖片{{ else }}开始压缩图片{{ end }}</a>
-      </div>
+<section class="hero">
+  <div class="container">
+    <h1>{{ if $isTW }}線上圖片工具，<em>打開就能用</em>{{ else }}在线图片工具，<em>打开就能用</em>{{ end }}</h1>
+    <p class="hero-subtitle">{{ if $isTW }}TUXIA 將圖片壓縮、格式轉換、尺寸調整、裁切、浮水印、局部擦除、馬賽克、取色、QR Code、Base64 轉換和中繼資料查看整理成 12 個專注工作區。上傳、預覽、對比、複製或下載都在瀏覽器中完成。{{ else }}TUXIA 将图片压缩、格式转换、尺寸调整、裁剪、水印、局部擦除、马赛克、取色、二维码、Base64 转换和元数据查看整理成 12 个专注工作台。上传、预览、对比、复制或下载都在浏览器中完成。{{ end }}</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-num">{{ if $isTW }}本機優先{{ else }}本地优先{{ end }}</div><div class="hero-stat-label">{{ if $isTW }}常用編輯留在瀏覽器{{ else }}常用编辑留在浏览器{{ end }}</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">{{ if $isTW }}12 款工具{{ else }}12 款工具{{ end }}</div><div class="hero-stat-label">{{ if $isTW }}涵蓋日常圖片流程{{ else }}覆盖日常图片流程{{ end }}</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">{{ if $isTW }}工作區{{ else }}工作台{{ end }}</div><div class="hero-stat-label">{{ if $isTW }}預覽、編輯、匯出集中完成{{ else }}预览、编辑、导出集中完成{{ end }}</div></div>
     </div>
+  </div>
+</section>
 
-    <div class="seo-tools-grid">
-      {{ range $toolId, $tool := $tools }}
-        <a class="seo-tool-card" href="{{ printf "%s/tools/%s/" (cond $isTW "zh-tw" "zh") $toolId | relURL }}">
-          <h2>{{ $tool.name }}</h2>
-          <p>{{ $tool.summary }}</p>
-          <span>{{ if $isTW }}查看工具說明{{ else }}查看工具说明{{ end }}</span>
+<section class="tools-section">
+  <div class="container" id="tools">
+    <div class="section-header">
+      <p class="section-label">{{ if $isTW }}全部工具{{ else }}全部工具{{ end }}</p>
+      <h2>{{ if $isTW }}選擇一個工作區開始{{ else }}选择一个工作台开始{{ end }}</h2>
+    </div>
+    <div class="tools-grid" id="tools-grid">
+      {{ range hugo.Data.tools }}
+        {{ $copy := index $toolCopy .id }}
+        <a class="tool-card" href="{{ printf "%s/tools/%s/" $langPrefix .id | relURL }}">
+          <div class="tool-icon-wrap">{{ partial "tool-icon.html" .id }}</div>
+          <div class="tool-info">
+            <h3>{{ if $isTW }}{{ $copy.twName }}{{ else }}{{ $copy.zhName }}{{ end }}</h3>
+            <p>{{ if $isTW }}{{ $copy.twDesc }}{{ else }}{{ $copy.zhDesc }}{{ end }}</p>
+            <span class="tool-meta">{{ if $isTW }}{{ $copy.twMeta }}{{ else }}{{ $copy.zhMeta }}{{ end }}</span>
+          </div>
         </a>
       {{ end }}
     </div>
+  </div>
+</section>
 
-    <article class="seo-content-panel">
-      <h2>{{ if $isTW }}為什麼選擇圖匣 TUXIA？{{ else }}为什么选择图匣 TUXIA？{{ end }}</h2>
-      <p>{{ if $isTW }}圖匣是一個靜態前端工具站，目標是把日常圖片處理任務放在簡潔的工作區裡完成。你可以上傳圖片並在瀏覽器裡預覽、調整、複製或下載結果，不需要安裝桌面軟體，也不需要建立帳號。{{ else }}图匣是一个静态前端工具站，目标是把日常图片处理任务放在简洁的工作台里完成。你可以上传图片并在浏览器里预览、调整、复制或下载结果，不需要安装桌面软件，也不需要创建账号。{{ end }}</p>
+<section class="features-section">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-label">{{ if $isTW }}為什麼選擇 TUXIA{{ else }}为什么选择 TUXIA{{ end }}</p>
+      <h2>{{ if $isTW }}清爽、專注、本機優先{{ else }}清爽、专注、本地优先{{ end }}</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon-c">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <h3>{{ if $isTW }}本機優先處理{{ else }}本地优先处理{{ end }}</h3>
+        <p>{{ if $isTW }}壓縮、轉換、尺寸調整、裁切、浮水印、局部擦除、馬賽克、取色和 Base64 轉換主要在瀏覽器中完成。除圖片線上連結工具外，圖片不會送到 TUXIA 伺服器。{{ else }}压缩、转换、尺寸调整、裁剪、水印、局部擦除、马赛克、取色和 Base64 转换主要在浏览器中完成。除图片在线链接工具外，图片不会发送到 TUXIA 服务器。{{ end }}</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-c">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>{{ if $isTW }}清楚的結果工作區{{ else }}清晰的结果工作台{{ end }}</h3>
+        <p>{{ if $isTW }}上傳後，每個頁面都會打開對應工作區：對比預覽、裁切畫布、取色板、QR Code 預覽或編碼面板都放在你需要的位置。{{ else }}上传后，每个页面都会打开对应工作台：对比预览、裁剪画布、取色板、二维码预览或编码面板都放在你需要的位置。{{ end }}</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon-c">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <h3>{{ if $isTW }}涵蓋日常圖片流程{{ else }}覆盖日常图片流程{{ end }}</h3>
+        <p>{{ if $isTW }}最佳化圖片大小、調整尺寸、匯出格式、裁切、加浮水印、產生 QR Code、取色和查看中繼資料，不需要在多個無關工具之間跳轉。{{ else }}优化图片体积、调整尺寸、导出格式、裁剪、加水印、生成二维码、取色和查看元数据，不需要在多个无关工具之间跳转。{{ end }}</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <h2>{{ if $isTW }}本機優先處理{{ else }}本地优先处理{{ end }}</h2>
-      <p>{{ if $isTW }}壓縮、轉換、裁切、尺寸調整、浮水印、取色、Base64、QR Code 和 EXIF 查看主要依賴瀏覽器能力完成。圖片線上連結工具需要使用者自行填寫 ImgBB API Key，並由瀏覽器直接上傳到 ImgBB。{{ else }}压缩、转换、裁剪、尺寸调整、水印、取色、Base64、二维码和 EXIF 查看主要依赖浏览器能力完成。图片在线链接工具需要用户自行填写 ImgBB API Key，并由浏览器直接上传到 ImgBB。{{ end }}</p>
+<section class="steps-section">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-label">{{ if $isTW }}工作流程{{ else }}工作流程{{ end }}</p>
+      <h2>{{ if $isTW }}三步完成圖片處理任務{{ else }}三步完成图片处理任务{{ end }}</h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <h3>{{ if $isTW }}選擇工作區{{ else }}选择工作台{{ end }}</h3>
+        <p>{{ if $isTW }}選擇與目前圖片任務匹配的頁面{{ else }}选择与当前图片任务匹配的页面{{ end }}</p>
+        <span class="step-arrow">→</span>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <h3>{{ if $isTW }}上傳或貼上{{ else }}上传或粘贴{{ end }}</h3>
+        <p>{{ if $isTW }}拖入圖片或貼上內容，結果區域會自動展開{{ else }}拖入图片或粘贴内容，结果区域会自动展开{{ end }}</p>
+        <span class="step-arrow">→</span>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <h3>{{ if $isTW }}複製或下載{{ else }}复制或下载{{ end }}</h3>
+        <p>{{ if $isTW }}選擇格式，複製色值、連結或儲存結果{{ else }}选择格式，复制色值、链接或保存结果{{ end }}</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <h2>{{ if $isTW }}適合哪些場景？{{ else }}适合哪些场景？{{ end }}</h2>
-      {{ if $isTW }}
-      <ul>
-        <li>網站、部落格、電商和社群媒體發布前最佳化圖片大小。</li>
-        <li>快速轉換 PNG、JPG、WebP 等常見格式。</li>
-        <li>裁切頭像、商品圖、截圖和封面圖。</li>
-        <li>為素材加入浮水印或用馬賽克遮擋隱私內容。</li>
-        <li>讀取顏色、QR Code 內容和照片中繼資料。</li>
-      </ul>
-      {{ else }}
-      <ul>
-        <li>网站、博客、电商和社交媒体发布前优化图片体积。</li>
-        <li>快速转换 PNG、JPG、WebP 等常见格式。</li>
-        <li>裁剪头像、商品图、截图和封面图。</li>
-        <li>为素材添加水印或用马赛克遮挡隐私内容。</li>
-        <li>读取颜色、二维码内容和照片元数据。</li>
-      </ul>
-      {{ end }}
-    </article>
-  </section>
-</main>
+<section class="cta-section">
+  <div class="container">
+    <h2>{{ if $isTW }}打開 TUXIA，開始處理圖片{{ else }}打开 TUXIA，开始处理图片{{ end }}</h2>
+    <p style="color:var(--text-secondary);font-size:0.95rem;margin-bottom:20px;">{{ if $isTW }}壓縮、轉換、尺寸調整、裁切、浮水印、取色和 QR Code 工具都已放在專注工作區中。{{ else }}压缩、转换、尺寸调整、裁剪、水印、取色和二维码工具都已放在专注工作台中。{{ end }}</p>
+    <a href="{{ printf "%s/" $langPrefix | relURL }}" class="btn btn-primary btn-lg" data-scroll-tools>{{ if $isTW }}查看全部工作區{{ else }}查看全部工作台{{ end }}</a>
+  </div>
+</section>
 
 {{ partial "site-footer.html" . }}
 {{ partial "common-scripts.html" . }}
