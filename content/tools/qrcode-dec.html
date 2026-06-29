@@ -77,7 +77,7 @@ badges:
         if (code) {
           decodedText = code.data;
           resultContent.textContent = decodedText;
-          var isUrl = /^httpsTotal:\/\//i.test(decodedText);
+          var isUrl = /^https?:\/\//i.test(decodedText);
           resultType.textContent = isUrl ? 'URL link' : 'Text content';
           resultType.className = 'result-type ' + (isUrl ? 'type-url' : 'type-text');
           btnOpen.style.display = isUrl ? '' : 'none';
@@ -103,7 +103,7 @@ badges:
   });
 
   btnOpen.addEventListener('click', function() {
-    if (decodedText && /^httpsTotal:\/\//i.test(decodedText)) window.open(decodedText, '_blank', 'noopener,noreferrer');
+    if (decodedText && /^https?:\/\//i.test(decodedText)) window.open(decodedText, '_blank', 'noopener,noreferrer');
   });
 })();
 </script>
