@@ -341,35 +341,14 @@ function getImageDimensions(dataUrl, callback) {
   img.src = dataUrl;
 }
 
-function setCookie(name, value, days) {
-  var expires = '';
-  if (days) {
-    var date = new Date();
-    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-    expires = '; expires=' + date.toUTCString();
-  }
-  document.cookie = name + '=' + value + expires + '; path=/';
-}
-
-function clearCookie(name) {
-  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
-  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=' + window.location.hostname;
-}
-
-function getTranslateCookie() {
-  var match = document.cookie.match(/(?:^|;\s*)googtrans=([^;]+)/);
-  return match ? decodeURIComponent(match[1]) : '';
-}
-
 function getCurrentLanguagePreference() {
   var docLang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
   if (docLang.indexOf('zh-tw') === 0 || docLang.indexOf('zh-hant') === 0) return 'zh-TW';
   if (docLang.indexOf('zh') === 0) return 'zh-CN';
-  var cookie = getTranslateCookie();
   var saved = '';
   try { saved = localStorage.getItem('tuxia_language') || ''; } catch (err) {}
-  if (cookie.indexOf('/zh-TW') >= 0 || saved === 'zh-TW') return 'zh-TW';
-  return cookie.indexOf('/zh-CN') >= 0 || saved === 'zh-CN' ? 'zh-CN' : 'en';
+  if (saved === 'zh-TW') return 'zh-TW';
+  return saved === 'zh-CN' ? 'zh-CN' : 'en';
 }
 
 function correctBrandTranslation() {
@@ -413,18 +392,9 @@ function applyLanguagePreference(lang) {
   try { localStorage.setItem('tuxia_language', target); } catch (err) {}
   var alternate = document.querySelector('link[rel="alternate"][hreflang="' + target + '"]');
   if (alternate && alternate.href && alternate.href !== window.location.href) {
-    if (target === 'en') {
-      clearCookie('googtrans');
-    }
     window.location.href = alternate.href;
     return;
   }
-  if (target === 'en') {
-    clearCookie('googtrans');
-  } else {
-    setCookie('googtrans', '/en/' + target, 365);
-  }
-  window.location.reload();
 }
 
 function bindLanguageSwitcher() {
