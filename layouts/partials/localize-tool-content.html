@@ -158,8 +158,11 @@
     (slice "Decode" "二维码解码")
     (slice "Read QR code image content" "读取二维码图片内容")
     (slice "Upload and preview a QR image. The decoded text or link appears in the result area." "上传并预览二维码图片，识别出的文本或链接会显示在结果区域。")
+    (slice "Content reading" "内容识别")
+    (slice "Copy or open" "复制或打开")
     (slice "Drag a QR code image here, or" "拖拽二维码图片到这里，或")
     (slice "Supports PNG, JPG, and WebP QR code images" "支持 PNG、JPG、WebP 格式的二维码图片")
+    (slice "Supports JPEG files. EXIF metadata is usually stored in JPEG images." "支持 JPEG 文件。EXIF 元数据通常保存在 JPEG 图片中。")
     (slice "QR preview" "二维码预览")
     (slice "Decoded result" "识别结果")
     (slice "CopyContent" "复制内容")
@@ -191,6 +194,22 @@
   {{ $content = replace $content "current颜色" "currentColor" }}
   {{ $content = replace $content "二维码解码d preview" "解码预览" }}
   {{ $content = replace $content "下载 format" "下载格式" }}
+  {{ $content = replace $content "Drag a 二维码 image here, or" "拖拽二维码图片到这里，或" }}
+  {{ $content = replace $content "内容 reading" "内容识别" }}
+  {{ $content = replace $content "Supports PNG, JPG, and WebP 二维码 images" "支持 PNG、JPG、WebP 格式的二维码图片" }}
+  {{ $content = replace $content "尺寸调整 by width, height, or scale" "按宽度、高度或比例调整尺寸" }}
+  {{ $content = replace $content "原图Size" "原始尺寸" }}
+  {{ $content = replace $content "OutputSize" "输出尺寸" }}
+  {{ $content = replace $content ">Width<" ">宽度<" }}
+  {{ $content = replace $content ">Height<" ">高度<" }}
+  {{ $content = replace $content ">Format<" ">格式<" }}
+  {{ $content = replace $content "PNG, JPG, WebP, up to 10 MB" "PNG、JPG、WebP，最大 10 MB" }}
+  {{ $content = replace $content "Local export" "本地导出" }}
+  {{ $content = replace $content "Export result" "导出结果" }}
+  {{ $content = replace $content "Mark the area with a brush, then apply lightweight local repair or mosaic masking for privacy." "用画笔涂抹需要处理的区域，然后在浏览器本地进行轻量修复或马赛克遮挡。" }}
+  {{ $content = replace $content ">Local repair<" ">局部修复<" }}
+  {{ $content = replace $content "马赛克 strength" "马赛克强度" }}
+  {{ $content = replace $content "Supports JPEG files. EXIF metadata is usually stored in JPEG images." "支持 JPEG 文件。EXIF 元数据通常保存在 JPEG 图片中。" }}
 {{ else if eq $lang "zh-TW" }}
   {{ $replacements := slice
     (slice "TUXIA Tools" "TUXIA 圖匣工具")
@@ -345,8 +364,11 @@
     (slice "Decode" "QR Code 解碼")
     (slice "Read QR code image content" "讀取 QR Code 圖片內容")
     (slice "Upload and preview a QR image. The decoded text or link appears in the result area." "上傳並預覽 QR Code 圖片，識別出的文字或連結會顯示在結果區域。")
+    (slice "Content reading" "內容識別")
+    (slice "Copy or open" "複製或開啟")
     (slice "Drag a QR code image here, or" "拖曳 QR Code 圖片到這裡，或")
     (slice "Supports PNG, JPG, and WebP QR code images" "支援 PNG、JPG、WebP 格式的 QR Code 圖片")
+    (slice "Supports JPEG files. EXIF metadata is usually stored in JPEG images." "支援 JPEG 檔案。EXIF 中繼資料通常保存在 JPEG 圖片中。")
     (slice "QR preview" "QR Code 預覽")
     (slice "Decoded result" "識別結果")
     (slice "CopyContent" "複製內容")
@@ -378,6 +400,22 @@
   {{ $content = replace $content "current顏色" "currentColor" }}
   {{ $content = replace $content "QR Code 解碼d preview" "解碼預覽" }}
   {{ $content = replace $content "下載 format" "下載格式" }}
+  {{ $content = replace $content "Drag a QR Code image here, or" "拖曳 QR Code 圖片到這裡，或" }}
+  {{ $content = replace $content "內容 reading" "內容識別" }}
+  {{ $content = replace $content "Supports PNG, JPG, and WebP QR Code images" "支援 PNG、JPG、WebP 格式的 QR Code 圖片" }}
+  {{ $content = replace $content "尺寸調整 by width, height, or scale" "按寬度、高度或比例調整尺寸" }}
+  {{ $content = replace $content "原圖Size" "原始尺寸" }}
+  {{ $content = replace $content "OutputSize" "輸出尺寸" }}
+  {{ $content = replace $content ">Width<" ">寬度<" }}
+  {{ $content = replace $content ">Height<" ">高度<" }}
+  {{ $content = replace $content ">Format<" ">格式<" }}
+  {{ $content = replace $content "PNG, JPG, WebP, up to 10 MB" "PNG、JPG、WebP，最大 10 MB" }}
+  {{ $content = replace $content "Local export" "本機匯出" }}
+  {{ $content = replace $content "Export result" "匯出結果" }}
+  {{ $content = replace $content "Mark the area with a brush, then apply lightweight local repair or mosaic masking for privacy." "用筆刷塗抹需要處理的區域，然後在瀏覽器本機進行輕量修復或馬賽克遮擋。" }}
+  {{ $content = replace $content ">Local repair<" ">局部修復<" }}
+  {{ $content = replace $content "馬賽克 strength" "馬賽克強度" }}
+  {{ $content = replace $content "Supports JPEG files. EXIF metadata is usually stored in JPEG images." "支援 JPEG 檔案。EXIF 中繼資料通常保存在 JPEG 圖片中。" }}
 {{ end }}
 {{ $scriptContent = replace $scriptContent "src=\"../vendor/" "src=\"/vendor/" }}
 {{ return (printf "%s%s" $content $scriptContent) }}
