@@ -2,8 +2,6 @@
 
 var toastTimer;
 var TUXIA_SETTINGS_KEY = 'tuxia_settings_public';
-var TUXIA_FEEDBACK_MAX_IMAGE_SIZE = 2 * 1024 * 1024;
-var tuxiaFeedbackImages = [];
 
 function showToast(msg) {
   var toast = document.getElementById('toast');
@@ -173,130 +171,6 @@ function bindToolSectionLinks() {
       setTimeout(scrollToToolsSection, 60);
     }
   } catch (err) {}
-}
-
-function escapeHtml(value) {
-  return String(value == null ? '' : value).replace(/[&<>"']/g, function(ch) {
-    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];
-  });
-}
-
-function renderFeedbackImages() {
-  var list = document.getElementById('feedback-image-list');
-  if (!list) return;
-  if (!tuxiaFeedbackImages.length) {
-    list.hidden = true;
-    list.innerHTML = '';
-    return;
-  }
-  list.hidden = false;
-  list.innerHTML = tuxiaFeedbackImages.map(function(item, index) {
-    return '<div class="feedback-image-item">' +
-      '<img src="' + escapeHtml(item.dataUrl) + '" alt="">' +
-      '<div class="feedback-image-meta"><strong>' + escapeHtml(item.name) + '</strong><span>' + formatSize(item.size) + '</span></div>' +
-      '<button class="feedback-image-remove" type="button" data-feedback-remove="' + index + '">Remove</button>' +
-    '</div>';
-  }).join('');
-}
-
-function readFeedbackImage(file) {
-  return new Promise(function(resolve, reject) {
-    var reader = new FileReader();
-    reader.onload = function() {
-      resolve({ name: file.name, size: file.size, type: file.type, dataUrl: reader.result });
-    };
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-async function addFeedbackImages(files) {
-  var selected = Array.from(files || []);
-  for (var i = 0; i < selected.length; i++) {
-    var file = selected[i];
-    if (!validateImageFile(file, TUXIA_FEEDBACK_MAX_IMAGE_SIZE)) continue;
-    try {
-      tuxiaFeedbackImages.push(await readFeedbackImage(file));
-    } catch (err) {
-      showToast('Could not read the image. Please choose again.');
-    }
-  }
-  renderFeedbackImages();
-}
-
-function resetFeedbackImages() {
-  tuxiaFeedbackImages = [];
-  var input = document.getElementById('feedback-images');
-  if (input) input.value = '';
-  renderFeedbackImages();
-}
-
-function bindFeedbackImageInput() {
-  var input = document.getElementById('feedback-images');
-  if (input) {
-    input.addEventListener('change', function() {
-      addFeedbackImages(input.files);
-      input.value = '';
-    });
-  }
-  var list = document.getElementById('feedback-image-list');
-  if (list) {
-    list.addEventListener('click', function(e) {
-      var removeBtn = e.target.closest('[data-feedback-remove]');
-      if (!removeBtn) return;
-      var index = Number(removeBtn.getAttribute('data-feedback-remove'));
-      if (!Number.isNaN(index)) tuxiaFeedbackImages.splice(index, 1);
-      renderFeedbackImages();
-    });
-  }
-}
-
-function openContact() {
-  var modal = document.getElementById('contact-modal');
-  if (!modal) return;
-  modal.classList.add('open');
-  setTimeout(function() {
-    var name = document.getElementById('feedback-name');
-    if (name) name.focus();
-  }, 0);
-}
-
-function closeContact() {
-  var modal = document.getElementById('contact-modal');
-  if (modal) modal.classList.remove('open');
-}
-
-function getContactEmail() {
-  var card = document.querySelector('#contact-modal .contact-modal-card');
-  return (card && card.getAttribute('data-contact-email')) || 'feedback@tuxia.app';
-}
-
-function handleContactFeedback() {
-  var typeEl = document.getElementById('feedback-type');
-  var name = ((document.getElementById('feedback-name') || {}).value || '').trim();
-  var email = ((document.getElementById('feedback-email') || {}).value || '').trim();
-  var message = ((document.getElementById('feedback-message') || {}).value || '').trim();
-  var type = typeEl ? typeEl.value : 'suggestion';
-  var typeLabelMap = { bug: 'Bug report', suggestion: 'Feature idea', consult: 'Question', other: 'Other' };
-  if (!name) {
-    showToast('Please enter your name');
-    return;
-  }
-  if (!message) {
-    showToast('Please enter your feedback');
-    return;
-  }
-  var subject = encodeURIComponent((typeLabelMap[type] || 'User feedback') + ' - ' + name);
-  var body = encodeURIComponent(
-    'Name:' + name + '\n' +
-    'Contact:' + (email || 'Not provided') + '\n' +
-    'Feedback type:' + (typeLabelMap[type] || 'User feedback') + '\n' +
-    'Page URL:' + window.location.href + '\n\n' +
-    'Message:\n' + message + '\n\n' +
-    (tuxiaFeedbackImages.length ? 'Selected ' + tuxiaFeedbackImages.length + ' screenshot(s). Please attach them manually in the email.\n' : '')
-  );
-  window.location.href = 'mailto:' + encodeURIComponent(getContactEmail()) + '?subject=' + subject + '&body=' + body;
-  showToast('Email client opened');
 }
 
 function bindDragDrop(dropZoneEl, fileInputEl, onFileCallback) {
@@ -487,6 +361,49 @@ function getTranslateCookie() {
   return match ? decodeURIComponent(match[1]) : '';
 }
 
+function getCurrentLanguagePreference() {
+  var cookie = getTranslateCookie();
+  var saved = '';
+  try { saved = localStorage.getItem('tuxia_language') || ''; } catch (err) {}
+  return cookie.indexOf('/zh-CN') >= 0 || saved === 'zh-CN' ? 'zh-CN' : 'en';
+}
+
+function correctBrandTranslation() {
+  var lang = getCurrentLanguagePreference();
+  var brandName = lang === 'zh-CN' ? '图匣' : 'TUXIA';
+  var brandSubtitle = lang === 'zh-CN' ? '图像工具' : 'IMAGE TOOLS';
+  document.querySelectorAll('[data-brand-name]').forEach(function(node) {
+    node.textContent = brandName;
+  });
+  document.querySelectorAll('[data-brand-subtitle]').forEach(function(node) {
+    node.textContent = brandSubtitle;
+  });
+  document.querySelectorAll('body *').forEach(function(node) {
+    if (!node.childNodes || node.childNodes.length !== 1) return;
+    var textNode = node.childNodes[0];
+    if (!textNode || textNode.nodeType !== Node.TEXT_NODE) return;
+    if (textNode.nodeValue.indexOf('兔侠') >= 0) {
+      textNode.nodeValue = textNode.nodeValue.replace(/兔侠/g, '图匣');
+    }
+  });
+}
+
+function observeBrandTranslation() {
+  correctBrandTranslation();
+  if (!window.MutationObserver || !document.body) return;
+  var timer = null;
+  var observer = new MutationObserver(function() {
+    if (timer) return;
+    timer = setTimeout(function() {
+      timer = null;
+      correctBrandTranslation();
+    }, 80);
+  });
+  observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+  setTimeout(correctBrandTranslation, 600);
+  setTimeout(correctBrandTranslation, 1600);
+}
+
 function applyLanguagePreference(lang) {
   var target = lang === 'zh-CN' ? 'zh-CN' : 'en';
   try { localStorage.setItem('tuxia_language', target); } catch (err) {}
@@ -502,9 +419,7 @@ function bindLanguageSwitcher() {
   var select = document.getElementById('language-select');
   if (!select) return;
   var cookie = getTranslateCookie();
-  var saved = '';
-  try { saved = localStorage.getItem('tuxia_language') || ''; } catch (err) {}
-  select.value = cookie.indexOf('/zh-CN') >= 0 || saved === 'zh-CN' ? 'zh-CN' : 'en';
+  select.value = getCurrentLanguagePreference();
   select.addEventListener('change', function() {
     applyLanguagePreference(select.value);
   });
@@ -520,9 +435,6 @@ window.loadApiKey = loadApiKey;
 window.getPreferredTheme = getPreferredTheme;
 window.applyTheme = applyTheme;
 window.toggleTheme = toggleTheme;
-window.openContact = openContact;
-window.closeContact = closeContact;
-window.handleContactFeedback = handleContactFeedback;
 window.bindHeaderScrollState = bindHeaderScrollState;
 window.bindDragDrop = bindDragDrop;
 window.copyToClipboard = copyToClipboard;
@@ -535,18 +447,14 @@ window.downloadImageDataUrl = downloadImageDataUrl;
 window.getImageDimensions = getImageDimensions;
 window.applyLanguagePreference = applyLanguagePreference;
 window.bindLanguageSwitcher = bindLanguageSwitcher;
+window.correctBrandTranslation = correctBrandTranslation;
+window.observeBrandTranslation = observeBrandTranslation;
 
 document.addEventListener('DOMContentLoaded', function() {
   bindThemeToggle();
   bindHeaderScrollState();
   bindToolSectionLinks();
   bindLanguageSwitcher();
-  bindFeedbackImageInput();
+  observeBrandTranslation();
   loadApiKey();
-  var contactModal = document.getElementById('contact-modal');
-  if (contactModal) {
-    contactModal.addEventListener('click', function(e) {
-      if (e.target === contactModal) closeContact();
-    });
-  }
 });

@@ -1,13 +1,13 @@
 # TUXIA
 
-TUXIA is a free static online image toolbox built with Hugo. It is designed for GitHub Pages, Cloudflare Pages, Netlify, Vercel Static, or any static hosting service.
+TUXIA is a free static browser-based image toolbox built with Hugo. It is designed for GitHub Pages, Cloudflare Pages, Netlify, Vercel Static, or any static hosting service.
 
 ## Features
 
 - Image compression, format conversion, resizing, cropping, watermarking, local retouching and mosaic.
 - Image Base64 conversion, QR code generation and decoding, color extraction, and EXIF metadata viewing.
-- Most tools run locally in the browser with no login, backend, or membership logic.
-- Image URL generation uses the official ImgBB upload API. Users provide their own ImgBB API key in the browser.
+- Most tools run locally in the browser with no login, backend, membership logic, TUXIA server upload, or TUXIA file storage.
+- Image URL generation uses the official ImgBB upload API only when users provide their own ImgBB API key and choose to upload directly from the browser to ImgBB.
 - ImgBB API keys are saved only in the current browser localStorage.
 - Google AdSense is enabled through `googleAdClient` in `hugo.toml`.
 - The default language is English, with a language switcher for Chinese translation.

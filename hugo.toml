@@ -16,8 +16,6 @@ disableKinds = ["taxonomy", "term", "section"]
   ogImage = "assets/tuxia-og.svg"
   themeColor = "#2563eb"
   apiBase = ""
-  feedbackEmail = "feedback@tuxia.app"
-  feedbackEndpoint = ""
   onlineUploadEndpoint = ""
   googleAdClient = "ca-pub-5966198580321080"
 

@@ -57,7 +57,6 @@
 })();
 window.TUXIA_API_CONFIG = {
   apiBase: {{ .Site.Params.apiBase | default "" | jsonify | safeJS }},
-  feedbackEndpoint: {{ .Site.Params.feedbackEndpoint | default "" | jsonify | safeJS }},
   onlineUploadEndpoint: {{ .Site.Params.onlineUploadEndpoint | default "" | jsonify | safeJS }}
 };
 window.googleTranslateElementInit = function() {
