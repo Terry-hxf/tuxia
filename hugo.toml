@@ -1,5 +1,5 @@
-# Replace this with the final production domain before launch, for example https://your-domain.com/
-baseURL = "/"
+# GitHub Pages project URL. Replace with a custom domain when one is bound.
+baseURL = "https://terry-hxf.github.io/tuxia/"
 locale = "en-US"
 defaultContentLanguage = "en"
 title = "TUXIA - Free Online Image Tools for Compression, Conversion, Crop and Watermark"
