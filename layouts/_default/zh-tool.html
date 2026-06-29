@@ -1,0 +1,52 @@
+{{ define "main" }}
+{{ $isTW := eq (.Params.pageLang | default "zh-CN") "zh-TW" }}
+{{ $toolId := .Params.toolId }}
+{{ $tool := cond $isTW (index hugo.Data.zh_tw_tools $toolId) (index hugo.Data.zh_tools $toolId) }}
+{{ $enSeo := index hugo.Data.tool_seo $toolId }}
+{{ $listURL := cond $isTW ("zh-tw/" | relURL) ("zh/" | relURL) }}
+{{ partial "site-header.html" . }}
+
+<main class="seo-page-shell">
+  <section class="container">
+    <div class="seo-hero">
+      <p class="section-label">TUXIA {{ if $isTW }}圖匣工具{{ else }}图匣工具{{ end }}</p>
+      <h1>{{ $tool.name }}</h1>
+      <p>{{ $tool.summary }}</p>
+      <div class="seo-action-row">
+        <a class="btn btn-primary" href="{{ printf "tools/%s.html" $toolId | relURL }}">{{ if $isTW }}打開工具工作區{{ else }}打开工具工作台{{ end }}</a>
+        <a class="btn btn-ghost" href="{{ $listURL }}">{{ if $isTW }}返回繁體工具列表{{ else }}返回简体工具列表{{ end }}</a>
+      </div>
+    </div>
+
+    <article class="seo-content-panel">
+      <h2>{{ if $isTW }}功能說明{{ else }}功能说明{{ end }}</h2>
+      <p>{{ $tool.summary }}</p>
+      {{ with $enSeo }}
+      <h2>{{ if $isTW }}適合使用的場景{{ else }}适合使用的场景{{ end }}</h2>
+      <ul>
+        {{ range .bestFor }}<li>{{ . }}</li>{{ end }}
+      </ul>
+
+      <h2>{{ if $isTW }}使用步驟{{ else }}使用步骤{{ end }}</h2>
+      <ol>
+        {{ range .steps }}<li>{{ . }}</li>{{ end }}
+      </ol>
+
+      <h2>{{ if $isTW }}隱私說明{{ else }}隐私说明{{ end }}</h2>
+      <p>{{ .privacy }}</p>
+      {{ end }}
+
+      <h2>{{ if $isTW }}常見問題{{ else }}常见问题{{ end }}</h2>
+      {{ range $tool.faq }}
+      <details>
+        <summary>{{ .question }}</summary>
+        <p>{{ .answer }}</p>
+      </details>
+      {{ end }}
+    </article>
+  </section>
+</main>
+
+{{ partial "site-footer.html" . }}
+{{ partial "common-scripts.html" . }}
+{{ end }}

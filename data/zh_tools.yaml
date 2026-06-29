@@ -1,0 +1,108 @@
+base64:
+  name: "图片 Base64 转换工具"
+  summary: "将图片转换为 Base64 Data URL，或把 Base64 文本还原成图片预览，适合小图标、邮件模板、CSS 嵌入和开发调试。"
+  keywords: "图片Base64,Base64转图片,图片转Base64,在线Base64图片转换,TUXIA"
+  faq:
+    - question: "图片转 Base64 会上传到服务器吗？"
+      answer: "不会。转换过程在浏览器本地完成，TUXIA 静态版不接收或保存你的图片。"
+    - question: "Base64 适合大图片吗？"
+      answer: "不太适合。Base64 会让文本体积变大，更适合小图标、测试数据和少量嵌入场景。"
+compress:
+  name: "图片压缩工具"
+  summary: "在浏览器中压缩 JPG、PNG、WebP 图片，支持原图和压缩后对比、质量调节和格式导出，适合网页、邮件、文档和社交平台上传前优化。"
+  keywords: "图片压缩,JPG压缩,PNG压缩,WebP压缩,在线图片压缩,减小图片体积,TUXIA"
+  faq:
+    - question: "为什么有些图片压缩后反而变大？"
+      answer: "部分图片已经被压缩过，或者格式转换产生额外开销。可以尝试 WebP 或进一步降低质量。"
+    - question: "压缩会影响画质吗？"
+      answer: "有损格式会影响画质，建议通过页面里的前后对比预览来选择合适质量。"
+convert:
+  name: "图片格式转换工具"
+  summary: "支持 PNG、JPG、WebP、BMP 等常见格式互转，上传后可预览并下载转换结果，适合网页发布、文档整理和素材处理。"
+  keywords: "图片格式转换,PNG转JPG,JPG转WebP,WebP转PNG,在线图片转换,TUXIA"
+  faq:
+    - question: "转换格式会保留透明背景吗？"
+      answer: "PNG 和 WebP 支持透明背景，JPG 不支持透明背景。"
+    - question: "SVG 导出是矢量化吗？"
+      answer: "不是。SVG 导出主要是把位图包装成 SVG 文件，不会自动变成可编辑矢量路径。"
+crop:
+  name: "图片裁剪工具"
+  summary: "通过画布拖拽裁剪图片，支持自由裁剪、常用比例和旋转，适合头像、商品图、截图和社交媒体图片处理。"
+  keywords: "图片裁剪,在线裁剪图片,头像裁剪,图片比例裁剪,截图裁剪,TUXIA"
+  faq:
+    - question: "可以自由裁剪吗？"
+      answer: "可以。选择自由比例后即可在画布上拖拽任意裁剪区域。"
+    - question: "裁剪会上传图片吗？"
+      answer: "不会。裁剪在浏览器本地完成。"
+exif:
+  name: "EXIF 元数据查看工具"
+  summary: "查看照片中的相机型号、拍摄时间、光圈、快门、ISO、尺寸和 GPS 等元数据，适合发布前检查图片信息。"
+  keywords: "EXIF查看,图片元数据,照片信息查看,GPS元数据,相机参数查看,TUXIA"
+  faq:
+    - question: "为什么有些照片没有 EXIF？"
+      answer: "很多平台会移除元数据，部分格式或导出图片也不包含 EXIF。"
+    - question: "GPS 信息会泄露位置吗？"
+      answer: "如果图片包含 GPS 元数据，可能暴露拍摄位置，发布前应谨慎检查。"
+online:
+  name: "图片在线链接生成工具"
+  summary: "使用你自己的 ImgBB API Key 将图片直接上传到 ImgBB，并生成可分享的图片链接，适合临时分享和跨设备查看。"
+  keywords: "图片转链接,图片在线链接,ImgBB上传,图片URL生成,在线图片分享,TUXIA"
+  faq:
+    - question: "需要 ImgBB API Key 吗？"
+      answer: "需要。这个静态版不提供公共上传密钥，需要用户自行填写 ImgBB API Key。"
+    - question: "TUXIA 会保存上传图片吗？"
+      answer: "不会。图片从你的浏览器直接发送到 ImgBB，TUXIA 不代理、不保存。"
+palette:
+  name: "图片配色提取工具"
+  summary: "从图片中提取主色，并在预览图上悬停读取实时 HEX、RGB、HSL 色值，适合设计取色、品牌配色和前端开发。"
+  keywords: "图片取色,图片配色提取,HEX取色,RGB取色,HSL取色,在线取色器,TUXIA"
+  faq:
+    - question: "支持哪些颜色格式？"
+      answer: "支持 HEX、RGB、HSL 和 CSS 变量格式。"
+    - question: "可以读取鼠标位置的颜色吗？"
+      answer: "可以。上传图片后在预览区域悬停即可看到当前位置颜色。"
+qrcode-dec:
+  name: "二维码解码工具"
+  summary: "上传二维码图片并读取其中的文本或网址，支持复制结果和打开链接，适合检查二维码真实内容。"
+  keywords: "二维码解码,二维码识别,二维码内容读取,二维码图片识别,TUXIA"
+  faq:
+    - question: "为什么二维码识别失败？"
+      answer: "图片可能模糊、太小、被裁切或对比度不足，建议换更清晰的图片。"
+    - question: "打开链接前可以先查看内容吗？"
+      answer: "可以。工具会先显示识别结果，你可以确认后再打开。"
+qrcode-gen:
+  name: "二维码生成工具"
+  summary: "输入文本或链接即可生成二维码，支持尺寸、容错等级、颜色、样式、Logo 和 PNG/SVG 导出，适合分享、印刷和运营物料。"
+  keywords: "二维码生成,在线二维码,二维码制作,二维码颜色,二维码SVG导出,TUXIA"
+  faq:
+    - question: "二维码可以导出 SVG 吗？"
+      answer: "可以。SVG 适合需要放大或印刷的场景。"
+    - question: "可以添加 Logo 吗？"
+      answer: "可以。建议配合较高容错等级，并在导出后实际扫码测试。"
+resize:
+  name: "图片尺寸调整工具"
+  summary: "按宽度、高度或百分比调整图片尺寸，支持锁定比例和快速缩放，适合缩略图、头像、商品图和网页图片。"
+  keywords: "图片尺寸调整,在线改图片尺寸,图片缩放,调整图片宽高,缩略图制作,TUXIA"
+  faq:
+    - question: "如何避免图片变形？"
+      answer: "开启锁定比例后，只改宽度或高度即可保持原始比例。"
+    - question: "可以把图片放大吗？"
+      answer: "可以，但放大会让细节变软，建议只在必要时使用。"
+retouch:
+  name: "局部擦除和马赛克工具"
+  summary: "用画笔在图片局部区域进行轻量修复或马赛克遮挡，适合隐藏头像、车牌、二维码、文字和其他隐私区域。"
+  keywords: "图片马赛克,局部擦除,图片隐私遮挡,在线马赛克,图片修复,TUXIA"
+  faq:
+    - question: "这是 AI 修复吗？"
+      answer: "不是。静态版提供浏览器本地轻量修复和马赛克功能，不调用云端 AI。"
+    - question: "适合遮挡隐私信息吗？"
+      answer: "适合遮挡截图、二维码、车牌、头像和私密文字等局部信息。"
+watermark:
+  name: "图片加水印工具"
+  summary: "为图片添加文字水印或图片水印，支持单个、1 行、2 行、3 行和满屏排列，适合版权标识、草稿标记和素材保护。"
+  keywords: "图片加水印,在线水印,文字水印,图片水印,满屏水印,TUXIA"
+  faq:
+    - question: "支持满屏水印吗？"
+      answer: "支持。可以选择多种排列方式并调整字号、透明度、旋转和颜色。"
+    - question: "可以上传 Logo 做水印吗？"
+      answer: "可以。选择图片水印后上传 Logo 即可预览和导出。"

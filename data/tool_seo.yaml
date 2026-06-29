@@ -1,0 +1,228 @@
+base64:
+  title: "Image Base64 Converter"
+  intro: "Use the TUXIA Image Base64 Converter to encode image files into Base64 data URLs or decode pasted Base64 strings back into previewable images. It is useful for small icons, email templates, CSS embeds, quick prototypes, and debugging image data without installing a desktop utility."
+  bestFor:
+    - "Convert PNG, JPG, WebP, SVG, GIF, or BMP images into Base64 strings."
+    - "Paste Base64 image data and preview the decoded result before downloading."
+    - "Copy image data URLs for CSS, HTML, documentation, or test fixtures."
+  steps:
+    - "Drop an image into the left panel to generate a Base64 data URL."
+    - "Paste Base64 text into the right panel to decode and preview it."
+    - "Copy the generated code or download the decoded image when ready."
+  privacy: "Encoding and decoding run in your browser. TUXIA does not upload the selected image or pasted Base64 text to a TUXIA server."
+  faq:
+    - question: "What is an image Base64 data URL?"
+      answer: "It is text that embeds image bytes directly inside HTML, CSS, JSON, or another document. It is convenient for small assets, but it can become large for photos."
+    - question: "Can I convert Base64 back into an image?"
+      answer: "Yes. Paste a valid Base64 image string into the decoder panel and TUXIA will preview it and let you download the result."
+    - question: "Is Base64 conversion private?"
+      answer: "The conversion is performed locally in the browser. Avoid pasting sensitive data into third-party pages, but TUXIA itself does not send it to a TUXIA backend."
+online:
+  title: "Image URL Generator"
+  intro: "The Image URL Generator helps you create a shareable image link by using your own ImgBB API key. It is designed for quick temporary sharing, device-to-device transfer, forum posts, and lightweight asset handoff when you need a public URL."
+  bestFor:
+    - "Upload an image with a personal ImgBB API key."
+    - "Generate a public image link that can be copied and shared."
+    - "Keep the upload path transparent: browser to ImgBB, not through a TUXIA server."
+  steps:
+    - "Paste your ImgBB API key into the settings field."
+    - "Choose an image file and preview it in the workspace."
+    - "Upload the image, then copy the returned direct URL or page URL."
+  privacy: "This is the only tool that sends an image outside your browser. The upload goes directly to ImgBB after you choose to upload with your own API key."
+  faq:
+    - question: "Do I need an ImgBB API key?"
+      answer: "Yes. This static version does not provide a shared upload key. You can create your own key from ImgBB and paste it into the tool."
+    - question: "Does TUXIA store uploaded images?"
+      answer: "No. TUXIA does not receive, proxy, store, or delete ImgBB uploads. The request is made directly from your browser to ImgBB."
+    - question: "Can I use the generated URL anywhere?"
+      answer: "The link can usually be shared wherever public image URLs are accepted, subject to ImgBB's own terms and availability."
+qrcode-gen:
+  title: "QR Code Generator"
+  intro: "Create custom QR codes for links, text, contact snippets, Wi-Fi notes, labels, packaging drafts, and quick sharing. The generator includes live preview, size controls, error correction, colors, dot style, corner style, optional logo embedding, and PNG or SVG export."
+  bestFor:
+    - "Generate QR codes from URLs, plain text, or short messages."
+    - "Customize foreground color, background color, pattern style, and size."
+    - "Export QR codes as PNG or SVG for digital and print workflows."
+  steps:
+    - "Enter the text or link you want to encode."
+    - "Adjust size, error correction, colors, style, and optional logo."
+    - "Preview the QR code and download it in your preferred format."
+  privacy: "QR code generation runs locally in the browser. The text you enter is not sent to a TUXIA server."
+  faq:
+    - question: "Which QR code format should I download?"
+      answer: "Use PNG for quick sharing and raster graphics. Use SVG when you need a scalable vector file for design or print."
+    - question: "Can I add a logo to the QR code?"
+      answer: "Yes. You can upload a small logo and tune error correction to keep the QR code readable."
+    - question: "Why should I test a QR code after export?"
+      answer: "Color contrast, logo size, print quality, and error correction can affect scanning. Always test the final file with a phone camera."
+qrcode-dec:
+  title: "QR Code Decoder"
+  intro: "Decode QR code images directly in the browser. Upload a screenshot or photo of a QR code to read the embedded text, URL, or message, then copy the result or open the link."
+  bestFor:
+    - "Read QR codes from screenshots, downloaded images, and photos."
+    - "Check the actual URL before opening a QR code."
+    - "Copy decoded text for documentation, troubleshooting, or sharing."
+  steps:
+    - "Upload a clear QR code image."
+    - "Let the decoder scan the image and display the embedded content."
+    - "Copy the result or open a decoded URL when you trust it."
+  privacy: "QR decoding runs locally in the browser. The image and decoded text are not uploaded to a TUXIA server."
+  faq:
+    - question: "Why does a QR code fail to decode?"
+      answer: "The image may be blurry, too small, cropped, low contrast, or distorted. Try a clearer screenshot or a larger version."
+    - question: "Can I check a QR URL safely?"
+      answer: "The decoder shows the text first so you can inspect it before opening the link."
+    - question: "Does the QR decoder support photos?"
+      answer: "Yes, as long as the QR code is clear enough and the image format is supported by the browser."
+compress:
+  title: "Image Compressor"
+  intro: "Compress images online with a before-and-after preview. TUXIA lets you adjust quality, compare the original and compressed file, and export common image formats for websites, email, documents, social posts, and lightweight publishing."
+  bestFor:
+    - "Reduce JPG, PNG, and WebP file size before uploading to websites."
+    - "Compare the original and compressed result visually."
+    - "Choose PNG, JPG, WebP, or SVG output depending on your workflow."
+  steps:
+    - "Upload a JPG, PNG, or WebP image."
+    - "Move the quality slider and compare the preview."
+    - "Choose an output format and download the compressed image."
+  privacy: "Compression runs in your browser with Canvas APIs. The selected image is not uploaded to a TUXIA server."
+  faq:
+    - question: "Why can a compressed image become larger?"
+      answer: "Some images are already optimized, and converting between formats can add overhead. Try WebP or reduce quality further when file size matters."
+    - question: "Which format is best for smaller files?"
+      answer: "WebP often produces small files for photos and mixed graphics. JPG is widely compatible for photos, while PNG is better for transparency and sharp graphics."
+    - question: "Will compression reduce quality?"
+      answer: "Lossy formats can reduce quality. Use the preview to balance file size and visual clarity."
+convert:
+  title: "Image Format Converter"
+  intro: "Convert images between PNG, JPG, WebP, BMP, and SVG-style export from one focused browser workspace. Preview the uploaded image, choose the output format, and download the converted file without installing extra software."
+  bestFor:
+    - "Convert PNG to JPG, JPG to WebP, WebP to PNG, or BMP to PNG."
+    - "Prepare images for websites, documents, email, or design handoff."
+    - "Preview the source image before exporting."
+  steps:
+    - "Upload an image in a browser-supported format."
+    - "Choose the target format from the output options."
+    - "Download the converted file after previewing the result."
+  privacy: "Format conversion runs locally in your browser. TUXIA does not upload the selected image to a backend service."
+  faq:
+    - question: "Can I preserve transparency?"
+      answer: "PNG and WebP can preserve transparency. JPG does not support transparency and may add a solid background."
+    - question: "Can this convert to SVG?"
+      answer: "The SVG option wraps the raster image for compatibility. It does not automatically vectorize a bitmap into editable paths."
+    - question: "Which format should I use for websites?"
+      answer: "WebP is often a strong choice for modern websites. Use PNG for transparent graphics and JPG for broad photo compatibility."
+resize:
+  title: "Image Resizer"
+  intro: "Resize images by width, height, or percentage directly in the browser. TUXIA keeps aspect ratio controls visible, provides quick scale presets, and exports the resized result for websites, profiles, product images, thumbnails, and documents."
+  bestFor:
+    - "Resize large photos before uploading or sending."
+    - "Create thumbnails, avatars, and product image variants."
+    - "Scale images by exact dimensions or percentage."
+  steps:
+    - "Upload an image and review its original dimensions."
+    - "Enter target width and height or choose a scale preset."
+    - "Preview the resized result and download it in the selected format."
+  privacy: "Resizing runs locally with browser Canvas APIs. The selected image is not uploaded to a TUXIA server."
+  faq:
+    - question: "How do I avoid stretched images?"
+      answer: "Keep aspect ratio locking enabled when changing width or height."
+    - question: "Can I make an image larger?"
+      answer: "Yes, but enlarging can soften details because the browser has to interpolate missing pixels."
+    - question: "What size should I use for web images?"
+      answer: "Use the smallest dimensions that still look sharp in the final layout. This improves loading speed and saves bandwidth."
+crop:
+  title: "Image Cropper"
+  intro: "Crop images with a visual canvas, freeform selection, preset aspect ratios, and rotation controls. The cropper is useful for product photos, social media images, avatars, banners, screenshots, and focused composition adjustments."
+  bestFor:
+    - "Crop screenshots, photos, and product images."
+    - "Use common ratios such as 1:1, 4:3, 16:9, 3:4, or 9:16."
+    - "Rotate and preview the crop before exporting."
+  steps:
+    - "Upload an image and choose a crop ratio."
+    - "Drag or adjust the crop area on the canvas."
+    - "Preview and download the cropped image."
+  privacy: "Cropping runs locally in your browser. TUXIA does not upload your selected image."
+  faq:
+    - question: "Can I crop freely without a fixed ratio?"
+      answer: "Yes. Choose the freeform option to draw any crop area."
+    - question: "Can I rotate before cropping?"
+      answer: "Yes. Use the rotation controls before generating the final crop."
+    - question: "Will cropping change image quality?"
+      answer: "Cropping removes pixels outside the selected area. Export format and quality settings can also affect the final file."
+watermark:
+  title: "Image Watermark Tool"
+  intro: "Add text or image watermarks to pictures in your browser. Choose single placement, one-row, two-row, three-row, or full-screen watermark layouts, adjust size, opacity, rotation, color, and export the final protected image."
+  bestFor:
+    - "Add brand text, author names, draft labels, or copyright notes."
+    - "Apply a single watermark or repeated full-screen watermark pattern."
+    - "Use a text watermark or upload a small image watermark."
+  steps:
+    - "Upload the image you want to protect."
+    - "Enter watermark text or choose a watermark image."
+    - "Tune layout, size, opacity, rotation, color, and download."
+  privacy: "Watermarking runs locally in the browser. Your selected images are not uploaded to a TUXIA server."
+  faq:
+    - question: "Can I create full-screen repeated watermarks?"
+      answer: "Yes. Choose the full-screen layout to repeat the watermark across the image."
+    - question: "Can I use a logo as a watermark?"
+      answer: "Yes. Upload an image watermark and adjust its placement and opacity."
+    - question: "Can watermarks be removed?"
+      answer: "Any visible watermark can sometimes be edited out. Use placement, opacity, and repetition based on the protection level you need."
+retouch:
+  title: "Retouch and Mosaic Tool"
+  intro: "Use the retouch and mosaic workspace to paint over local image areas. Lightweight repair can clean small blemishes, while mosaic masking helps hide faces, license plates, QR codes, private text, and other sensitive regions before sharing."
+  bestFor:
+    - "Mask private areas with mosaic blocks."
+    - "Apply lightweight local repair to small visual distractions."
+    - "Export a privacy-safe copy without uploading the image."
+  steps:
+    - "Upload an image and choose retouch or mosaic mode."
+    - "Adjust brush size and strength, then paint the target area."
+    - "Preview the result and download the edited image."
+  privacy: "Retouching and mosaic masking run locally in the browser. The selected image is not uploaded to a TUXIA server."
+  faq:
+    - question: "Is the retouch feature the same as AI inpainting?"
+      answer: "No. This static browser tool provides lightweight local repair, not cloud AI inpainting."
+    - question: "When should I use mosaic mode?"
+      answer: "Use mosaic mode when you want to hide sensitive details such as faces, IDs, license plates, QR codes, or private messages."
+    - question: "Can I undo edits?"
+      answer: "You can clear the selection or reset the image before exporting the final result."
+palette:
+  title: "Image Color Picker"
+  intro: "Extract a color palette from any image and inspect live color values by hovering over the preview. TUXIA shows HEX, RGB, HSL, and CSS variable formats so designers and developers can quickly copy colors into websites, brand drafts, or UI prototypes."
+  bestFor:
+    - "Extract dominant colors from product photos, screenshots, or artwork."
+    - "Hover over the image to read live pixel colors."
+    - "Copy HEX, RGB, HSL, or CSS variable values."
+  steps:
+    - "Upload an image to generate a palette."
+    - "Hover over the preview to inspect live colors."
+    - "Switch color format and copy individual values or the whole palette."
+  privacy: "Color extraction runs locally in the browser. TUXIA does not upload your selected image."
+  faq:
+    - question: "What color formats are supported?"
+      answer: "The palette view supports HEX, RGB, HSL, and CSS variable output."
+    - question: "Can I pick a color from a specific pixel?"
+      answer: "Yes. Hover over the image preview to see the color under your pointer."
+    - question: "Why are some palette colors similar?"
+      answer: "Images may contain many near-identical tones. The extracted palette groups representative colors, but close shades can still appear."
+exif:
+  title: "EXIF Metadata Viewer"
+  intro: "View image metadata in the browser, including camera make and model, capture time, aperture, shutter speed, ISO, image dimensions, and GPS fields when available. It is useful for checking photo details before publishing or sharing."
+  bestFor:
+    - "Inspect camera and capture settings from JPEG photos."
+    - "Check image dimensions and basic metadata."
+    - "Review whether GPS metadata is present before sharing."
+  steps:
+    - "Upload a JPEG photo or supported image file."
+    - "Review the preview and extracted metadata fields."
+    - "Use the information to decide whether to keep, edit, or remove metadata elsewhere."
+  privacy: "Metadata reading runs locally in the browser. TUXIA does not upload your selected photo."
+  faq:
+    - question: "Why does an image show no EXIF data?"
+      answer: "Many platforms strip metadata, and some image formats or exported files do not include EXIF information."
+    - question: "Can this remove EXIF metadata?"
+      answer: "This page is a viewer. Some export tools may create a new image without original metadata, but this page focuses on inspection."
+    - question: "Can GPS data reveal location?"
+      answer: "Yes. If GPS fields exist, they may reveal where a photo was captured. Review metadata before sharing sensitive photos."

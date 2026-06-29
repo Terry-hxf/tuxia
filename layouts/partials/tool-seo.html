@@ -1,0 +1,42 @@
+{{ $toolId := .Params.toolId | default "" }}
+{{ if and (eq $toolId "") .File }}{{ $toolId = .File.BaseFileName }}{{ end }}
+{{ with index hugo.Data.tool_seo $toolId }}
+<section class="tool-seo-section" aria-labelledby="tool-seo-title">
+  <div class="container tool-seo-container">
+    <div class="tool-seo-head">
+      <p class="section-label">Tool Guide</p>
+      <h2 id="tool-seo-title">{{ .title }} Guide and FAQ</h2>
+      <p>{{ .intro }}</p>
+    </div>
+
+    <div class="tool-seo-grid">
+      <article class="tool-seo-card">
+        <h3>Best for</h3>
+        <ul>
+          {{ range .bestFor }}<li>{{ . }}</li>{{ end }}
+        </ul>
+      </article>
+      <article class="tool-seo-card">
+        <h3>How to use it</h3>
+        <ol>
+          {{ range .steps }}<li>{{ . }}</li>{{ end }}
+        </ol>
+      </article>
+    </div>
+
+    <aside class="tool-seo-privacy">
+      <strong>Privacy note:</strong> {{ .privacy }}
+    </aside>
+
+    <div class="tool-faq">
+      <h3>Frequently asked questions</h3>
+      {{ range .faq }}
+      <details>
+        <summary>{{ .question }}</summary>
+        <p>{{ .answer }}</p>
+      </details>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}

@@ -362,16 +362,20 @@ function getTranslateCookie() {
 }
 
 function getCurrentLanguagePreference() {
+  var docLang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
+  if (docLang.indexOf('zh-tw') === 0 || docLang.indexOf('zh-hant') === 0) return 'zh-TW';
+  if (docLang.indexOf('zh') === 0) return 'zh-CN';
   var cookie = getTranslateCookie();
   var saved = '';
   try { saved = localStorage.getItem('tuxia_language') || ''; } catch (err) {}
+  if (cookie.indexOf('/zh-TW') >= 0 || saved === 'zh-TW') return 'zh-TW';
   return cookie.indexOf('/zh-CN') >= 0 || saved === 'zh-CN' ? 'zh-CN' : 'en';
 }
 
 function correctBrandTranslation() {
   var lang = getCurrentLanguagePreference();
-  var brandName = lang === 'zh-CN' ? '图匣' : 'TUXIA';
-  var brandSubtitle = lang === 'zh-CN' ? '图像工具' : 'IMAGE TOOLS';
+  var brandName = lang === 'zh-CN' ? '图匣' : (lang === 'zh-TW' ? '圖匣' : 'TUXIA');
+  var brandSubtitle = lang === 'zh-CN' ? '图像工具' : (lang === 'zh-TW' ? '圖像工具' : 'IMAGE TOOLS');
   document.querySelectorAll('[data-brand-name]').forEach(function(node) {
     node.textContent = brandName;
   });
@@ -405,8 +409,16 @@ function observeBrandTranslation() {
 }
 
 function applyLanguagePreference(lang) {
-  var target = lang === 'zh-CN' ? 'zh-CN' : 'en';
+  var target = lang === 'zh-CN' || lang === 'zh-TW' ? lang : 'en';
   try { localStorage.setItem('tuxia_language', target); } catch (err) {}
+  var alternate = document.querySelector('link[rel="alternate"][hreflang="' + target + '"]');
+  if (alternate && alternate.href && alternate.href !== window.location.href) {
+    if (target === 'en') {
+      clearCookie('googtrans');
+    }
+    window.location.href = alternate.href;
+    return;
+  }
   if (target === 'en') {
     clearCookie('googtrans');
   } else {
@@ -418,7 +430,6 @@ function applyLanguagePreference(lang) {
 function bindLanguageSwitcher() {
   var select = document.getElementById('language-select');
   if (!select) return;
-  var cookie = getTranslateCookie();
   select.value = getCurrentLanguagePreference();
   select.addEventListener('change', function() {
     applyLanguagePreference(select.value);

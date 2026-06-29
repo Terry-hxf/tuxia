@@ -1,0 +1,108 @@
+base64:
+  name: "圖片 Base64 轉換工具"
+  summary: "將圖片轉換為 Base64 Data URL，或把 Base64 文字還原成圖片預覽，適合小圖示、郵件範本、CSS 嵌入和開發除錯。"
+  keywords: "圖片Base64,Base64轉圖片,圖片轉Base64,線上Base64圖片轉換,TUXIA"
+  faq:
+    - question: "圖片轉 Base64 會上傳到伺服器嗎？"
+      answer: "不會。轉換過程在瀏覽器本機完成，TUXIA 靜態版不接收或儲存你的圖片。"
+    - question: "Base64 適合大型圖片嗎？"
+      answer: "不太適合。Base64 會讓文字體積變大，更適合小圖示、測試資料和少量嵌入場景。"
+compress:
+  name: "圖片壓縮工具"
+  summary: "在瀏覽器中壓縮 JPG、PNG、WebP 圖片，支援原圖和壓縮後對比、品質調整和格式匯出，適合網站、郵件、文件和社群平台上傳前最佳化。"
+  keywords: "圖片壓縮,JPG壓縮,PNG壓縮,WebP壓縮,線上圖片壓縮,減少圖片大小,TUXIA"
+  faq:
+    - question: "為什麼有些圖片壓縮後反而變大？"
+      answer: "部分圖片已經被壓縮過，或者格式轉換產生額外開銷。可以嘗試 WebP 或進一步降低品質。"
+    - question: "壓縮會影響畫質嗎？"
+      answer: "有損格式會影響畫質，建議透過頁面中的前後對比預覽選擇合適品質。"
+convert:
+  name: "圖片格式轉換工具"
+  summary: "支援 PNG、JPG、WebP、BMP 等常見格式互轉，上傳後可預覽並下載轉換結果，適合網站發布、文件整理和素材處理。"
+  keywords: "圖片格式轉換,PNG轉JPG,JPG轉WebP,WebP轉PNG,線上圖片轉換,TUXIA"
+  faq:
+    - question: "轉換格式會保留透明背景嗎？"
+      answer: "PNG 和 WebP 支援透明背景，JPG 不支援透明背景。"
+    - question: "SVG 匯出是向量化嗎？"
+      answer: "不是。SVG 匯出主要是把點陣圖包裝成 SVG 檔案，不會自動變成可編輯向量路徑。"
+crop:
+  name: "圖片裁切工具"
+  summary: "透過畫布拖曳裁切圖片，支援自由裁切、常用比例和旋轉，適合頭像、商品圖、截圖和社群媒體圖片處理。"
+  keywords: "圖片裁切,線上裁切圖片,頭像裁切,圖片比例裁切,截圖裁切,TUXIA"
+  faq:
+    - question: "可以自由裁切嗎？"
+      answer: "可以。選擇自由比例後即可在畫布上拖曳任意裁切區域。"
+    - question: "裁切會上傳圖片嗎？"
+      answer: "不會。裁切在瀏覽器本機完成。"
+exif:
+  name: "EXIF 中繼資料查看工具"
+  summary: "查看照片中的相機型號、拍攝時間、光圈、快門、ISO、尺寸和 GPS 等中繼資料，適合發布前檢查圖片資訊。"
+  keywords: "EXIF查看,圖片中繼資料,照片資訊查看,GPS中繼資料,相機參數查看,TUXIA"
+  faq:
+    - question: "為什麼有些照片沒有 EXIF？"
+      answer: "很多平台會移除中繼資料，部分格式或匯出圖片也不包含 EXIF。"
+    - question: "GPS 資訊會洩露位置嗎？"
+      answer: "如果圖片包含 GPS 中繼資料，可能暴露拍攝位置，發布前應謹慎檢查。"
+online:
+  name: "圖片線上連結產生工具"
+  summary: "使用你自己的 ImgBB API Key 將圖片直接上傳到 ImgBB，並產生可分享的圖片連結，適合臨時分享和跨裝置查看。"
+  keywords: "圖片轉連結,圖片線上連結,ImgBB上傳,圖片URL產生,線上圖片分享,TUXIA"
+  faq:
+    - question: "需要 ImgBB API Key 嗎？"
+      answer: "需要。這個靜態版不提供公共上傳金鑰，需要使用者自行填寫 ImgBB API Key。"
+    - question: "TUXIA 會儲存上傳圖片嗎？"
+      answer: "不會。圖片從你的瀏覽器直接送到 ImgBB，TUXIA 不代理、不儲存。"
+palette:
+  name: "圖片配色擷取工具"
+  summary: "從圖片中擷取主色，並在預覽圖上懸停讀取即時 HEX、RGB、HSL 色值，適合設計取色、品牌配色和前端開發。"
+  keywords: "圖片取色,圖片配色擷取,HEX取色,RGB取色,HSL取色,線上取色器,TUXIA"
+  faq:
+    - question: "支援哪些色彩格式？"
+      answer: "支援 HEX、RGB、HSL 和 CSS 變數格式。"
+    - question: "可以讀取滑鼠位置的顏色嗎？"
+      answer: "可以。上傳圖片後在預覽區域懸停即可看到目前位置顏色。"
+qrcode-dec:
+  name: "QR Code 解碼工具"
+  summary: "上傳 QR Code 圖片並讀取其中的文字或網址，支援複製結果和開啟連結，適合檢查 QR Code 真實內容。"
+  keywords: "QR Code解碼,QRCode識別,二維碼解碼,二維碼內容讀取,TUXIA"
+  faq:
+    - question: "為什麼 QR Code 識別失敗？"
+      answer: "圖片可能模糊、太小、被裁切或對比度不足，建議換更清晰的圖片。"
+    - question: "開啟連結前可以先查看內容嗎？"
+      answer: "可以。工具會先顯示識別結果，你可以確認後再開啟。"
+qrcode-gen:
+  name: "QR Code 產生工具"
+  summary: "輸入文字或連結即可產生 QR Code，支援尺寸、容錯等級、顏色、樣式、Logo 和 PNG/SVG 匯出，適合分享、印刷和營運素材。"
+  keywords: "QR Code產生,線上QRCode,二維碼生成,二維碼製作,QRCode SVG匯出,TUXIA"
+  faq:
+    - question: "QR Code 可以匯出 SVG 嗎？"
+      answer: "可以。SVG 適合需要放大或印刷的場景。"
+    - question: "可以加入 Logo 嗎？"
+      answer: "可以。建議搭配較高容錯等級，並在匯出後實際掃碼測試。"
+resize:
+  name: "圖片尺寸調整工具"
+  summary: "按寬度、高度或百分比調整圖片尺寸，支援鎖定比例和快速縮放，適合縮圖、頭像、商品圖和網站圖片。"
+  keywords: "圖片尺寸調整,線上改圖片尺寸,圖片縮放,調整圖片寬高,縮圖製作,TUXIA"
+  faq:
+    - question: "如何避免圖片變形？"
+      answer: "開啟鎖定比例後，只改寬度或高度即可保持原始比例。"
+    - question: "可以把圖片放大嗎？"
+      answer: "可以，但放大會讓細節變軟，建議只在必要時使用。"
+retouch:
+  name: "局部擦除和馬賽克工具"
+  summary: "用筆刷在圖片局部區域進行輕量修復或馬賽克遮擋，適合隱藏頭像、車牌、QR Code、文字和其他隱私區域。"
+  keywords: "圖片馬賽克,局部擦除,圖片隱私遮擋,線上馬賽克,圖片修復,TUXIA"
+  faq:
+    - question: "這是 AI 修復嗎？"
+      answer: "不是。靜態版提供瀏覽器本機輕量修復和馬賽克功能，不呼叫雲端 AI。"
+    - question: "適合遮擋隱私資訊嗎？"
+      answer: "適合遮擋截圖、QR Code、車牌、頭像和私密文字等局部資訊。"
+watermark:
+  name: "圖片加浮水印工具"
+  summary: "為圖片加入文字浮水印或圖片浮水印，支援單個、1 行、2 行、3 行和滿版排列，適合版權標識、草稿標記和素材保護。"
+  keywords: "圖片加浮水印,線上浮水印,文字浮水印,圖片浮水印,滿版浮水印,TUXIA"
+  faq:
+    - question: "支援滿版浮水印嗎？"
+      answer: "支援。可以選擇多種排列方式並調整字號、透明度、旋轉和顏色。"
+    - question: "可以上傳 Logo 做浮水印嗎？"
+      answer: "可以。選擇圖片浮水印後上傳 Logo 即可預覽和匯出。"

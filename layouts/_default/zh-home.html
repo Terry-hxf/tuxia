@@ -1,0 +1,59 @@
+{{ define "main" }}
+{{ $isTW := eq (.Params.pageLang | default "zh-CN") "zh-TW" }}
+{{ $tools := cond $isTW hugo.Data.zh_tw_tools hugo.Data.zh_tools }}
+{{ partial "site-header.html" . }}
+
+<main class="seo-page-shell">
+  <section class="container">
+    <div class="seo-hero">
+      <p class="section-label">TUXIA {{ if $isTW }}圖匣{{ else }}图匣{{ end }}</p>
+      <h1>{{ if $isTW }}免費線上圖片工具箱{{ else }}免费在线图片工具箱{{ end }}</h1>
+      <p>{{ if $isTW }}圖匣 TUXIA 提供圖片壓縮、格式轉換、尺寸調整、裁切、加浮水印、局部擦除和馬賽克、QR Code、Base64、圖片取色和 EXIF 中繼資料查看等工具。除圖片線上連結產生外，常用圖片處理都在瀏覽器本機完成。{{ else }}图匣 TUXIA 提供图片压缩、格式转换、尺寸调整、裁剪、加水印、局部擦除和马赛克、二维码、Base64、图片取色和 EXIF 元数据查看等工具。除图片在线链接生成外，常用图片处理都在浏览器本地完成。{{ end }}</p>
+      <div class="seo-action-row">
+        <a class="btn btn-primary" href="{{ "" | relURL }}">{{ if $isTW }}打開英文首頁{{ else }}打开英文主页{{ end }}</a>
+        <a class="btn btn-ghost" href="{{ "tools/compress.html" | relURL }}">{{ if $isTW }}開始壓縮圖片{{ else }}开始压缩图片{{ end }}</a>
+      </div>
+    </div>
+
+    <div class="seo-tools-grid">
+      {{ range $toolId, $tool := $tools }}
+        <a class="seo-tool-card" href="{{ printf "%s/tools/%s/" (cond $isTW "zh-tw" "zh") $toolId | relURL }}">
+          <h2>{{ $tool.name }}</h2>
+          <p>{{ $tool.summary }}</p>
+          <span>{{ if $isTW }}查看工具說明{{ else }}查看工具说明{{ end }}</span>
+        </a>
+      {{ end }}
+    </div>
+
+    <article class="seo-content-panel">
+      <h2>{{ if $isTW }}為什麼選擇圖匣 TUXIA？{{ else }}为什么选择图匣 TUXIA？{{ end }}</h2>
+      <p>{{ if $isTW }}圖匣是一個靜態前端工具站，目標是把日常圖片處理任務放在簡潔的工作區裡完成。你可以上傳圖片並在瀏覽器裡預覽、調整、複製或下載結果，不需要安裝桌面軟體，也不需要建立帳號。{{ else }}图匣是一个静态前端工具站，目标是把日常图片处理任务放在简洁的工作台里完成。你可以上传图片并在浏览器里预览、调整、复制或下载结果，不需要安装桌面软件，也不需要创建账号。{{ end }}</p>
+
+      <h2>{{ if $isTW }}本機優先處理{{ else }}本地优先处理{{ end }}</h2>
+      <p>{{ if $isTW }}壓縮、轉換、裁切、尺寸調整、浮水印、取色、Base64、QR Code 和 EXIF 查看主要依賴瀏覽器能力完成。圖片線上連結工具需要使用者自行填寫 ImgBB API Key，並由瀏覽器直接上傳到 ImgBB。{{ else }}压缩、转换、裁剪、尺寸调整、水印、取色、Base64、二维码和 EXIF 查看主要依赖浏览器能力完成。图片在线链接工具需要用户自行填写 ImgBB API Key，并由浏览器直接上传到 ImgBB。{{ end }}</p>
+
+      <h2>{{ if $isTW }}適合哪些場景？{{ else }}适合哪些场景？{{ end }}</h2>
+      {{ if $isTW }}
+      <ul>
+        <li>網站、部落格、電商和社群媒體發布前最佳化圖片大小。</li>
+        <li>快速轉換 PNG、JPG、WebP 等常見格式。</li>
+        <li>裁切頭像、商品圖、截圖和封面圖。</li>
+        <li>為素材加入浮水印或用馬賽克遮擋隱私內容。</li>
+        <li>讀取顏色、QR Code 內容和照片中繼資料。</li>
+      </ul>
+      {{ else }}
+      <ul>
+        <li>网站、博客、电商和社交媒体发布前优化图片体积。</li>
+        <li>快速转换 PNG、JPG、WebP 等常见格式。</li>
+        <li>裁剪头像、商品图、截图和封面图。</li>
+        <li>为素材添加水印或用马赛克遮挡隐私内容。</li>
+        <li>读取颜色、二维码内容和照片元数据。</li>
+      </ul>
+      {{ end }}
+    </article>
+  </section>
+</main>
+
+{{ partial "site-footer.html" . }}
+{{ partial "common-scripts.html" . }}
+{{ end }}

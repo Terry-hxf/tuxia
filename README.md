@@ -10,7 +10,7 @@ TUXIA is a free static browser-based image toolbox built with Hugo. It is design
 - Image URL generation uses the official ImgBB upload API only when users provide their own ImgBB API key and choose to upload directly from the browser to ImgBB.
 - ImgBB API keys are saved only in the current browser localStorage.
 - Google AdSense is enabled through `googleAdClient` in `hugo.toml`.
-- The default language is English, with a language switcher for Chinese translation.
+- The default language is English, with real static SEO pages for English, Simplified Chinese, and Traditional Chinese.
 
 ## Local Preview
 
@@ -28,12 +28,25 @@ hugo --config hugo.toml --gc --minify --cleanDestinationDir --destination .\publ
 
 ## GitHub Pages
 
-The source code can live on `main`. The generated static site can be published from the `gh-pages` branch.
+The source code lives on `main`. GitHub Actions builds the Hugo site and publishes the generated static files to the `gh-pages` branch automatically.
 
-If you use the default GitHub Pages project URL, the site will be available at:
+Production site:
 
 ```text
-https://huangxiaofengsc.github.io/tuxia/
+https://tuxiatools.com/
 ```
 
-If you bind a custom domain, configure that domain in GitHub Pages settings and update `baseURL` in `hugo.toml`.
+GitHub Pages should be configured with:
+
+- Source: `Deploy from a branch`
+- Branch: `gh-pages`
+- Folder: `/ (root)`
+- Custom domain: `tuxiatools.com`
+- Enforce HTTPS: enabled
+
+## SEO and Ads
+
+- Sitemap: `https://tuxiatools.com/sitemap.xml`
+- Robots: `https://tuxiatools.com/robots.txt`
+- Ads file: `https://tuxiatools.com/ads.txt`
+- Search Console and launch checklist: `docs/search-console-and-growth-checklist.md`

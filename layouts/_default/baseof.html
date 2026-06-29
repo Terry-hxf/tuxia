@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+{{ $pageLang := .Params.pageLang | default "en" }}
+<html lang="{{ $pageLang }}">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +16,23 @@
 {{ $canonical := cond .IsHome ("" | absURL) .Permalink }}
 {{ $ogImage := (.Site.Params.ogImage | default "assets/tuxia-logo.svg") | absURL }}
 {{ $themeColor := .Site.Params.themeColor | default "#2563eb" }}
+{{ $toolId := .Params.toolId | default "" }}
+{{ if and (eq $toolId "") (eq .Section "tools") .File }}{{ $toolId = .File.BaseFileName }}{{ end }}
+{{ $zhCNURL := "" }}
+{{ $zhTWURL := "" }}
+{{ $enURL := $canonical }}
+{{ if .IsHome }}
+  {{ $zhCNURL = "zh/" | absURL }}
+  {{ $zhTWURL = "zh-tw/" | absURL }}
+{{ else if eq (.Params.layout | default "") "zh-home" }}
+  {{ $enURL = "" | absURL }}
+  {{ $zhCNURL = "zh/" | absURL }}
+  {{ $zhTWURL = "zh-tw/" | absURL }}
+{{ else if $toolId }}
+  {{ $enURL = printf "tools/%s.html" $toolId | absURL }}
+  {{ $zhCNURL = printf "zh/tools/%s/" $toolId | absURL }}
+  {{ $zhTWURL = printf "zh-tw/tools/%s/" $toolId | absURL }}
+{{ end }}
 
 <title>{{ $title }}</title>
 <meta name="description" content="{{ $description }}">
@@ -28,12 +46,18 @@
 <meta name="color-scheme" content="light dark">
 <meta name="format-detection" content="telephone=no,email=no,address=no">
 <link rel="canonical" href="{{ $canonical }}">
+{{ if or $zhCNURL $zhTWURL }}
+<link rel="alternate" hreflang="en" href="{{ $enURL }}">
+<link rel="alternate" hreflang="zh-CN" href="{{ $zhCNURL }}">
+<link rel="alternate" hreflang="zh-TW" href="{{ $zhTWURL }}">
+<link rel="alternate" hreflang="x-default" href="{{ $enURL }}">
+{{ end }}
 
 <meta property="og:title" content="{{ $title }}">
 <meta property="og:description" content="{{ $description }}">
 <meta property="og:type" content="{{ if .IsHome }}website{{ else }}article{{ end }}">
 <meta property="og:site_name" content="{{ $siteName }}">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="{{ if eq $pageLang "zh-CN" }}zh_CN{{ else if eq $pageLang "zh-TW" }}zh_TW{{ else }}en_US{{ end }}">
 <meta property="og:url" content="{{ $canonical }}">
 <meta property="og:image" content="{{ $ogImage }}">
 <meta property="og:image:alt" content="{{ $brandFull }} Online image processing workspace">
@@ -62,13 +86,13 @@ window.TUXIA_API_CONFIG = {
 window.googleTranslateElementInit = function() {
   if (!window.google || !window.google.translate) return;
   new window.google.translate.TranslateElement({
-    pageLanguage: 'en',
-    includedLanguages: 'en,zh-CN',
+    pageLanguage: {{ if eq $pageLang "zh-CN" }}'zh-CN'{{ else if eq $pageLang "zh-TW" }}'zh-TW'{{ else }}'en'{{ end }},
+    includedLanguages: 'en,zh-CN,zh-TW',
     autoDisplay: false
   }, 'google_translate_element');
 };
 </script>
-<link rel="stylesheet" href="{{ "css/common.css?v=20260610l" | relURL }}">
+<link rel="stylesheet" href="{{ "css/common.css?v=20260629a" | relURL }}">
 
 {{ if .IsHome }}
 <script type="application/ld+json">
@@ -118,6 +142,28 @@ window.googleTranslateElementInit = function() {
   "offers" (dict "@type" "Offer" "price" "0" "priceCurrency" "USD")
   | jsonify | safeJS }}
 </script>
+{{ end }}
+
+{{ $faqSource := index hugo.Data.tool_seo $toolId }}
+{{ if eq $pageLang "zh-CN" }}
+  {{ with index hugo.Data.zh_tools $toolId }}{{ $faqSource = . }}{{ end }}
+{{ else if eq $pageLang "zh-TW" }}
+  {{ with index hugo.Data.zh_tw_tools $toolId }}{{ $faqSource = . }}{{ end }}
+{{ end }}
+{{ with $faqSource }}
+  {{ $faqEntities := slice }}
+  {{ range .faq }}
+    {{ $faqEntities = $faqEntities | append (dict "@type" "Question" "name" .question "acceptedAnswer" (dict "@type" "Answer" "text" .answer)) }}
+  {{ end }}
+  {{ if gt (len $faqEntities) 0 }}
+<script type="application/ld+json">
+{{ dict
+  "@context" "https://schema.org"
+  "@type" "FAQPage"
+  "mainEntity" $faqEntities
+  | jsonify | safeJS }}
+</script>
+  {{ end }}
 {{ end }}
 
 {{ block "head_extra" . }}{{ end }}
