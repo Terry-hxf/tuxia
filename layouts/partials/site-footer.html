@@ -1,28 +1,60 @@
-﻿<footer class="site-footer">
+{{ $pageLang := .Params.pageLang | default "en" }}
+{{ $isZH := eq $pageLang "zh-CN" }}
+{{ $isTW := eq $pageLang "zh-TW" }}
+{{ $homeURL := "" | relURL }}
+{{ if $isZH }}{{ $homeURL = "zh/" | relURL }}{{ else if $isTW }}{{ $homeURL = "zh-tw/" | relURL }}{{ end }}
+{{ $footerDesc := "A clean online image toolbox for compression, conversion, resizing, cropping, watermarking, QR codes, color picking, Base64 conversion, and EXIF metadata viewing." }}
+{{ $popularLabel := "Popular Tools" }}
+{{ $productLabel := "Product" }}
+{{ $privacyLabel := "Privacy Policy" }}
+{{ $termsLabel := "Terms of Use" }}
+{{ $rightsLabel := "All rights reserved." }}
+{{ $siteInfo := "Local-first processing with clear previews." }}
+{{ if $isZH }}
+  {{ $footerDesc = "简洁的在线图片工具箱，覆盖压缩、转换、尺寸调整、裁剪、水印、二维码、取色、Base64 转换和 EXIF 元数据查看。" }}
+  {{ $popularLabel = "常用工具" }}
+  {{ $productLabel = "产品" }}
+  {{ $privacyLabel = "隐私政策" }}
+  {{ $termsLabel = "使用条款" }}
+  {{ $rightsLabel = "保留所有权利。" }}
+  {{ $siteInfo = "本地优先处理，结果清晰预览。" }}
+{{ else if $isTW }}
+  {{ $footerDesc = "簡潔的線上圖片工具箱，涵蓋壓縮、轉換、尺寸調整、裁切、浮水印、QR Code、取色、Base64 轉換和 EXIF 中繼資料查看。" }}
+  {{ $popularLabel = "常用工具" }}
+  {{ $productLabel = "產品" }}
+  {{ $privacyLabel = "隱私政策" }}
+  {{ $termsLabel = "使用條款" }}
+  {{ $rightsLabel = "保留所有權利。" }}
+  {{ $siteInfo = "本機優先處理，結果清楚預覽。" }}
+{{ end }}
+<footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand-block">
-        <a href="{{ "" | relURL }}" class="footer-logo-link">
+        <a href="{{ $homeURL }}" class="footer-logo-link">
           <img src="{{ "assets/tuxia-logo.svg" | relURL }}?v=20260608c" alt="">
           <span class="notranslate" translate="no" data-brand-name>TUXIA</span>
         </a>
-        <p>A clean online image toolbox for compression, conversion, resizing, cropping, watermarking, QR codes, color picking, Base64 conversion, and EXIF metadata viewing.</p>
+        <p>{{ $footerDesc }}</p>
       </div>
-      <nav class="footer-group" aria-label="Popular tools">
-        <h3>Popular Tools</h3>
+      <nav class="footer-group" aria-label="{{ $popularLabel }}">
+        <h3>{{ $popularLabel }}</h3>
         {{ range where hugo.Data.tools "footer" true }}
-          <a href="{{ .href | relURL }}">{{ .navName | default .name }}</a>
+          {{ $toolName := .navName | default .name }}
+          {{ if $isZH }}{{ with index hugo.Data.zh_tools .id }}{{ $toolName = .name }}{{ end }}{{ end }}
+          {{ if $isTW }}{{ with index hugo.Data.zh_tw_tools .id }}{{ $toolName = .name }}{{ end }}{{ end }}
+          <a href="{{ .href | relURL }}">{{ $toolName }}</a>
         {{ end }}
       </nav>
-      <nav class="footer-group" aria-label="Product">
-        <h3>Product</h3>
-        <a href="{{ "privacy.html" | relURL }}">Privacy Policy</a>
-        <a href="{{ "terms.html" | relURL }}">Terms of Use</a>
+      <nav class="footer-group" aria-label="{{ $productLabel }}">
+        <h3>{{ $productLabel }}</h3>
+        <a href="{{ "privacy.html" | relURL }}">{{ $privacyLabel }}</a>
+        <a href="{{ "terms.html" | relURL }}">{{ $termsLabel }}</a>
       </nav>
     </div>
     <div class="footer-bottom">
-      <span>&copy; 2026 <span class="notranslate" translate="no" data-brand-name>TUXIA</span>. All rights reserved.</span>
-      <span class="footer-site-info" id="footer-site-info">Local-first processing with clear previews.</span>
+      <span>&copy; 2026 <span class="notranslate" translate="no" data-brand-name>TUXIA</span>. {{ $rightsLabel }}</span>
+      <span class="footer-site-info" id="footer-site-info">{{ $siteInfo }}</span>
     </div>
   </div>
 </footer>

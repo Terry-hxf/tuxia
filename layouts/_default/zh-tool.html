@@ -2,7 +2,7 @@
 {{ $isTW := eq (.Params.pageLang | default "zh-CN") "zh-TW" }}
 {{ $toolId := .Params.toolId }}
 {{ $tool := cond $isTW (index hugo.Data.zh_tw_tools $toolId) (index hugo.Data.zh_tools $toolId) }}
-{{ $enSeo := index hugo.Data.tool_seo $toolId }}
+{{ $guide := cond $isTW (index hugo.Data.zh_tw_tool_guides $toolId) (index hugo.Data.zh_tool_guides $toolId) }}
 {{ $listURL := cond $isTW ("zh-tw/" | relURL) ("zh/" | relURL) }}
 {{ partial "site-header.html" . }}
 
@@ -21,7 +21,7 @@
     <article class="seo-content-panel">
       <h2>{{ if $isTW }}功能說明{{ else }}功能说明{{ end }}</h2>
       <p>{{ $tool.summary }}</p>
-      {{ with $enSeo }}
+      {{ with $guide }}
       <h2>{{ if $isTW }}適合使用的場景{{ else }}适合使用的场景{{ end }}</h2>
       <ul>
         {{ range .bestFor }}<li>{{ . }}</li>{{ end }}

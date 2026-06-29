@@ -1,24 +1,53 @@
-﻿{{ $current := .RelPermalink }}
+{{ $current := .RelPermalink }}
 {{ $tools := hugo.Data.tools }}
+{{ $pageLang := .Params.pageLang | default "en" }}
+{{ $isZH := eq $pageLang "zh-CN" }}
+{{ $isTW := eq $pageLang "zh-TW" }}
+{{ $homeURL := "" | relURL }}
+{{ if $isZH }}{{ $homeURL = "zh/" | relURL }}{{ else if $isTW }}{{ $homeURL = "zh-tw/" | relURL }}{{ end }}
+{{ $homeLabel := "Home" }}
+{{ $allToolsLabel := "All Tools" }}
+{{ $switchToolLabel := "Switch Tool" }}
+{{ $navLabel := "Main navigation" }}
+{{ $languageLabel := "Language" }}
+{{ $selectLanguageLabel := "Select language" }}
+{{ if $isZH }}
+  {{ $homeLabel = "首页" }}
+  {{ $allToolsLabel = "全部工具" }}
+  {{ $switchToolLabel = "切换工具" }}
+  {{ $navLabel = "主导航" }}
+  {{ $languageLabel = "语言" }}
+  {{ $selectLanguageLabel = "选择语言" }}
+{{ else if $isTW }}
+  {{ $homeLabel = "首頁" }}
+  {{ $allToolsLabel = "全部工具" }}
+  {{ $switchToolLabel = "切換工具" }}
+  {{ $navLabel = "主導覽" }}
+  {{ $languageLabel = "語言" }}
+  {{ $selectLanguageLabel = "選擇語言" }}
+{{ end }}
 <header class="site-header">
   <div class="container header-container">
-    <a href="{{ "" | relURL }}" class="logo-link">
+    <a href="{{ $homeURL }}" class="logo-link">
       <span class="logo-mark"><img class="logo-img" src="{{ "assets/tuxia-logo.svg" | relURL }}?v=20260608c" alt=""></span>
       <span class="logo-wordmark notranslate" translate="no">
         <span class="logo-name" data-brand-name>TUXIA</span>
         <span class="logo-pinyin" data-brand-subtitle>IMAGE TOOLS</span>
       </span>
     </a>
-    <nav class="site-nav" aria-label="Main navigation">
-      <a href="{{ "" | relURL }}">Home</a>
-      <a href="{{ "" | relURL }}" data-scroll-tools>All Tools</a>
+    <nav class="site-nav" aria-label="{{ $navLabel }}">
+      <a href="{{ $homeURL }}">{{ $homeLabel }}</a>
+      <a href="{{ $homeURL }}" data-scroll-tools>{{ $allToolsLabel }}</a>
       <details class="tool-switcher">
-        <summary>Switch Tool</summary>
+        <summary>{{ $switchToolLabel }}</summary>
         <div class="tool-switcher-menu">
           {{ range $tools }}
+            {{ $toolName := .navName | default .name }}
+            {{ if $isZH }}{{ with index hugo.Data.zh_tools .id }}{{ $toolName = .name }}{{ end }}{{ end }}
+            {{ if $isTW }}{{ with index hugo.Data.zh_tw_tools .id }}{{ $toolName = .name }}{{ end }}{{ end }}
             <a href="{{ .href | relURL }}" class="{{ if eq $current .href }}active{{ end }}">
               <span class="tool-menu-icon" aria-hidden="true">{{ partial "tool-icon.html" .id }}</span>
-              <span>{{ .navName | default .name }}</span>
+              <span>{{ $toolName }}</span>
             </a>
           {{ end }}
         </div>
@@ -26,10 +55,10 @@
     </nav>
     <div class="header-actions">
       {{ if eq .Section "tools" }}
-        <a class="btn btn-ghost btn-sm tool-back" href="{{ "" | relURL }}" data-scroll-tools>All Tools</a>
+        <a class="btn btn-ghost btn-sm tool-back" href="{{ $homeURL }}" data-scroll-tools>{{ $allToolsLabel }}</a>
       {{ end }}
-      <div class="language-switcher" aria-label="Language">
-        <select id="language-select" aria-label="Select language">
+      <div class="language-switcher" aria-label="{{ $languageLabel }}">
+        <select id="language-select" aria-label="{{ $selectLanguageLabel }}">
           <option value="en">English</option>
           <option value="zh-CN">简体中文</option>
           <option value="zh-TW">繁體中文</option>
