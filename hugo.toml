@@ -1,5 +1,5 @@
-# GitHub Pages project URL. Replace with a custom domain when one is bound.
-baseURL = "https://terry-hxf.github.io/tuxia/"
+# Custom domain for GitHub Pages.
+baseURL = "https://tuxiatools.com/"
 locale = "en-US"
 defaultContentLanguage = "en"
 title = "TUXIA - Free Online Image Tools for Compression, Conversion, Crop and Watermark"
