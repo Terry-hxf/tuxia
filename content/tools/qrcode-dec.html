@@ -1,0 +1,109 @@
+﻿---
+title: "QR Code Decoder | Read QR Code Images Online - TUXIA"
+heading: "QR Code Decoder - TUXIA"
+description: "TUXIA QR Code Decoder reads QR code images and extracts text, websites, or URLs. Copy the result or open links directly after decoding."
+keywords: "QR code decoder,QR code reader,read QR code online,scan QR code image,QR image reader,QR to URL,TUXIA"
+badges:
+  - "Upload preview"
+  - "Content reading"
+  - "Copy or open"
+---
+
+<style>
+.tool-container { max-width: 680px; margin: 0 auto; padding: 32px 24px; }
+  .result-card { display: none; padding: 20px; margin-top: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+  .result-card.visible { display: block; }
+  .result-content { font-size: 1rem; font-weight: 600; word-break: break-all; padding: 10px 14px; background: #fafaf9; border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 14px; }
+  .result-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .result-type { display: inline-block; font-size: 0.7rem; padding: 2px 8px; border-radius: var(--radius-full); font-weight: 500; margin-bottom: 8px; }
+  .type-url { background: #eef2ff; color: var(--accent); }
+  .type-text { background: #ecfdf5; color: var(--success); }
+  .preview-img-wrap { text-align: center; margin: 16px 0; }
+  .preview-img-wrap img { max-width: 260px; max-height: 260px; border-radius: var(--radius-sm); border: 1px solid var(--border); }
+</style>
+
+<div class="tool-container">
+  <div class="section-header">
+    <p class="section-label">Decode</p>
+    <h2>Read QR code image content</h2>
+      <p>Upload and preview a QR image. The decoded text or link appears in the result area.</p>
+  </div>
+
+  {{< upload-zone icon="scan" lead="Drag a QR code image here, or" action="click to choose" hint="Supports PNG, JPG, and WebP QR code images" >}}
+  <input type="file" id="file-input" accept="image/png,image/jpeg,image/webp">
+
+      <div class="preview-img-wrap" id="preview-wrap" style="display:none;"><img id="preview-img" src="" alt="QR preview"></div>
+
+  <div class="result-card" id="result-card">
+    <span class="result-type" id="result-type"></span>
+    <div class="result-content" id="result-content"></div>
+    <div class="result-actions">
+      <button class="btn btn-primary btn-sm" id="btn-copy">CopyContent</button>
+      <button class="btn btn-ghost btn-sm" id="btn-open" style="display:none;">Open link</button>
+    </div>
+  </div>
+
+  <div class="error-msg" id="decode-error"></div>
+</div>
+
+<script src="../vendor/jsQR.js"></script>
+<script>
+(function() {
+  var dropZone = document.getElementById('drop-zone');
+  var fileInput = document.getElementById('file-input');
+  var previewWrap = document.getElementById('preview-wrap');
+  var previewImg = document.getElementById('preview-img');
+  var resultCard = document.getElementById('result-card');
+  var resultType = document.getElementById('result-type');
+  var resultContent = document.getElementById('result-content');
+  var btnOpen = document.getElementById('btn-open');
+  var decodeError = document.getElementById('decode-error');
+  var decodedText = '';
+
+  function decodeQR(file) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var dataUrl = e.target.result;
+      previewImg.src = dataUrl; previewWrap.style.display = 'block';
+      resultCard.classList.remove('visible'); decodeError.classList.remove('visible');
+      var img = new Image();
+      img.onload = function() {
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        canvas.width = img.width; canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        var code = jsQR(imageData.data, canvas.width, canvas.height);
+        if (code) {
+          decodedText = code.data;
+          resultContent.textContent = decodedText;
+          var isUrl = /^httpsTotal:\/\//i.test(decodedText);
+          resultType.textContent = isUrl ? 'URL link' : 'Text content';
+          resultType.className = 'result-type ' + (isUrl ? 'type-url' : 'type-text');
+          btnOpen.style.display = isUrl ? '' : 'none';
+          resultCard.classList.add('visible');
+        } else {
+          decodedText = '';
+          decodeError.textContent = 'Could not read the QR code. Please make sure the image contains a clear QR code.';
+          decodeError.classList.add('visible');
+        }
+      };
+      img.src = dataUrl;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  bindDragDrop(dropZone, fileInput, function(file) {
+    if (!file.type.startsWith('image/')) { showToast('Please choose an image file'); return; }
+    decodeQR(file);
+  });
+
+  document.getElementById('btn-copy').addEventListener('click', function() {
+    if (!decodedText) return; copyToClipboard(decodedText);
+  });
+
+  btnOpen.addEventListener('click', function() {
+    if (decodedText && /^httpsTotal:\/\//i.test(decodedText)) window.open(decodedText, '_blank', 'noopener,noreferrer');
+  });
+})();
+</script>

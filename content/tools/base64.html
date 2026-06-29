@@ -1,0 +1,187 @@
+﻿---
+title: "Image to Base64 Converter | Base64 to Image Online - TUXIA"
+heading: "Image Base64 Workspace - TUXIA"
+description: "TUXIA Image Base64 converter lets you encode images to Base64 and decode Base64 back to images with side-by-side preview, copy, and download tools. Everything runs locally in the browser."
+keywords: "image to Base64,Base64 to image,online Base64 image,image Base64 encoder,Base64 decoder,data URL to image,image encoding,Base64 image preview,TUXIA"
+badges:
+  - "Two-way panels"
+  - "Code preview"
+  - "Copy and download"
+---
+
+<style>
+.convert-container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+  .split-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 768px) { .split-panels { grid-template-columns: 1fr; } }
+  .panel {
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--surface); overflow: hidden;
+  }
+  .panel-header {
+    padding: 12px 16px; font-weight: 600; font-size: 0.85rem;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .panel-header.left { background: #eef2ff; color: #4f46e5; }
+  .panel-header.right { background: #ecfdf5; color: #059669; }
+  .panel-body { padding: 16px; }
+
+  .panel-drop-zone {
+    border: 2px dashed var(--border); border-radius: var(--radius-sm);
+    padding: 28px 16px; text-align: center; cursor: pointer;
+    transition: all var(--transition); margin-bottom: 12px;
+  }
+  .panel-drop-zone:hover, .panel-drop-zone.drag-over {
+    border-color: var(--accent); background: var(--accent-subtle);
+  }
+
+  .panel-preview { text-align: center; margin-bottom: 12px; }
+  .panel-preview img { max-width: 100%; max-height: 200px; border-radius: var(--radius-sm); border: 1px solid var(--border); }
+  .panel-meta { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px; text-align: center; }
+
+  .panel-textarea {
+    width: 100%; min-height: 100px; max-height: 180px; padding: 10px 12px;
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    font-size: 0.72rem; font-family: "SF Mono", "Fira Code", "Cascadia Code", "Consolas", "Menlo", monospace;
+    resize: vertical; line-height: 1.6; word-break: break-all; outline: none; margin-bottom: 12px;
+  }
+  .panel-textarea:focus { border-color: var(--accent); }
+  .panel-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+</style>
+
+<!-- Tool Header -->
+<div class="convert-container">
+  <div class="split-panels">
+    <!-- Left: Image → Base64 -->
+    <div class="panel">
+      <div class="panel-header left">Image to Base64</div>
+      <div class="panel-body">
+        {{< upload-zone id="drop-left" class="panel-drop-zone" lead="Drag an image here, or" action="click to choose" hint="PNG, JPG, WebP, SVG, GIF, BMP" >}}
+        <input type="file" id="file-input" accept="image/png,image/jpeg,image/webp,image/svg+xml,image/gif,image/bmp">
+        <div class="panel-preview" id="left-preview" style="display:none;">
+          <img id="left-img" src="" alt="Preview">
+        </div>
+        <div class="panel-meta" id="left-meta"></div>
+        <textarea class="panel-textarea" id="left-output" readonly placeholder="Choose an image to generate Base64 automatically..."></textarea>
+        <div style="font-size:0.76rem;color:var(--text-muted);margin-bottom:10px;" id="left-stats"></div>
+        <div class="panel-actions">
+          <button class="btn btn-ghost btn-sm" id="btn-copy-left">Copy code</button>
+          <button class="btn btn-ghost btn-sm" id="btn-download-left">Download .txt</button>
+          <button class="btn btn-ghost btn-sm" id="btn-clear-left">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Base64 → Image -->
+    <div class="panel">
+      <div class="panel-header right">Base64 to Image</div>
+      <div class="panel-body">
+        <p style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:10px;">Paste a Base64 string below to decode and preview automatically:</p>
+        <textarea class="panel-textarea" id="right-input" placeholder="Paste Base64 code, starting with data:image/ or raw base64..." style="min-height:80px;"></textarea>
+        <div class="panel-preview" id="right-preview" style="display:none;">
+          <img id="right-img" src="" alt="Decoded preview">
+        </div>
+        <div class="panel-meta" id="right-meta"></div>
+        <div class="panel-actions">
+          <select class="download-select" id="right-download-format" aria-label="Download format">
+            <option value="png">PNG</option>
+            <option value="jpg">JPG</option>
+            <option value="webp">WebP</option>
+            <option value="svg">SVG</option>
+          </select>
+          <button class="btn btn-ghost btn-sm" id="btn-download-right">Download image</button>
+          <button class="btn btn-ghost btn-sm" id="btn-clear-right">Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var leftFile = null, rightDecodedDataUrl = '';
+
+  var dropLeft = document.getElementById('drop-left');
+  var fileInput = document.getElementById('file-input');
+  var leftPreview = document.getElementById('left-preview');
+  var leftImg = document.getElementById('left-img');
+  var leftMeta = document.getElementById('left-meta');
+  var leftOutput = document.getElementById('left-output');
+  var leftStats = document.getElementById('left-stats');
+
+  // Left: Image → Base64
+  bindDragDrop(dropLeft, fileInput, function(file) {
+    if (!validateImageFile(file)) return;
+    leftFile = file;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var base64 = e.target.result;
+      leftOutput.value = base64;
+      leftImg.src = base64;
+      leftPreview.style.display = 'block';
+      getImageDimensions(base64, function(w, h) {
+        leftMeta.textContent = file.name + '  ·  ' + formatSize(file.size) + '  ·  ' + w + '×' + h;
+      });
+      leftStats.textContent = 'Total ' + base64.length.toLocaleString() + ' characters, about ' + formatSize(Math.round(base64.length * 0.75));
+    };
+    reader.readAsDataURL(file);
+  });
+
+  document.getElementById('btn-copy-left').addEventListener('click', function() {
+    if (!leftOutput.value) { showToast('Please choose an image first'); return; }
+    copyToClipboard(leftOutput.value);
+  });
+
+  document.getElementById('btn-download-left').addEventListener('click', function() {
+    if (!leftOutput.value) { showToast('Please choose an image first'); return; }
+    var blob = new Blob([leftOutput.value], { type: 'text/plain;charset=utf-8' });
+    downloadBlob(blob, (leftFile ? leftFile.name.replace(/\.[^.]+$/, '') : 'image') + '_base64.txt');
+  });
+
+  document.getElementById('btn-clear-left').addEventListener('click', function() {
+    leftFile = null; leftOutput.value = ''; leftPreview.style.display = 'none';
+    leftImg.src = ''; leftMeta.textContent = ''; leftStats.textContent = ''; fileInput.value = '';
+  });
+
+  // Right: Base64 → Image
+  var rightInput = document.getElementById('right-input');
+  var rightPreview = document.getElementById('right-preview');
+  var rightImg = document.getElementById('right-img');
+  var rightMeta = document.getElementById('right-meta');
+
+  rightInput.addEventListener('input', function() {
+    var val = rightInput.value.trim();
+    if (!val) { rightPreview.style.display = 'none'; rightMeta.textContent = ''; rightDecodedDataUrl = ''; return; }
+
+    var dataUrl = val;
+    if (!val.startsWith('data:')) { dataUrl = 'data:image/png;base64,' + val; }
+
+    rightImg.onerror = function() {
+      rightPreview.style.display = 'none'; rightMeta.textContent = 'Unable to decode. Please check the Base64 format.';
+      rightMeta.style.color = 'var(--danger)'; rightDecodedDataUrl = '';
+    };
+    rightImg.onload = function() {
+      rightDecodedDataUrl = dataUrl;
+      rightPreview.style.display = 'block';
+      rightMeta.style.color = 'var(--text-muted)';
+      getImageDimensions(dataUrl, function(w, h) {
+        rightMeta.textContent = 'Decoded successfully,  ' + w + '×' + h + '  about ' + formatSize(Math.round(dataUrl.length * 0.75));
+      });
+    };
+    rightImg.src = dataUrl;
+  });
+
+  document.getElementById('btn-download-right').addEventListener('click', function() {
+    if (!rightDecodedDataUrl) { showToast('Please paste a valid Base64 string first'); return; }
+    var ext = 'png';
+    var match = rightDecodedDataUrl.match(/^data:image\/(\w+)/);
+    if (match) { ext = match[1] === 'jpeg' ? 'jpg' : match[1]; }
+    var format = document.getElementById('right-download-format').value || ext;
+    downloadImageDataUrl(rightDecodedDataUrl, 'decoded', format);
+  });
+
+  document.getElementById('btn-clear-right').addEventListener('click', function() {
+    rightInput.value = ''; rightPreview.style.display = 'none';
+    rightImg.src = ''; rightMeta.textContent = ''; rightDecodedDataUrl = '';
+  });
+})();
+</script>

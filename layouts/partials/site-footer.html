@@ -1,0 +1,29 @@
+﻿<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand-block">
+        <a href="{{ "" | relURL }}" class="footer-logo-link">
+          <img src="{{ "assets/tuxia-logo.svg" | relURL }}?v=20260608c" alt="">
+          <span>TUXIA</span>
+        </a>
+        <p>A clean online image toolbox for compression, conversion, resizing, cropping, watermarking, QR codes, color picking, Base64 conversion, and EXIF metadata viewing.</p>
+      </div>
+      <nav class="footer-group" aria-label="Popular tools">
+        <h3>Popular Tools</h3>
+        {{ range where hugo.Data.tools "footer" true }}
+          <a href="{{ .href | relURL }}">{{ .navName | default .name }}</a>
+        {{ end }}
+      </nav>
+      <nav class="footer-group" aria-label="Product">
+        <h3>Product</h3>
+        <a href="{{ "privacy.html" | relURL }}">Privacy Policy</a>
+        <a href="{{ "terms.html" | relURL }}">Terms of Use</a>
+        <button class="footer-link-button" type="button" onclick="openContact()">Contact Us</button>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 TUXIA. All rights reserved.</span>
+      <span class="footer-site-info" id="footer-site-info">Local-first processing with clear previews.</span>
+    </div>
+  </div>
+</footer>

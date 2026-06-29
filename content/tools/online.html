@@ -1,0 +1,174 @@
+﻿---
+title: "Image to URL Tool | Generate Shareable Image Links - TUXIA"
+heading: "Image URL Generator - TUXIA"
+description: "TUXIA Image URL Generator uploads images through your own ImgBB API Key and creates shareable URLs for image hosting, temporary sharing, asset delivery, and cross-device viewing."
+keywords: "image to URL,image link generator,image hosting URL,online image URL,ImgBB upload,generate image link,share image link,temporary image URL,TUXIA"
+badges:
+  - "Upload preview"
+  - "Generate link"
+  - "Copy and share"
+---
+
+<style>
+.tool-container { max-width: 680px; margin: 0 auto; padding: 32px 24px; }
+  .upload-progress { display: none; width: 100%; height: 3px; background: var(--border); border-radius: 2px; margin-top: 12px; overflow: hidden; }
+  .upload-progress.active { display: block; }
+  .upload-progress .bar { height: 100%; background: var(--accent); border-radius: 2px; animation: indeterminate 1.5s ease infinite; width: 28%; }
+  @keyframes indeterminate { 0% { transform: translateX(-100%); } 100% { transform: translateX(420%); } }
+  .url-result { display: none; align-items: center; gap: 10px; padding: 10px 13px; background: #fafaf9; border: 1px solid var(--border); border-radius: var(--radius-sm); margin-top: 12px; }
+  .url-result .url-text { flex: 1; font-size: 0.78rem; font-family: "SF Mono", "Fira Code", "Cascadia Code", "Consolas", monospace; color: var(--accent); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-decoration: none; }
+</style>
+
+<div class="tool-container">
+  <div class="section-header">
+    <p class="section-label">Cloud upload</p>
+    <h2>Upload image and generate link</h2>
+      <p>Preview the image first, then generate a copyable URL for sharing and cross-device viewing.</p>
+  </div>
+
+  {{< upload-zone titleId="upload-title" hint="PNG, JPG, WebP, GIF, BMP, up to 10 MB" >}}
+  <input type="file" id="file-input" accept="image/png,image/jpeg,image/webp,image/gif,image/bmp">
+
+  <div class="preview-card" id="preview-card">
+    <img class="preview-thumb" id="preview-img" src="" alt="Preview">
+    <div class="preview-info">
+      <p class="preview-name" id="preview-name"></p>
+      <p class="preview-meta" id="preview-meta"></p>
+    </div>
+    <button class="preview-remove-btn" id="btn-remove" title="Remove">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <div class="online-action-row">
+    <button class="btn btn-primary btn-sm" id="btn-upload" style="display:none;">Upload and get link</button>
+    <button class="btn btn-ghost btn-sm" id="btn-settings-toggle" type="button">Storage settings</button>
+  </div>
+
+  <div class="upload-progress" id="upload-progress"><div class="bar"></div></div>
+
+  <div class="url-result" id="url-result">
+    <a class="url-text" id="url-text" href="" target="_blank" rel="noopener noreferrer"></a>
+    <button class="copy-btn" id="btn-copy-url" style="position:static;" title="Copy link">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+    </button>
+  </div>
+
+  <div class="error-msg" id="online-error"></div>
+
+  <div class="settings-panel" id="settings-panel">
+    <label for="api-key">ImgBB API Key</label>
+    <input type="text" id="api-key" placeholder="Enter your ImgBB API Key" autocomplete="off">
+    <p class="settings-hint">Use <a href="https://api.imgbb.com" target="_blank" rel="noopener">ImgBB official upload API</a> to generate image links. Your key is saved only in this browser.</p>
+    <div class="settings-save-row"><button class="btn btn-primary btn-sm" id="btn-save-settings">Save settings</button></div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var currentFile = null, onlineUrl = '';
+  var dropZone = document.getElementById('drop-zone');
+  var fileInput = document.getElementById('file-input');
+  var previewCard = document.getElementById('preview-card');
+  var previewImg = document.getElementById('preview-img');
+  var previewName = document.getElementById('preview-name');
+  var previewMeta = document.getElementById('preview-meta');
+  var btnUpload = document.getElementById('btn-upload');
+  var uploadProgress = document.getElementById('upload-progress');
+  var urlResult = document.getElementById('url-result');
+  var urlText = document.getElementById('url-text');
+  var onlineError = document.getElementById('online-error');
+  var settingsPanel = document.getElementById('settings-panel');
+
+  function showPreview(file) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      previewImg.src = e.target.result;
+      previewName.textContent = file.name;
+      getImageDimensions(e.target.result, function(w, h) {
+        previewMeta.textContent = formatSize(file.size) + '  ·  ' + w + '×' + h;
+      });
+      previewCard.classList.add('visible');
+      btnUpload.style.display = 'block';
+      urlResult.style.display = 'none';
+      onlineError.classList.remove('visible');
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function clearAll() {
+    currentFile = null; onlineUrl = ''; fileInput.value = '';
+    previewCard.classList.remove('visible'); btnUpload.style.display = 'none';
+    urlResult.style.display = 'none'; onlineError.classList.remove('visible');
+    document.getElementById('upload-title').innerHTML = 'Drag an image here, or<span> click to choose a file</span>';
+  }
+
+  bindDragDrop(dropZone, fileInput, function(file) {
+    if (!validateImageFile(file)) return;
+    currentFile = file;
+    showPreview(file);
+  });
+
+  document.getElementById('btn-remove').addEventListener('click', clearAll);
+
+  document.getElementById('btn-upload').addEventListener('click', async function() {
+    if (!currentFile) return;
+    var settings = getSettings();
+    if (!settings.apiKey) { showToast('Please configure your API Key first'); settingsPanel.classList.add('visible'); return; }
+
+    btnUpload.style.display = 'none';
+    uploadProgress.classList.add('active');
+    onlineError.classList.remove('visible');
+    urlResult.style.display = 'none';
+
+    var formData = new FormData();
+    formData.append('image', currentFile);
+
+    try {
+      var resp = await fetch('https://api.imgbb.com/1/uploadTotalkey=' + encodeURIComponent(settings.apiKey), { method: 'POST', body: formData });
+      var data = null;
+      try {
+        data = await resp.json();
+      } catch (parseErr) {}
+      if (resp.ok && data && data.success) {
+        onlineUrl = data.data.url;
+        urlText.textContent = onlineUrl;
+        urlText.href = onlineUrl;
+        urlResult.style.display = 'flex';
+        showToast('Upload successful');
+      } else {
+        var thirdMessage = data && data.error && data.error.message ? data.error.message : '';
+        var friendly = 'Image upload failed. Please try again later.';
+        if (/key|auth|token|invalid/i.test(thirdMessage)) friendly = 'Invalid API Key. Please check and save again.';
+        else if (/image|file|type/i.test(thirdMessage)) friendly = 'Unsupported image format. Please choose another image.';
+        else if (/size|large/i.test(thirdMessage) || resp.status === 413) friendly = 'The image is too large. Please compress it before uploading.';
+        else if (resp.status === 429) friendly = 'Too many uploads. Please try again later.';
+        else if (window.getFriendlyErrorMessage) friendly = window.getFriendlyErrorMessage({ status: resp.status }, friendly);
+        onlineError.textContent = friendly;
+        onlineError.classList.add('visible');
+      }
+    } catch (err) {
+      onlineError.textContent = window.getFriendlyErrorMessage ? window.getFriendlyErrorMessage(err, 'Network connection failed. Please try again later.') : 'Network connection failed. Please try again later.';
+      onlineError.classList.add('visible');
+    } finally {
+      uploadProgress.classList.remove('active');
+      btnUpload.style.display = 'block';
+    }
+  });
+
+  document.getElementById('btn-copy-url').addEventListener('click', function() {
+    if (!onlineUrl) return;
+    copyToClipboard(onlineUrl);
+  });
+
+  document.getElementById('btn-settings-toggle').addEventListener('click', function() {
+    settingsPanel.classList.toggle('visible');
+  });
+
+  document.getElementById('btn-save-settings').addEventListener('click', function() {
+    saveSettingsObj({ apiKey: document.getElementById('api-key').value.trim() });
+  });
+
+  loadApiKey();
+})();
+</script>

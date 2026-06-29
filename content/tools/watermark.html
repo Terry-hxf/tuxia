@@ -1,0 +1,341 @@
+﻿---
+title: "Image Watermark Tool | Add Text or Image Watermarks Online - TUXIA"
+heading: "Image Watermark Tool - TUXIA"
+description: "TUXIA Image Watermark Tool adds text or image watermarks locally. Choose single, 1-row, 2-row, 3-row, or full-screen layouts and adjust opacity, position, font size, and rotation before export."
+keywords: "image watermark,add watermark online,free watermark tool,text watermark,image watermark,photo watermark,full screen watermark,watermark opacity,watermark position,TUXIA"
+badges:
+  - "Text watermark"
+  - "Image watermark"
+  - "Multiple layouts"
+---
+
+<style>
+  .tool-container { max-width: 980px; margin: 0 auto; padding: 30px 24px; }
+  .watermark-workspace { display: none; grid-template-columns: minmax(360px, 1fr) 330px; gap: 16px; align-items: stretch; margin-top: 18px; }
+  .watermark-workspace.visible { display: grid; }
+  .watermark-preview-card,
+  .watermark-settings-card { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow-sm); }
+  .watermark-preview-card { padding: 14px; display: flex; flex-direction: column; gap: 10px; min-height: 420px; }
+  .watermark-canvas-wrap { flex: 1 1 auto; min-height: 320px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: linear-gradient(180deg, #fbfdff 0%, #f4f8ff 100%); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  #watermark-canvas { max-width: 100%; max-height: 520px; display: block; }
+  .watermark-meta { display: flex; justify-content: space-between; gap: 10px; color: var(--text-muted); font-size: 0.76rem; }
+  .watermark-settings-card { padding: 16px; display: grid; gap: 13px; align-content: start; }
+  .watermark-field { display: grid; gap: 7px; }
+  .watermark-field label,
+  .watermark-control-label { color: var(--text-secondary); font-size: 0.78rem; font-weight: 650; }
+  .watermark-field input[type="text"],
+  .watermark-field select { width: 100%; height: 38px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); padding: 0 11px; outline: none; }
+  .watermark-field input[type="text"]:focus,
+  .watermark-field select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,0.12); }
+  .watermark-inline { display: grid; grid-template-columns: 1fr 82px; gap: 10px; align-items: center; }
+  .watermark-inline input[type="color"] { width: 100%; height: 38px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); padding: 4px; }
+  .watermark-range-row { display: grid; grid-template-columns: 1fr 48px; gap: 10px; align-items: center; }
+  .watermark-range-row input[type="range"] { width: 100%; accent-color: var(--accent); }
+  .watermark-range-row output { color: var(--text-muted); font-size: 0.76rem; text-align: right; }
+  .watermark-check { display: flex; align-items: center; gap: 9px; color: var(--text-secondary); font-size: 0.8rem; }
+  .watermark-logo-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; }
+  .watermark-logo-name { min-width: 0; color: var(--text-muted); font-size: 0.76rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .watermark-actions { display: grid; grid-template-columns: 110px 1fr; gap: 10px; align-items: center; margin-top: 4px; }
+  @media (max-width: 860px) {
+    .watermark-workspace { grid-template-columns: 1fr; }
+    .watermark-settings-card { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .watermark-actions { grid-column: 1 / -1; }
+  }
+  @media (max-width: 560px) {
+    .tool-container { padding-left: 18px; padding-right: 18px; }
+    .watermark-preview-card { min-height: 0; }
+    .watermark-canvas-wrap { min-height: 260px; }
+    .watermark-settings-card { grid-template-columns: 1fr; }
+    .watermark-actions { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="tool-container" id="watermark-tool">
+  <div class="section-header">
+    <p class="section-label">Watermark editor</p>
+    <h2>Add a text or image watermark</h2>
+      <p>Upload an image and overlay a watermark on the local canvas with live position, opacity, rotation, and layout preview.</p>
+  </div>
+
+  {{< upload-zone hint="PNG, JPG, WebP, up to 10 MB" >}}
+  <input type="file" id="file-input" accept="image/png,image/jpeg,image/webp">
+
+  <div class="watermark-workspace" id="watermark-workspace">
+    <div class="watermark-preview-card">
+      <div class="watermark-canvas-wrap">
+        <canvas id="watermark-canvas"></canvas>
+      </div>
+      <div class="watermark-meta">
+        <span id="watermark-image-meta">Image loaded</span>
+        <span>Local preview</span>
+      </div>
+    </div>
+
+    <div class="watermark-settings-card">
+      <div class="watermark-field">
+        <label for="wm-text">Text watermark</label>
+        <input type="text" id="wm-text" value="TUXIA" maxlength="40">
+      </div>
+
+      <div class="watermark-field">
+        <label for="wm-position">Position</label>
+        <select id="wm-position">
+          <option value="bottom-right">Bottom right</option>
+          <option value="bottom-left">Bottom left</option>
+          <option value="top-right">Top right</option>
+          <option value="top-left">Top left</option>
+          <option value="center">Center</option>
+        </select>
+      </div>
+
+      <div class="watermark-field">
+        <label for="wm-density">Layout</label>
+        <select id="wm-density">
+          <option value="single">Single watermark</option>
+          <option value="line-1">1-row watermark</option>
+          <option value="line-2">2-row watermark</option>
+          <option value="line-3">3-row watermark</option>
+          <option value="full">Full-screen watermark</option>
+        </select>
+      </div>
+
+      <div class="watermark-field">
+        <span class="watermark-control-label">Font size</span>
+        <div class="watermark-range-row">
+          <input type="range" id="wm-size" min="18" max="160" value="56">
+          <output id="wm-size-out">56</output>
+        </div>
+      </div>
+
+      <div class="watermark-field">
+        <span class="watermark-control-label">Opacity</span>
+        <div class="watermark-range-row">
+          <input type="range" id="wm-opacity" min="10" max="100" value="35">
+          <output id="wm-opacity-out">35%</output>
+        </div>
+      </div>
+
+      <div class="watermark-field">
+        <span class="watermark-control-label">Rotation</span>
+        <div class="watermark-range-row">
+          <input type="range" id="wm-rotate" min="-45" max="45" value="-18">
+          <output id="wm-rotate-out">-18°</output>
+        </div>
+      </div>
+
+      <div class="watermark-field">
+        <label for="wm-color">Color</label>
+        <div class="watermark-inline">
+          <input type="color" id="wm-color" value="#ffffff">
+          <select id="wm-format" aria-label="Export format">
+            <option value="png">PNG</option>
+            <option value="jpg">JPG</option>
+            <option value="webp">WebP</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="watermark-field">
+        <span class="watermark-control-label">Image watermark</span>
+        <div class="watermark-logo-row">
+          <span class="watermark-logo-name" id="wm-logo-name">No image watermark selected</span>
+          <button class="btn btn-ghost btn-sm" type="button" id="btn-logo">Choose</button>
+        </div>
+        <input type="file" id="wm-logo-input" accept="image/png,image/jpeg,image/webp,image/svg+xml" hidden>
+      </div>
+
+      <div class="watermark-actions">
+        <button class="btn btn-ghost" type="button" id="btn-clear-logo">Clear image</button>
+        <button class="btn btn-primary" type="button" id="btn-download">Download watermarked image</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var sourceImage = null;
+  var logoImage = null;
+  var sourceFileName = 'watermark';
+  var canvas = document.getElementById('watermark-canvas');
+  var ctx = canvas.getContext('2d');
+  var workspace = document.getElementById('watermark-workspace');
+  var fileInput = document.getElementById('file-input');
+  var dropZone = document.getElementById('drop-zone');
+  var logoInput = document.getElementById('wm-logo-input');
+  var controls = ['wm-text', 'wm-position', 'wm-density', 'wm-size', 'wm-opacity', 'wm-rotate', 'wm-color'];
+
+  function updateOutputs() {
+    document.getElementById('wm-size-out').textContent = document.getElementById('wm-size').value;
+    document.getElementById('wm-opacity-out').textContent = document.getElementById('wm-opacity').value + '%';
+    document.getElementById('wm-rotate-out').textContent = document.getElementById('wm-rotate').value + '°';
+  }
+
+  function drawSingleText(text, x, y, rotate, opacity, color, size) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(rotate);
+    ctx.globalAlpha = opacity;
+    ctx.fillStyle = color;
+    ctx.strokeStyle = 'rgba(15, 23, 42, 0.18)';
+    ctx.lineWidth = Math.max(2, size * 0.06);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '700 ' + size + 'px "Microsoft YaHei", "PingFang SC", Arial, sans-serif';
+    ctx.strokeText(text, 0, 0);
+    ctx.fillText(text, 0, 0);
+    ctx.restore();
+  }
+
+  function drawSingleLogo(x, y, rotate, opacity, size) {
+    if (!logoImage) return;
+    var ratio = logoImage.width / logoImage.height || 1;
+    var w = Math.min(canvas.width * 0.28, size * 3.5);
+    var h = w / ratio;
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(rotate);
+    ctx.globalAlpha = opacity;
+    ctx.drawImage(logoImage, -w / 2, -h / 2, w, h);
+    ctx.restore();
+  }
+
+  function positionPoint(position, size) {
+    var pad = Math.max(26, size * 0.8);
+    var map = {
+      'top-left': [pad * 2, pad],
+      'top-right': [canvas.width - pad * 2, pad],
+      'bottom-left': [pad * 2, canvas.height - pad],
+      'bottom-right': [canvas.width - pad * 2, canvas.height - pad],
+      'center': [canvas.width / 2, canvas.height / 2]
+    };
+    return map[position] || map['bottom-right'];
+  }
+
+  function rowYValues(density, position) {
+    if (density === 'line-2') return [canvas.height * 0.31, canvas.height * 0.69];
+    if (density === 'line-3') return [canvas.height * 0.22, canvas.height * 0.5, canvas.height * 0.78];
+    if (position.indexOf('top') === 0) return [Math.max(40, canvas.height * 0.2)];
+    if (position.indexOf('bottom') === 0) return [Math.min(canvas.height - 40, canvas.height * 0.8)];
+    return [canvas.height * 0.5];
+  }
+
+  function watermarkStepX(text, size) {
+    var textWidth = 0;
+    if (text) {
+      ctx.save();
+      ctx.font = '700 ' + size + 'px "Microsoft YaHei", "PingFang SC", Arial, sans-serif';
+      textWidth = ctx.measureText(text).width;
+      ctx.restore();
+    }
+    var logoWidth = logoImage ? Math.min(canvas.width * 0.28, size * 3.5) : 0;
+    var baseWidth = Math.max(textWidth, logoWidth, size * 3);
+    return Math.max(canvas.width * 0.42, baseWidth * 1.75, size * 6);
+  }
+
+  function renderWatermark() {
+    if (!sourceImage) return;
+    updateOutputs();
+    canvas.width = sourceImage.width;
+    canvas.height = sourceImage.height;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(sourceImage, 0, 0);
+
+    var text = document.getElementById('wm-text').value.trim();
+    var size = Number(document.getElementById('wm-size').value);
+    var opacity = Number(document.getElementById('wm-opacity').value) / 100;
+    var rotate = Number(document.getElementById('wm-rotate').value) * Math.PI / 180;
+    var color = document.getElementById('wm-color').value;
+    var density = document.getElementById('wm-density').value;
+    var position = document.getElementById('wm-position').value;
+
+    if (density === 'full') {
+      var stepX = Math.max(180, watermarkStepX(text, size) * 0.78);
+      var stepY = Math.max(150, size * 3.1);
+      for (var y = -stepY; y < canvas.height + stepY; y += stepY) {
+        for (var x = -stepX; x < canvas.width + stepX; x += stepX) {
+          if (logoImage) drawSingleLogo(x, y, rotate, opacity, size);
+          if (text) drawSingleText(text, x, y, rotate, opacity, color, size);
+        }
+      }
+    } else if (density.indexOf('line-') === 0) {
+      var rowStepX = watermarkStepX(text, size);
+      var rows = rowYValues(density, position);
+      rows.forEach(function(rowY, rowIndex) {
+        var offset = rowIndex % 2 ? rowStepX / 2 : 0;
+        for (var x = -rowStepX + offset; x < canvas.width + rowStepX; x += rowStepX) {
+          if (logoImage) drawSingleLogo(x, rowY, rotate, opacity, size);
+          if (text) drawSingleText(text, x, rowY, rotate, opacity, color, size);
+        }
+      });
+    } else {
+      var point = positionPoint(position, size);
+      if (logoImage) drawSingleLogo(point[0], point[1], rotate, opacity, size);
+      if (text) drawSingleText(text, point[0], point[1], rotate, opacity, color, size);
+    }
+  }
+
+  function loadImageFile(file, callback) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var img = new Image();
+      img.onload = function() { callback(img, e.target.result); };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  bindDragDrop(dropZone, fileInput, function(file) {
+    if (!validateImageFile(file)) return;
+    sourceFileName = file.name.replace(/\.[^.]+$/, '') || 'watermark';
+    loadImageFile(file, function(img) {
+      sourceImage = img;
+      workspace.classList.add('visible');
+      document.getElementById('watermark-tool').classList.add('has-result');
+      document.getElementById('watermark-image-meta').textContent = img.width + '×' + img.height + ' · ' + formatSize(file.size);
+      renderWatermark();
+    });
+  });
+
+  controls.forEach(function(id) {
+    var el = document.getElementById(id);
+    el.addEventListener('input', renderWatermark);
+    el.addEventListener('change', renderWatermark);
+  });
+
+  document.getElementById('btn-logo').addEventListener('click', function() {
+    logoInput.click();
+  });
+
+  logoInput.addEventListener('change', function() {
+    if (!logoInput.files.length) return;
+    var file = logoInput.files[0];
+    if (!validateImageFile(file, 4 * 1024 * 1024)) return;
+    loadImageFile(file, function(img) {
+      logoImage = img;
+      document.getElementById('wm-logo-name').textContent = file.name;
+      renderWatermark();
+    });
+  });
+
+  document.getElementById('btn-clear-logo').addEventListener('click', function() {
+    logoImage = null;
+    logoInput.value = '';
+      document.getElementById('wm-logo-name').textContent = 'No image watermark selected';
+    renderWatermark();
+  });
+
+  document.getElementById('btn-download').addEventListener('click', function() {
+    if (!sourceImage) {
+      showToast('Please upload an image first');
+      return;
+    }
+    var format = document.getElementById('wm-format').value;
+    var mime = format === 'jpg' ? 'image/jpeg' : 'image/' + format;
+    var dataUrl = canvas.toDataURL(mime, 0.92);
+    downloadImageDataUrl(dataUrl, sourceFileName + '-watermark', format);
+  });
+
+  updateOutputs();
+})();
+</script>

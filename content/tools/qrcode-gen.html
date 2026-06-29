@@ -1,0 +1,337 @@
+﻿---
+title: "QR Code Generator | Create QR Codes with Logo and Styles - TUXIA"
+heading: "QR Code Generator - TUXIA"
+description: "TUXIA QR Code Generator creates QR codes from text or URLs with adjustable size, error correction, foreground and background colors, dot style, logo, and PNG or SVG export."
+keywords: "QR code generator,online QR generator,free QR code,URL to QR code,text QR code,custom QR code,QR code with logo,QR code color,download QR code,TUXIA"
+badges:
+  - "Live preview"
+  - "Custom styles"
+  - "Format export"
+---
+
+<style>
+.tool-container { max-width: 1000px; margin: 0 auto; padding: 32px 24px; }
+  .qr-layout { display: grid; grid-template-columns: 300px 1fr; gap: 28px; align-items: start; }
+  @media (max-width: 700px) { .qr-layout { grid-template-columns: 1fr; } }
+  .settings-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; }
+  .setting-group { margin-bottom: 14px; }
+  .setting-group label { display: block; font-size: 0.8rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 4px; }
+  .setting-group input[type="text"], .setting-group textarea, .setting-group select {
+    width: 100%; padding: 7px 11px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+    font-size: 0.82rem; font-family: inherit; background: var(--surface-soft); color: var(--text); outline: none;
+  }
+  .setting-group input:focus, .setting-group textarea:focus, .setting-group select:focus { border-color: var(--accent); }
+  .setting-group input[type="color"] { width: 36px; height: 32px; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; padding: 2px; }
+  .setting-group input[type="range"] { width: 100%; }
+  .color-row { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 8px; align-items: center; }
+  .color-row input[type="color"] { width: 42px; height: 34px; background: var(--surface); }
+  .color-row input[type="text"] {
+    height: 34px;
+    min-width: 0;
+    font-family: "SF Mono", "Cascadia Code", Consolas, monospace;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+  :root[data-theme="dark"] .color-row input[type="text"] {
+    background: #f8fbff;
+    color: #0f172a;
+    border-color: #9db8d8;
+  }
+  :root[data-theme="dark"] .color-row input[type="text"]::placeholder { color: #64748b; }
+  .preview-area { text-align: center; }
+  #qr-container { display: inline-block; padding: 20px; background: #fff; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow); }
+  .download-actions { margin-top: 16px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+  /* Dot style buttons */
+  .dot-style-opts { display: flex; gap: 6px; flex-wrap: wrap; }
+  .dot-style-btn { flex: 0 0 auto; padding: 5px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; font-size: 0.7rem; font-weight: 500; background: var(--surface); transition: all var(--transition); }
+  .dot-style-btn:hover { border-color: var(--accent); }
+  .dot-style-btn.active { border-color: var(--accent); background: var(--accent-subtle); color: var(--accent); }
+
+  /* Logo upload */
+  .logo-upload-row { display: flex; gap: 8px; align-items: center; }
+  .logo-preview-mini { width: 28px; height: 28px; border-radius: 4px; border: 1px solid var(--border); object-fit: contain; display: none; }
+  #logo-input { display: none; }
+
+  /* Preset templates */
+  .preset-grid { display: flex; gap: 6px; flex-wrap: wrap; }
+  .preset-dot { width: 26px; height: 26px; border-radius: 4px; cursor: pointer; border: 2px solid transparent; background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; transition: all var(--transition); }
+  .preset-dot:hover { border-color: var(--accent); }
+  .preset-dot.active { border-color: var(--accent); background: var(--accent-subtle); }
+  .preset-dot .dot { width: 8px; height: 8px; border-radius: 50%; background: #000; }
+  .preset-dot .dot.sq { border-radius: 1px; }
+  .preset-dot .dot.ro { border-radius: 3px; }
+</style>
+
+<div class="tool-container">
+  <div class="section-header">
+    <p class="section-label">QR code tool</p>
+    <h2>Generate and style a QR code</h2>
+      <p>Adjust content, style, and colors on the left, then preview and export on the right.</p>
+  </div>
+
+  <div class="qr-layout">
+    <!-- Settings -->
+    <div class="settings-card">
+      <div class="setting-group">
+        <label>Content <span style="color:var(--danger);">*</span></label>
+        <textarea id="qr-content" rows="3" placeholder="Enter text or a URL...">https://example.com</textarea>
+      </div>
+
+      <div class="setting-group">
+        <label>Size (px) <span id="size-label" style="color:var(--text-muted);">280</span></label>
+        <input type="range" id="qr-size" min="200" max="800" value="280" step="10">
+      </div>
+
+      <div class="setting-group">
+        <label>Error correction</label>
+        <select id="qr-correction">
+          <option value="L">L - about 7% for simple use</option>
+          <option value="M" selected>M - about 15% recommended</option>
+          <option value="Q">Q - about 25%, good for small logos</option>
+          <option value="H">H - about 30%, good for larger logos</option>
+        </select>
+        <div class="settings-hint">Use Q or H error correction when embedding a logo.</div>
+      </div>
+
+      <div class="setting-group">
+        <label>Foreground</label>
+        <div class="color-row">
+          <input type="color" id="qr-fg-color" value="#000000">
+          <input type="text" id="qr-fg-text" value="#000000" placeholder="#000000" style="flex:1;">
+        </div>
+      </div>
+
+      <div class="setting-group">
+        <label>Background</label>
+        <div class="color-row">
+          <input type="color" id="qr-bg-color" value="#ffffff">
+          <input type="text" id="qr-bg-text" value="#FFFFFF" placeholder="#FFFFFF">
+        </div>
+      </div>
+
+      <div class="setting-group">
+        <label>Dot style</label>
+        <div class="dot-style-opts" id="dot-styles">
+          <button class="dot-style-btn active" data-type="square">Square</button>
+          <button class="dot-style-btn" data-type="dots">Dots</button>
+          <button class="dot-style-btn" data-type="rounded">Rounded</button>
+          <button class="dot-style-btn" data-type="classy">Extra rounded</button>
+        <button class="dot-style-btn" data-type="classy-rounded">Classy rounded</button>
+          <button class="dot-style-btn" data-type="extra-rounded">Super rounded</button>
+        </div>
+      </div>
+
+      <div class="setting-group">
+        <label>Corner style</label>
+        <div class="dot-style-opts" id="corner-styles">
+          <button class="dot-style-btn active" data-type="square">Square</button>
+          <button class="dot-style-btn" data-type="dot">Dots</button>
+          <button class="dot-style-btn" data-type="extra-rounded">Super rounded</button>
+        </div>
+      </div>
+
+      <div class="setting-group">
+        <label>Logo (optional)</label>
+        <div class="logo-upload-row">
+          <button class="btn btn-ghost btn-sm" id="btn-logo-upload">Choose logo image</button>
+          <button class="btn btn-ghost btn-sm" id="btn-logo-clear" style="display:none;">✕ Remove</button>
+          <img class="logo-preview-mini" id="logo-preview" src="" alt="logo">
+        </div>
+        <div class="settings-hint">Use a transparent PNG, ideally under 200x200 px</div>
+        <input type="file" id="logo-input" accept="image/png,image/jpeg,image/webp,image/svg+xml">
+      </div>
+
+      <!-- Quick presets -->
+      <div class="setting-group">
+        <label>Quick colors</label>
+        <div class="preset-grid" id="preset-grid">
+          <div class="preset-dot active" data-bg="#ffffff" style="background:#fff;" title="Classic black">⬛</div>
+          <div class="preset-dot" data-bg="#2563eb" style="background:#2563eb;" title="TUXIA blue">　</div>
+          <div class="preset-dot" data-bg="#1c1917" style="background:#1c1917;" title="Dark">　</div>
+          <div class="preset-dot" data-bg="#dc2626" style="background:#dc2626;" title="Red">　</div>
+          <div class="preset-dot" data-bg="#059669" style="background:#059669;" title="Green">　</div>
+          <div class="preset-dot" data-bg="#d97706" style="background:#d97706;" title="Orange">　</div>
+        </div>
+      <div class="settings-hint">Click a swatch to change the foreground color.</div>
+      </div>
+    </div>
+
+    <!-- Preview -->
+    <div class="preview-area">
+      <div id="qr-container"></div>
+      <p style="margin-top:12px;font-size:0.78rem;color:var(--text-muted);">Live preview</p>
+      <div class="download-actions">
+        <select class="download-select" id="qr-download-format" aria-label="Download format">
+          <option value="png">PNG</option>
+          <option value="jpeg">JPG</option>
+          <option value="webp">WebP</option>
+          <option value="svg">SVG</option>
+        </select>
+        <button class="btn btn-primary btn-sm" id="btn-download-qr">Download QR code</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../vendor/qr-code-styling.js"></script>
+<script>
+(function() {
+  var qrCode = new QRCodeStyling({
+    width: 280, height: 280,
+    data: 'https://example.com',
+    dotsOptions: { color: '#000000', type: 'square' },
+    backgroundOptions: { color: '#ffffff' },
+    cornersSquareOptions: { type: 'square' },
+    cornersDotOptions: { type: 'square' },
+    qrOptions: { errorCorrectionLevel: 'M' },
+    imageOptions: { hideBackgroundDots: true, imageSize: 0.4, margin: 8 }
+  });
+
+  var container = document.getElementById('qr-container');
+  qrCode.append(container);
+
+  // ── Content ──
+  document.getElementById('qr-content').addEventListener('input', function() {
+    qrCode.update({ data: this.value || ' ' });
+  });
+
+  // ── Size ──
+  var sizeSlider = document.getElementById('qr-size');
+  var sizeLabelEl = document.getElementById('size-label');
+  sizeSlider.addEventListener('input', function() {
+    var v = parseInt(this.value);
+    sizeLabelEl.textContent = v;
+    qrCode.update({ width: v, height: v });
+  });
+
+  // ── Error correction ──
+  document.getElementById('qr-correction').addEventListener('change', function() {
+    qrCode.update({ qrOptions: { errorCorrectionLevel: this.value } });
+  });
+
+  // ── Foreground color ──
+  var fgColor = document.getElementById('qr-fg-color');
+  var fgText = document.getElementById('qr-fg-text');
+  function normalizeHex(hex) {
+    return (hex || '').trim().toUpperCase();
+  }
+  function updateFgColor(hex) {
+    hex = normalizeHex(hex);
+    fgColor.value = hex;
+    fgText.value = hex;
+    qrCode.update({ dotsOptions: { color: hex } });
+    // Update preset active
+    document.querySelectorAll('#preset-grid .preset-dot').forEach(function(d) {
+      var preset = normalizeHex(d.dataset.bg);
+      d.classList.toggle('active', preset === '#FFFFFF' ? hex === '#000000' : preset === hex);
+    });
+  }
+  fgColor.addEventListener('input', function() { updateFgColor(this.value); });
+  fgText.addEventListener('input', function() {
+    var v = this.value.trim();
+    if (/^#[0-9a-fA-F]{6}$/.test(v)) updateFgColor(v);
+  });
+  fgText.addEventListener('blur', function() {
+    if (!/^#[0-9a-fA-F]{6}$/.test(this.value.trim())) {
+      this.value = fgColor.value;
+    }
+  });
+
+  // ── Background color ──
+  var bgColor = document.getElementById('qr-bg-color');
+  var bgText = document.getElementById('qr-bg-text');
+  function updateBgColor(hex) {
+    hex = normalizeHex(hex);
+    bgColor.value = hex;
+    bgText.value = hex;
+    qrCode.update({ backgroundOptions: { color: hex } });
+    container.style.background = hex;
+  }
+  bgColor.addEventListener('input', function() {
+    updateBgColor(this.value);
+  });
+  bgText.addEventListener('input', function() {
+    var v = normalizeHex(this.value);
+    if (/^#[0-9A-F]{6}$/.test(v)) updateBgColor(v);
+  });
+  bgText.addEventListener('blur', function() {
+    if (!/^#[0-9A-F]{6}$/.test(normalizeHex(this.value))) {
+      this.value = bgColor.value.toUpperCase();
+    }
+  });
+
+  // ── Dot style ──
+  document.querySelectorAll('#dot-styles .dot-style-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('#dot-styles .dot-style-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      qrCode.update({ dotsOptions: { type: btn.dataset.type } });
+    });
+  });
+
+  // ── Corner style ──
+  document.querySelectorAll('#corner-styles .dot-style-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('#corner-styles .dot-style-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      qrCode.update({
+        cornersSquareOptions: { type: btn.dataset.type },
+        cornersDotOptions: { type: btn.dataset.type === 'extra-rounded' ? 'dot' : 'square' }
+      });
+    });
+  });
+
+  // ── Logo ──
+  var logoInput = document.getElementById('logo-input');
+  var logoPreview = document.getElementById('logo-preview');
+  var btnLogoClear = document.getElementById('btn-logo-clear');
+  var logoDataUrl = '';
+
+  document.getElementById('btn-logo-upload').addEventListener('click', function() {
+    logoInput.click();
+  });
+  logoInput.addEventListener('change', function() {
+    if (!logoInput.files.length) return;
+    var file = logoInput.files[0];
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      logoDataUrl = e.target.result;
+      logoPreview.src = logoDataUrl;
+      logoPreview.style.display = 'block';
+      btnLogoClear.style.display = '';
+      qrCode.update({ image: logoDataUrl });
+      showToast('Logo embedded');
+    };
+    reader.readAsDataURL(file);
+  });
+
+  btnLogoClear.addEventListener('click', function() {
+    logoDataUrl = ''; logoInput.value = '';
+    logoPreview.src = ''; logoPreview.style.display = 'none';
+    btnLogoClear.style.display = 'none';
+    qrCode.update({ image: '' });
+  });
+
+  // ── Presets ──
+  document.querySelectorAll('#preset-grid .preset-dot').forEach(function(dot) {
+    dot.addEventListener('click', function() {
+      document.querySelectorAll('#preset-grid .preset-dot').forEach(function(d) { d.classList.remove('active'); });
+      dot.classList.add('active');
+      var bg = dot.dataset.bg;
+      if (bg === '#ffffff') {
+        updateFgColor('#000000');
+      } else {
+        updateFgColor(bg);
+      }
+    });
+  });
+
+  // ── Download ──
+  document.getElementById('btn-download-qr').addEventListener('click', function() {
+    var ext = document.getElementById('qr-download-format').value;
+    qrCode.download({ name: 'qrcode', extension: ext });
+  });
+})();
+</script>

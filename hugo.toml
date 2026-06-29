@@ -1,0 +1,28 @@
+# Replace this with the final production domain before launch, for example https://your-domain.com/
+baseURL = "/"
+locale = "en-US"
+defaultContentLanguage = "en"
+title = "TUXIA - Free Online Image Tools for Compression, Conversion, Crop and Watermark"
+uglyURLs = true
+enableRobotsTXT = true
+disableKinds = ["taxonomy", "term", "section"]
+
+[params]
+  siteName = "TUXIA"
+  brandPinyin = "TUXIA"
+  shortName = "TUXIA"
+  description = "TUXIA is a free online image toolbox for compressing images, converting formats, resizing, cropping, watermarking, local retouching and mosaic, Base64 conversion, QR code generation and decoding, color extraction, EXIF metadata viewing, and image URL sharing. Most tools run locally in your browser with no installation."
+  keywords = "TUXIA,online image tools,free image tools,image compressor,compress JPG,compress PNG,compress WebP,image converter,PNG to JPG,JPG to PNG,JPG to WebP,WebP to JPG,image resize,resize image online,crop image online,watermark image,add text watermark,mosaic image,local image retouch,image to Base64,Base64 to image,QR code generator,QR code decoder,image color picker,extract colors from image,HEX color picker,RGB color picker,HSL color picker,EXIF viewer,image metadata viewer,image to URL,ImgBB upload,local browser image processing"
+  ogImage = "assets/tuxia-og.svg"
+  themeColor = "#2563eb"
+  apiBase = ""
+  feedbackEmail = "feedback@tuxia.app"
+  feedbackEndpoint = ""
+  onlineUploadEndpoint = ""
+  googleAdClient = "ca-pub-5966198580321080"
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[security]
+  allowContent = ["^text/html$", "^text/markdown$"]

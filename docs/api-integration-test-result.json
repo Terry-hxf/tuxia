@@ -1,0 +1,58 @@
+{
+  "testedAt": "2026-06-10 20:01:07 +08:00",
+  "target": "http://10.100.1.239:33103/api",
+  "status": "partial",
+  "summary": {
+    "siteIcp": "passed",
+    "feedback": "passed",
+    "privacyPolicy": "backend_404_frontend_fallback",
+    "userAgreement": "backend_404_frontend_fallback",
+    "analyticsConfig": "backend_404_non_blocking"
+  },
+  "siteIcp": {
+    "method": "GET",
+    "path": "/site/icp",
+    "http": 200,
+    "code": 200,
+    "hasData": true
+  },
+  "privacyPolicy": {
+    "method": "GET",
+    "path": "/content/pages/privacy_policy",
+    "http": 404,
+    "note": "Frontend keeps static privacy policy copy when backend content page is unavailable."
+  },
+  "userAgreement": {
+    "method": "GET",
+    "path": "/content/pages/user_agreement",
+    "http": 404,
+    "note": "Frontend keeps static terms copy when backend content page is unavailable."
+  },
+  "analyticsConfig": {
+    "paths": [
+      "/runtime/configs/analytics",
+      "/runtime/configs/site_analytics",
+      "/runtime/configs/visit_analytics"
+    ],
+    "http": 404,
+    "note": "Frontend probes runtime analytics configs silently and skips analytics injection when unavailable."
+  },
+  "feedback": {
+    "method": "POST",
+    "path": "/feedback",
+    "http": 200,
+    "code": 200,
+    "requestBodyShape": {
+      "type": "other",
+      "title": "前端联调测试",
+      "content": "前端联调测试内容",
+      "contact": "frontend-test@tuxia.local",
+      "images": [
+        "data:image/png;base64,..."
+      ]
+    },
+    "contentFieldClean": true,
+    "imagesSupportedByFrontend": true,
+    "maxImageSize": "2MB per image"
+  }
+}

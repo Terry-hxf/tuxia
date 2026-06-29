@@ -1,0 +1,380 @@
+﻿---
+title: "Image Color Picker | Extract HEX RGB HSL Palette Online - TUXIA"
+heading: "Image Color Picker - TUXIA"
+description: "TUXIA Image Color Picker extracts a main color palette from images and lets you hover over the image to read live HEX, RGB, and HSL values for design reference."
+keywords: "image color picker,online color picker,color palette extractor,extract colors from image,HEX color,RGB color,HSL color,image palette,brand color picker,TUXIA"
+badges:
+  - "Main palette"
+  - "Hover picker"
+  - "Copy formats"
+---
+
+<style>
+.tool-container { max-width: 980px; margin: 0 auto; padding: 32px 24px; }
+  #palette-tool.has-result {
+    flex: 1 0 auto;
+    min-height: clamp(580px, calc(100vh - 396px), 720px);
+    padding-bottom: 16px;
+  }
+  #palette-tool.has-result .upload-zone { padding: 16px; }
+  .palette-result { display: none; margin-top: 12px; }
+  .palette-result.visible { display: flex; flex: 1 1 auto; min-height: 0; }
+  #palette-tool.has-result .palette-workspace { display: grid; grid-template-columns: minmax(280px, 340px) 1fr; gap: 18px; align-items: stretch; width: 100%; min-height: 0; flex: 1 1 auto; }
+  .palette-board { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); padding: 16px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; min-height: 0; }
+  .palette-board-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .palette-board-copy { min-width: 0; }
+  .palette-board-title { font-size: 0.92rem; font-weight: 750; color: var(--text); }
+  .palette-board-subtitle { margin-top: 2px; color: var(--text-muted); font-size: 0.72rem; }
+  .palette-strip { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 7px; margin-bottom: 12px; }
+  .palette-strip button { height: 34px; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); }
+  #palette-tool.has-result .palette-preview-card { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); padding: 14px; box-shadow: var(--shadow-sm); height: 100%; display: flex; flex-direction: column; min-height: 0; }
+  .palette-picker-stage { position: relative; flex: 1 1 auto; min-height: 260px; border-radius: var(--radius-sm); overflow: hidden; background: linear-gradient(180deg, #fbfdff 0%, #f3f8ff 100%); cursor: crosshair; display: flex; align-items: center; justify-content: center; }
+  #palette-tool.has-result .palette-preview-card img { width: 100%; height: 100%; max-height: none; object-fit: contain; display: block; }
+  .picker-loupe { position: absolute; z-index: 3; display: none; align-items: center; gap: 8px; min-width: 112px; padding: 7px 9px; border: 1px solid rgba(15,23,42,0.12); border-radius: var(--radius-sm); background: rgba(255,255,255,0.94); box-shadow: 0 10px 26px rgba(15,23,42,0.14); pointer-events: none; transform: translate(12px, 12px); }
+  .picker-loupe.visible { display: flex; }
+  .picker-swatch { width: 22px; height: 22px; border-radius: 5px; border: 1px solid var(--border); flex: 0 0 auto; }
+  .picker-code { font-family: Consolas, "Liberation Mono", monospace; font-size: 0.72rem; font-weight: 750; color: var(--text); white-space: nowrap; }
+  .picker-current { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 9px; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: #f8fbff; }
+  .picker-current-main { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .picker-current-label { color: var(--text-muted); font-size: 0.7rem; }
+  .picker-current-code { font-family: Consolas, "Liberation Mono", monospace; font-size: 0.76rem; font-weight: 750; color: var(--text); }
+  .palette-preview-meta { display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; font-size: 0.76rem; color: var(--text-muted); }
+  .palette-preview-card .palette-preview-meta { margin-top: auto; padding-top: 10px; }
+  .palette-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+  .format-tabs { display: inline-flex; gap: 4px; padding: 4px; border: 1px solid var(--border); border-radius: var(--radius); background: #f8fafc; }
+  .format-tab { border: 0; border-radius: var(--radius-sm); padding: 7px 11px; background: transparent; color: var(--text-secondary); font-size: 0.76rem; font-weight: 600; cursor: pointer; }
+  .format-tab.active { background: var(--surface); color: var(--accent); box-shadow: var(--shadow-sm); }
+  #palette-tool.has-result .palette-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(118px, 1fr)); gap: 10px; flex: 1 1 auto; min-height: 0; }
+  .color-card { min-height: 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease; display: flex; flex-direction: column; }
+  .color-card:hover { transform: translateY(-2px); border-color: #93c5fd; box-shadow: 0 12px 26px rgba(37,99,235,0.1); }
+  .color-swatch { flex: 0 0 46%; min-height: 48px; cursor: pointer; position: relative; }
+  .color-swatch::after { content: "Click to copy"; position: absolute; right: 10px; top: 10px; padding: 3px 8px; border-radius: var(--radius-full); background: rgba(0,0,0,0.46); color: #fff; font-size: 0.68rem; font-weight: 600; opacity: 0; transform: translateY(-2px); transition: opacity 160ms ease, transform 160ms ease; }
+  .color-card:hover .color-swatch::after { opacity: 1; transform: translateY(0); }
+  .color-card.light .color-swatch::after { background: rgba(255,255,255,0.76); color: var(--text); }
+  .color-info { padding: 10px 12px 12px; flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; min-height: 0; }
+  .color-main { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .color-code { min-width: 0; font-family: Consolas, "Liberation Mono", monospace; font-size: 0.78rem; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .copy-mini { width: 30px; height: 30px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text-muted); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; flex: 0 0 auto; }
+  .copy-mini:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-subtle); }
+  .color-sub { display: grid; gap: 4px; font-family: Consolas, "Liberation Mono", monospace; font-size: 0.68rem; color: var(--text-muted); }
+  .palette-empty-note { display: flex; align-items: center; gap: 8px; justify-content: center; margin-top: 10px; color: var(--text-muted); font-size: 0.76rem; }
+  @media (max-width: 820px) {
+    #palette-tool.has-result { min-height: 0; }
+    #palette-tool.has-result .palette-workspace { grid-template-columns: 1fr; }
+    #palette-tool.has-result .palette-preview-card { max-width: 420px; margin: 0 auto; width: 100%; min-height: 380px; }
+  }
+  @media (max-width: 560px) {
+    .tool-container { padding-left: 18px; padding-right: 18px; }
+    .palette-grid { grid-template-columns: 1fr; }
+    .palette-board-head { align-items: stretch; flex-direction: column; }
+    .palette-toolbar { align-items: stretch; }
+    .format-tabs { width: 100%; }
+    .format-tab { flex: 1; }
+  }
+</style>
+
+<div class="tool-container" id="palette-tool">
+  <div class="section-header">
+    <p class="section-label">Color analysis</p>
+    <h2>Extract palettes and pick live colors</h2>
+    <p>Upload an image to view a 6-color palette. Move the mouse over the image to read and copy live color values.</p>
+  </div>
+
+  {{< upload-zone hint="PNG、JPG、WebP" >}}
+  <input type="file" id="file-input" accept="image/png,image/jpeg,image/webp">
+
+  <div class="palette-result" id="palette-result">
+    <div class="palette-workspace">
+      <div class="palette-preview-card">
+        <div class="palette-picker-stage" id="picker-stage">
+          <img id="preview-img" src="" alt="Preview">
+          <div class="picker-loupe" id="picker-loupe" aria-hidden="true">
+            <span class="picker-swatch" id="picker-loupe-swatch"></span>
+            <span class="picker-code" id="picker-loupe-code">#FFFFFF</span>
+          </div>
+        </div>
+        <div class="picker-current" id="picker-current">
+          <div class="picker-current-main">
+            <span class="picker-swatch" id="picker-current-swatch"></span>
+            <div>
+          <div class="picker-current-label">Hover color</div>
+              <div class="picker-current-code" id="picker-current-code">Move the mouse to view color</div>
+            </div>
+          </div>
+          <button class="btn btn-ghost btn-sm" type="button" id="btn-copy-picked">Copy color</button>
+        </div>
+        <div class="palette-preview-meta">
+          <span id="image-meta">Image loaded</span>
+          <span>Extract 6 colors</span>
+        </div>
+      </div>
+      <div class="palette-board" aria-label="Color palette">
+        <div class="palette-board-head">
+          <div class="palette-board-copy">
+          <div class="palette-board-title">Image color palette</div>
+            <p class="palette-board-subtitle">Extract main colors from the uploaded image. Click a swatch to copy it.</p>
+          </div>
+          <div class="palette-toolbar">
+            <div class="format-tabs" aria-label="Copy format">
+              <button class="format-tab active" type="button" data-format="hex">HEX</button>
+              <button class="format-tab" type="button" data-format="rgb">RGB</button>
+              <button class="format-tab" type="button" data-format="hsl">HSL</button>
+              <button class="format-tab" type="button" data-format="css">CSS variables</button>
+            </div>
+            <button class="btn btn-ghost btn-sm" type="button" id="btn-copy-palette">Copy all</button>
+          </div>
+        </div>
+          <div class="palette-strip" id="palette-strip" aria-label="Image color palette strip"></div>
+        <div class="palette-grid" id="palette-display"></div>
+        <p class="palette-empty-note">Click a swatch or copy button to copy the current format.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var dropZone = document.getElementById('drop-zone');
+  var fileInput = document.getElementById('file-input');
+  var paletteTool = document.getElementById('palette-tool');
+  var paletteResult = document.getElementById('palette-result');
+  var pickerStage = document.getElementById('picker-stage');
+  var pickerLoupe = document.getElementById('picker-loupe');
+  var pickerLoupeSwatch = document.getElementById('picker-loupe-swatch');
+  var pickerLoupeCode = document.getElementById('picker-loupe-code');
+  var pickerCurrentSwatch = document.getElementById('picker-current-swatch');
+  var pickerCurrentCode = document.getElementById('picker-current-code');
+  var btnCopyPicked = document.getElementById('btn-copy-picked');
+  var previewImg = document.getElementById('preview-img');
+  var imageMeta = document.getElementById('image-meta');
+  var paletteDisplay = document.getElementById('palette-display');
+  var paletteStrip = document.getElementById('palette-strip');
+  var btnCopyPalette = document.getElementById('btn-copy-palette');
+  var currentFormat = 'hex';
+  var currentColors = [];
+  var pickerCanvas = document.createElement('canvas');
+  var pickerCtx = pickerCanvas.getContext('2d', { willReadFrequently: true });
+  var pickedColor = null;
+
+  function extractColors(img, count) {
+    var canvas = document.createElement('canvas');
+    var maxDim = 200;
+    var scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+    canvas.width = Math.round(img.width * scale);
+    canvas.height = Math.round(img.height * scale);
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    var pixels = [];
+    for (var i = 0; i < imageData.data.length; i += 4) {
+      if (imageData.data[i + 3] < 160) continue;
+      pixels.push([imageData.data[i], imageData.data[i + 1], imageData.data[i + 2]]);
+    }
+    var buckets = [pixels];
+    while (buckets.length < count) {
+      var maxRange = 0, maxIdx = 0, maxChan = 0;
+      buckets.forEach(function(b, idx) {
+        if (b.length < 10) return;
+        for (var c = 0; c < 3; c++) {
+          var vals = b.map(function(p) { return p[c]; });
+          var min = Math.min.apply(null, vals), max = Math.max.apply(null, vals);
+          if (max - min > maxRange) { maxRange = max - min; maxIdx = idx; maxChan = c; }
+        }
+      });
+      if (maxRange === 0) break;
+      var bucket = buckets[maxIdx];
+      bucket.sort(function(a, b) { return a[maxChan] - b[maxChan]; });
+      var mid = Math.floor(bucket.length / 2);
+      buckets.splice(maxIdx, 1, bucket.slice(0, mid), bucket.slice(mid));
+    }
+    return buckets.map(function(b) {
+      var r = 0, g = 0, bl = 0;
+      b.forEach(function(p) { r += p[0]; g += p[1]; bl += p[2]; });
+      var n = b.length || 1;
+      return [Math.round(r / n), Math.round(g / n), Math.round(bl / n)];
+    });
+  }
+
+  function rgbToHex(rgb) { return '#' + rgb.map(function(c) { return ('0' + c.toString(16)).slice(-2); }).join('').toUpperCase(); }
+
+  function rgbToHsl(rgb) {
+    var r = rgb[0] / 255, g = rgb[1] / 255, b = rgb[2] / 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h = 0, s = 0, l = (max + min) / 2;
+    if (max !== min) {
+      var d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      if (max === r) h = (g - b) / d + (g < b ? 6 : 0);
+      else if (max === g) h = (b - r) / d + 2;
+      else h = (r - g) / d + 4;
+      h /= 6;
+    }
+    return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)];
+  }
+
+  function isLight(rgb) { return (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000 > 150; }
+
+  function colorValues(rgb, index) {
+    var hsl = rgbToHsl(rgb);
+    var hex = rgbToHex(rgb);
+    return {
+      hex: hex,
+      rgb: 'rgb(' + rgb.join(', ') + ')',
+      hsl: 'hsl(' + hsl[0] + ', ' + hsl[1] + '%, ' + hsl[2] + '%)',
+      css: '--color-' + String(index + 1).padStart(2, '0') + ': ' + hex + ';'
+    };
+  }
+
+  function getCopyValue(color) { return color.values[currentFormat]; }
+  function setPickedColor(rgb, x, y) {
+    var values = colorValues(rgb, 0);
+    pickedColor = { rgb: rgb, values: values };
+    var text = values[currentFormat] || values.hex;
+    pickerLoupeSwatch.style.background = values.hex;
+    pickerCurrentSwatch.style.background = values.hex;
+    pickerLoupeCode.textContent = text;
+    pickerCurrentCode.textContent = text;
+    if (typeof x === 'number' && typeof y === 'number') {
+      pickerLoupe.style.left = x + 'px';
+      pickerLoupe.style.top = y + 'px';
+      pickerLoupe.classList.add('visible');
+    }
+  }
+
+  function getImagePoint(e) {
+    var rect = previewImg.getBoundingClientRect();
+    var naturalRatio = previewImg.naturalWidth / previewImg.naturalHeight;
+    var renderedRatio = rect.width / rect.height;
+    var drawW = rect.width;
+    var drawH = rect.height;
+    var offsetX = 0;
+    var offsetY = 0;
+    if (renderedRatio > naturalRatio) {
+      drawW = rect.height * naturalRatio;
+      offsetX = (rect.width - drawW) / 2;
+    } else {
+      drawH = rect.width / naturalRatio;
+      offsetY = (rect.height - drawH) / 2;
+    }
+    var localX = e.clientX - rect.left - offsetX;
+    var localY = e.clientY - rect.top - offsetY;
+    if (localX < 0 || localY < 0 || localX > drawW || localY > drawH) return null;
+    return {
+      imageX: Math.min(previewImg.naturalWidth - 1, Math.max(0, Math.floor(localX / drawW * previewImg.naturalWidth))),
+      imageY: Math.min(previewImg.naturalHeight - 1, Math.max(0, Math.floor(localY / drawH * previewImg.naturalHeight))),
+      stageX: e.clientX - pickerStage.getBoundingClientRect().left,
+      stageY: e.clientY - pickerStage.getBoundingClientRect().top
+    };
+  }
+
+  function updatePicker(e) {
+    if (!pickerCanvas.width || !pickerCanvas.height) return;
+    var point = getImagePoint(e);
+    if (!point) {
+      pickerLoupe.classList.remove('visible');
+      return;
+    }
+    var pixel = pickerCtx.getImageData(point.imageX, point.imageY, 1, 1).data;
+    setPickedColor([pixel[0], pixel[1], pixel[2]], point.stageX, point.stageY);
+  }
+
+  function renderPalette() {
+    paletteDisplay.innerHTML = '';
+    paletteStrip.innerHTML = '';
+    currentColors.forEach(function(color, index) {
+      var stripBtn = document.createElement('button');
+      stripBtn.type = 'button';
+      stripBtn.style.background = color.values.hex;
+      stripBtn.title = 'Copy ' + getCopyValue(color);
+      stripBtn.setAttribute('aria-label', 'Copy color ' + getCopyValue(color));
+      stripBtn.addEventListener('click', function() {
+        copyToClipboard(getCopyValue(color));
+      });
+      paletteStrip.appendChild(stripBtn);
+
+      var swatch = document.createElement('article');
+      swatch.className = 'color-card' + (isLight(color.rgb) ? ' light' : '');
+      swatch.innerHTML =
+        '<div class="color-swatch" style="background:' + color.values.hex + '"></div>' +
+        '<div class="color-info">' +
+          '<div class="color-main">' +
+            '<span class="color-code" title="' + getCopyValue(color) + '">' + getCopyValue(color) + '</span>' +
+            '<button class="copy-mini" type="button" aria-label="Copy color">' +
+              '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="9" y="9" width="10" height="10" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1"/></svg>' +
+            '</button>' +
+          '</div>' +
+          '<div class="color-sub">' +
+            '<span>' + color.values.hex + '</span>' +
+            '<span>' + color.values.rgb + '</span>' +
+          '</div>' +
+        '</div>';
+      swatch.querySelector('.color-swatch').addEventListener('click', function() {
+        copyToClipboard(getCopyValue(color));
+      });
+      swatch.querySelector('.copy-mini').addEventListener('click', function() {
+        copyToClipboard(getCopyValue(color));
+      });
+      paletteDisplay.appendChild(swatch);
+    });
+  }
+
+  bindDragDrop(dropZone, fileInput, function(file) {
+    if (!validateImageFile(file)) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var img = new Image();
+      img.onload = function() {
+        previewImg.src = e.target.result;
+        pickerCanvas.width = img.width;
+        pickerCanvas.height = img.height;
+        pickerCtx.clearRect(0, 0, pickerCanvas.width, pickerCanvas.height);
+        pickerCtx.drawImage(img, 0, 0);
+        var colors = extractColors(img, 6);
+        currentColors = colors.map(function(c, index) {
+          return { rgb: c, values: colorValues(c, index) };
+        });
+        imageMeta.textContent = img.width + '×' + img.height;
+        paletteTool.classList.add('has-result');
+        paletteResult.classList.add('visible');
+        renderPalette();
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  document.querySelectorAll('.format-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.format-tab').forEach(function(t) { t.classList.remove('active'); });
+      tab.classList.add('active');
+      currentFormat = tab.dataset.format;
+      if (pickedColor) setPickedColor(pickedColor.rgb);
+      renderPalette();
+    });
+  });
+
+  pickerStage.addEventListener('mousemove', updatePicker);
+  pickerStage.addEventListener('mouseleave', function() {
+    pickerLoupe.classList.remove('visible');
+  });
+  pickerStage.addEventListener('click', function() {
+    if (!pickedColor) return;
+    copyToClipboard(pickedColor.values[currentFormat] || pickedColor.values.hex);
+  });
+  btnCopyPicked.addEventListener('click', function() {
+    if (!pickedColor) {
+      showToast('Move the mouse over the image to pick a color first');
+      return;
+    }
+    copyToClipboard(pickedColor.values[currentFormat] || pickedColor.values.hex);
+  });
+
+  btnCopyPalette.addEventListener('click', function() {
+    if (!currentColors.length) {
+      showToast('Please upload an image first');
+      return;
+    }
+    copyToClipboard(currentColors.map(getCopyValue).join('\n'));
+  });
+})();
+</script>

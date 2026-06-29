@@ -1,0 +1,445 @@
+﻿---
+title: "Image Retouch and Mosaic Tool | Local Repair and Blur Masking - TUXIA"
+heading: "Image Retouch and Mosaic Workspace - TUXIA"
+description: "TUXIA Retouch and Mosaic Tool lets you paint over image areas for lightweight local repair or mosaic masking, useful for blemish cleanup, privacy masking, and local image edits."
+keywords: "image retouch,mosaic image online,image masking,local image repair,photo blemish repair,paint repair,mosaic blur,privacy masking,local image editor,TUXIA"
+badges:
+  - "Paint selection"
+  - "Repair or mosaic"
+  - "Export result"
+---
+
+<style>
+  .tool-container { max-width: 960px; margin: 0 auto; padding: 30px 24px; }
+  .retouch-workspace { display: none; margin-top: 18px; border: 1px solid var(--border); border-radius: var(--radius); background: rgba(255,255,255,0.9); box-shadow: var(--shadow-sm); overflow: hidden; }
+  .retouch-workspace.visible { display: block; }
+  .retouch-canvas-panel { padding: 16px; }
+  .retouch-canvas-wrap { min-height: 420px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: linear-gradient(180deg, #fbfdff 0%, #f4f8ff 100%); display: flex; align-items: center; justify-content: center; overflow: hidden; touch-action: none; }
+  #retouch-canvas { max-width: 100%; max-height: 540px; display: block; cursor: crosshair; }
+  .retouch-toolbar { display: grid; gap: 14px; padding: 14px 16px 16px; border-top: 1px solid var(--border); background: #f8fbff; }
+  .retouch-controls { display: grid; grid-template-columns: 150px minmax(170px, 1fr) minmax(170px, 1fr) 120px; gap: 12px; align-items: end; }
+  .retouch-field { display: grid; gap: 7px; }
+  .retouch-field label,
+  .retouch-control-label { color: var(--text-secondary); font-size: 0.78rem; font-weight: 650; }
+  .retouch-field select { height: 38px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); padding: 0 10px; }
+  .retouch-field.is-hidden { display: none; }
+  .retouch-range-row { display: grid; grid-template-columns: 1fr 44px; gap: 10px; align-items: center; }
+  .retouch-range-row input { width: 100%; accent-color: var(--accent); }
+  .retouch-range-row output { text-align: right; color: var(--text-muted); font-size: 0.76rem; }
+  .retouch-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .retouch-actions .btn { min-width: 96px; }
+  .retouch-note { margin-top: 10px; color: var(--text-muted); font-size: 0.76rem; line-height: 1.7; }
+  .retouch-status { grid-column: 1 / -1; color: var(--text-muted); font-size: 0.76rem; }
+  @media (max-width: 840px) {
+    .retouch-controls { grid-template-columns: 1fr 1fr; }
+    .retouch-actions { justify-content: center; }
+  }
+  @media (max-width: 560px) {
+    .tool-container { padding-left: 18px; padding-right: 18px; }
+    .retouch-canvas-wrap { min-height: 300px; }
+    .retouch-controls { grid-template-columns: 1fr; }
+    .retouch-actions { display: grid; grid-template-columns: 1fr 1fr; }
+    .retouch-actions .btn-primary { grid-column: 1 / -1; }
+  }
+</style>
+
+<div class="tool-container" id="retouch-tool">
+  <div class="section-header">
+    <p class="section-label">Local edit</p>
+    <h2>Paint an area to repair or mosaic</h2>
+    <p>Mark the area with a brush, then apply lightweight local repair or mosaic masking for privacy.</p>
+  </div>
+
+  {{< upload-zone hint="PNG, JPG, WebP, up to 10 MB" >}}
+  <input type="file" id="file-input" accept="image/png,image/jpeg,image/webp">
+
+  <div class="retouch-workspace" id="retouch-workspace">
+    <div class="retouch-canvas-panel">
+      <div class="retouch-canvas-wrap" id="retouch-canvas-wrap">
+        <canvas id="retouch-canvas"></canvas>
+      </div>
+      <p class="retouch-note">Only process images you have rights to use. Repair works best for small blemishes or spots. Mosaic is suitable for names, faces, license plates, QR fragments, and other private areas.</p>
+    </div>
+    <div class="retouch-toolbar">
+      <div class="retouch-controls">
+        <div class="retouch-field">
+          <label for="retouch-mode">Mode</label>
+          <select id="retouch-mode">
+            <option value="repair">Local repair</option>
+            <option value="mosaic">Mosaic</option>
+          </select>
+        </div>
+        <div class="retouch-field">
+          <span class="retouch-control-label">Brush size</span>
+          <div class="retouch-range-row">
+            <input type="range" id="brush-size" min="8" max="90" value="34">
+            <output id="brush-size-out">34</output>
+          </div>
+        </div>
+        <div class="retouch-field" id="mosaic-field">
+        <span class="retouch-control-label">Mosaic strength</span>
+          <div class="retouch-range-row">
+            <input type="range" id="mosaic-size" min="6" max="40" value="16" step="2">
+            <output id="mosaic-size-out">16</output>
+          </div>
+        </div>
+        <div class="retouch-field">
+          <label for="retouch-format">Export format</label>
+          <select id="retouch-format">
+            <option value="png">PNG</option>
+            <option value="jpg">JPG</option>
+            <option value="webp">WebP</option>
+          </select>
+        </div>
+        <div class="retouch-status" id="retouch-status">Paint an area, then repair</div>
+      </div>
+      <div class="retouch-actions">
+        <button class="btn btn-ghost btn-sm" type="button" id="btn-clear-mask">Clear mask</button>
+        <button class="btn btn-ghost btn-sm" type="button" id="btn-reset-image">Reset image</button>
+        <button class="btn btn-primary btn-sm" type="button" id="btn-apply">Repair area</button>
+        <button class="btn btn-primary btn-sm" type="button" id="btn-download">Download result</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var MAX_DIM = 1800;
+  var canvas = document.getElementById('retouch-canvas');
+  var ctx = canvas.getContext('2d', { willReadFrequently: true });
+  var workCanvas = document.createElement('canvas');
+  var workCtx = workCanvas.getContext('2d', { willReadFrequently: true });
+  var originalCanvas = document.createElement('canvas');
+  var originalCtx = originalCanvas.getContext('2d');
+  var mask = null;
+  var drawing = false;
+  var lastPoint = null;
+  var hasMask = false;
+  var fileBaseName = 'retouched';
+  var lastActionSuffix = 'edited';
+
+  var modeInput = document.getElementById('retouch-mode');
+  var brushInput = document.getElementById('brush-size');
+  var brushOutput = document.getElementById('brush-size-out');
+  var mosaicInput = document.getElementById('mosaic-size');
+  var mosaicOutput = document.getElementById('mosaic-size-out');
+  var mosaicField = document.getElementById('mosaic-field');
+  var applyBtn = document.getElementById('btn-apply');
+  var statusEl = document.getElementById('retouch-status');
+
+  function setStatus(text) {
+    statusEl.textContent = text;
+  }
+
+  function updateBrushOutput() {
+    brushOutput.textContent = brushInput.value;
+  }
+
+  function updateMosaicOutput() {
+    mosaicOutput.textContent = mosaicInput.value;
+  }
+
+  function updateModeUI() {
+    var isMosaic = modeInput.value === 'mosaic';
+    mosaicField.classList.toggle('is-hidden', !isMosaic);
+    applyBtn.textContent = isMosaic ? 'Apply mosaic' : 'Repair area';
+    if (!mask || !hasMask) {
+      setStatus(isMosaic ? 'Paint an area, then apply mosaic' : 'Paint an area, then repair');
+    }
+  }
+
+  function prepareImage(img) {
+    var scale = Math.min(1, MAX_DIM / Math.max(img.width, img.height));
+    var w = Math.max(1, Math.round(img.width * scale));
+    var h = Math.max(1, Math.round(img.height * scale));
+    [canvas, workCanvas, originalCanvas].forEach(function(c) {
+      c.width = w;
+      c.height = h;
+    });
+    originalCtx.clearRect(0, 0, w, h);
+    originalCtx.drawImage(img, 0, 0, w, h);
+    workCtx.clearRect(0, 0, w, h);
+    workCtx.drawImage(originalCanvas, 0, 0);
+    mask = new Uint8Array(w * h);
+    hasMask = false;
+    lastActionSuffix = 'edited';
+    redraw();
+    setStatus(w + '×' + h);
+    updateModeUI();
+  }
+
+  function redraw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(workCanvas, 0, 0);
+    if (!mask) return;
+    var overlayCanvas = document.createElement('canvas');
+    overlayCanvas.width = canvas.width;
+    overlayCanvas.height = canvas.height;
+    var overlayCtx = overlayCanvas.getContext('2d');
+    var overlay = overlayCtx.createImageData(canvas.width, canvas.height);
+    for (var i = 0; i < mask.length; i++) {
+      if (mask[i]) {
+        var p = i * 4;
+        overlay.data[p] = 37;
+        overlay.data[p + 1] = 99;
+        overlay.data[p + 2] = 235;
+        overlay.data[p + 3] = 92;
+      }
+    }
+    overlayCtx.putImageData(overlay, 0, 0);
+    ctx.drawImage(overlayCanvas, 0, 0);
+  }
+
+  function canvasPoint(e) {
+    var rect = canvas.getBoundingClientRect();
+    var clientX = e.clientX;
+    var clientY = e.clientY;
+    return {
+      x: Math.max(0, Math.min(canvas.width - 1, Math.round((clientX - rect.left) * canvas.width / rect.width))),
+      y: Math.max(0, Math.min(canvas.height - 1, Math.round((clientY - rect.top) * canvas.height / rect.height)))
+    };
+  }
+
+  function markCircle(cx, cy, radius) {
+    if (!mask) return;
+    var r2 = radius * radius;
+    var minX = Math.max(0, Math.floor(cx - radius));
+    var maxX = Math.min(canvas.width - 1, Math.ceil(cx + radius));
+    var minY = Math.max(0, Math.floor(cy - radius));
+    var maxY = Math.min(canvas.height - 1, Math.ceil(cy + radius));
+    for (var y = minY; y <= maxY; y++) {
+      for (var x = minX; x <= maxX; x++) {
+        var dx = x - cx;
+        var dy = y - cy;
+        if (dx * dx + dy * dy <= r2) {
+          mask[y * canvas.width + x] = 1;
+          hasMask = true;
+        }
+      }
+    }
+  }
+
+  function markLine(a, b) {
+    var radius = Number(brushInput.value);
+    var dx = b.x - a.x;
+    var dy = b.y - a.y;
+    var steps = Math.max(1, Math.ceil(Math.sqrt(dx * dx + dy * dy) / Math.max(2, radius / 3)));
+    for (var i = 0; i <= steps; i++) {
+      markCircle(a.x + dx * i / steps, a.y + dy * i / steps, radius);
+    }
+  }
+
+  function startDraw(e) {
+    if (!mask) return;
+    e.preventDefault();
+    drawing = true;
+    lastPoint = canvasPoint(e);
+    markCircle(lastPoint.x, lastPoint.y, Number(brushInput.value));
+    redraw();
+    setStatus(modeInput.value === 'mosaic' ? 'Mosaic area marked' : 'Repair area marked');
+  }
+
+  function moveDraw(e) {
+    if (!drawing) return;
+    e.preventDefault();
+    var p = canvasPoint(e);
+    markLine(lastPoint, p);
+    lastPoint = p;
+    redraw();
+  }
+
+  function endDraw() {
+    drawing = false;
+    lastPoint = null;
+  }
+
+  function sampleAround(data, currentMask, x, y, radius) {
+    var w = canvas.width;
+    var h = canvas.height;
+    var r = 0, g = 0, b = 0, a = 0, count = 0;
+    for (var yy = Math.max(0, y - radius); yy <= Math.min(h - 1, y + radius); yy++) {
+      for (var xx = Math.max(0, x - radius); xx <= Math.min(w - 1, x + radius); xx++) {
+        var mi = yy * w + xx;
+        if (currentMask[mi]) continue;
+        var dx = xx - x;
+        var dy = yy - y;
+        if (dx * dx + dy * dy > radius * radius) continue;
+        var p = mi * 4;
+        r += data[p];
+        g += data[p + 1];
+        b += data[p + 2];
+        a += data[p + 3];
+        count++;
+      }
+    }
+    if (!count) return null;
+    return [r / count, g / count, b / count, a / count];
+  }
+
+  function repairMask() {
+    if (!mask || !hasMask) {
+      showToast('Paint the area to repair first');
+      return;
+    }
+    setStatus('Repairing...');
+    var imageData = workCtx.getImageData(0, 0, canvas.width, canvas.height);
+    var data = imageData.data;
+    var currentMask = mask.slice();
+    var radii = [4, 8, 14, 22];
+    for (var pass = 0; pass < radii.length; pass++) {
+      var nextMask = currentMask.slice();
+      for (var i = 0; i < currentMask.length; i++) {
+        if (!currentMask[i]) continue;
+        var x = i % canvas.width;
+        var y = Math.floor(i / canvas.width);
+        var sample = sampleAround(data, currentMask, x, y, radii[pass]);
+        if (sample) {
+          var p = i * 4;
+          data[p] = sample[0];
+          data[p + 1] = sample[1];
+          data[p + 2] = sample[2];
+          data[p + 3] = sample[3];
+          nextMask[i] = 0;
+        }
+      }
+      currentMask = nextMask;
+    }
+    workCtx.putImageData(imageData, 0, 0);
+    mask.fill(0);
+    hasMask = false;
+    redraw();
+    setStatus('Repair complete');
+    lastActionSuffix = 'retouched';
+  }
+
+  function applyMosaic() {
+    if (!mask || !hasMask) {
+      showToast('Paint the area to mosaic first');
+      return;
+    }
+    setStatus('Applying mosaic...');
+    var blockSize = Number(mosaicInput.value);
+    var imageData = workCtx.getImageData(0, 0, canvas.width, canvas.height);
+    var data = imageData.data;
+    var w = canvas.width;
+    var h = canvas.height;
+
+    for (var by = 0; by < h; by += blockSize) {
+      for (var bx = 0; bx < w; bx += blockSize) {
+        var hit = false;
+        var maxY = Math.min(h, by + blockSize);
+        var maxX = Math.min(w, bx + blockSize);
+        var r = 0;
+        var g = 0;
+        var b = 0;
+        var a = 0;
+        var count = 0;
+
+        for (var y = by; y < maxY; y++) {
+          for (var x = bx; x < maxX; x++) {
+            var mi = y * w + x;
+            if (mask[mi]) hit = true;
+            var p = mi * 4;
+            r += data[p];
+            g += data[p + 1];
+            b += data[p + 2];
+            a += data[p + 3];
+            count++;
+          }
+        }
+
+        if (!hit || !count) continue;
+        r = Math.round(r / count);
+        g = Math.round(g / count);
+        b = Math.round(b / count);
+        a = Math.round(a / count);
+
+        for (var fy = by; fy < maxY; fy++) {
+          for (var fx = bx; fx < maxX; fx++) {
+            var fp = (fy * w + fx) * 4;
+            data[fp] = r;
+            data[fp + 1] = g;
+            data[fp + 2] = b;
+            data[fp + 3] = a;
+          }
+        }
+      }
+    }
+
+    workCtx.putImageData(imageData, 0, 0);
+    mask.fill(0);
+    hasMask = false;
+    redraw();
+    setStatus('Mosaic applied');
+    lastActionSuffix = 'mosaic';
+  }
+
+  function loadFile(file) {
+    if (!validateImageFile(file)) return;
+    fileBaseName = file.name.replace(/\.[^.]+$/, '') || 'retouched';
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var img = new Image();
+      img.onload = function() {
+        document.getElementById('retouch-workspace').classList.add('visible');
+        document.getElementById('retouch-tool').classList.add('has-result');
+        prepareImage(img);
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  bindDragDrop(document.getElementById('drop-zone'), document.getElementById('file-input'), loadFile);
+
+  canvas.addEventListener('pointerdown', startDraw);
+  canvas.addEventListener('pointermove', moveDraw);
+  window.addEventListener('pointerup', endDraw);
+  canvas.addEventListener('pointerleave', endDraw);
+
+  brushInput.addEventListener('input', updateBrushOutput);
+  mosaicInput.addEventListener('input', updateMosaicOutput);
+  modeInput.addEventListener('change', updateModeUI);
+
+  document.getElementById('btn-clear-mask').addEventListener('click', function() {
+    if (!mask) return;
+    mask.fill(0);
+    hasMask = false;
+    redraw();
+    setStatus('Mask cleared');
+  });
+
+  document.getElementById('btn-reset-image').addEventListener('click', function() {
+    if (!mask) return;
+    workCtx.clearRect(0, 0, workCanvas.width, workCanvas.height);
+    workCtx.drawImage(originalCanvas, 0, 0);
+    mask.fill(0);
+    hasMask = false;
+    redraw();
+    setStatus('Image reset');
+  });
+
+  applyBtn.addEventListener('click', function() {
+    if (modeInput.value === 'mosaic') {
+      applyMosaic();
+    } else {
+      repairMask();
+    }
+  });
+
+  document.getElementById('btn-download').addEventListener('click', function() {
+    if (!mask) {
+      showToast('Please upload an image first');
+      return;
+    }
+    var format = document.getElementById('retouch-format').value;
+    var mime = format === 'jpg' ? 'image/jpeg' : 'image/' + format;
+    downloadImageDataUrl(workCanvas.toDataURL(mime, 0.92), fileBaseName + '-' + lastActionSuffix, format);
+  });
+
+  updateBrushOutput();
+  updateMosaicOutput();
+  updateModeUI();
+})();
+</script>

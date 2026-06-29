@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+{{ $siteName := .Site.Params.siteName | default .Site.Title }}
+{{ $brandPinyin := .Site.Params.brandPinyin | default "TUXIA" }}
+{{ $brandFull := cond (or (eq $brandPinyin "") (eq $brandPinyin $siteName)) $siteName (printf "%s %s" $siteName $brandPinyin) }}
+{{ $description := .Params.description | default .Site.Params.description }}
+{{ $keywordsParam := .Params.keywords | default .Site.Params.keywords }}
+{{ $keywords := cond (reflect.IsSlice $keywordsParam) (delimit $keywordsParam ",") $keywordsParam }}
+{{ $rawTitle := cond .IsHome .Site.Title .Title }}
+{{ $title := cond (in $rawTitle $brandPinyin) $rawTitle (replace $rawTitle $siteName $brandFull) }}
+{{ $canonical := cond .IsHome ("" | absURL) .Permalink }}
+{{ $ogImage := (.Site.Params.ogImage | default "assets/tuxia-logo.svg") | absURL }}
+{{ $themeColor := .Site.Params.themeColor | default "#2563eb" }}
+
+<title>{{ $title }}</title>
+<meta name="description" content="{{ $description }}">
+<meta name="keywords" content="{{ $keywords }}">
+<meta name="author" content="{{ $siteName }}">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta name="application-name" content="{{ $brandFull }}">
+<meta name="apple-mobile-web-app-title" content="{{ $brandFull }}">
+<meta name="theme-color" content="{{ $themeColor }}">
+<meta name="theme-color" content="#08111f" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<meta name="format-detection" content="telephone=no,email=no,address=no">
+<link rel="canonical" href="{{ $canonical }}">
+
+<meta property="og:title" content="{{ $title }}">
+<meta property="og:description" content="{{ $description }}">
+<meta property="og:type" content="{{ if .IsHome }}website{{ else }}article{{ end }}">
+<meta property="og:site_name" content="{{ $siteName }}">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="{{ $canonical }}">
+<meta property="og:image" content="{{ $ogImage }}">
+<meta property="og:image:alt" content="{{ $brandFull }} Online image processing workspace">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ $title }}">
+<meta name="twitter:description" content="{{ $description }}">
+<meta name="twitter:image" content="{{ $ogImage }}">
+
+<link rel="icon" type="image/svg+xml" href="{{ "assets/tuxia-logo.svg" | relURL }}?v=20260608c">
+<link rel="mask-icon" href="{{ "assets/tuxia-logo.svg" | relURL }}?v=20260608c" color="{{ $themeColor }}">
+<link rel="manifest" href="{{ "site.webmanifest" | relURL }}">
+<script>
+(function() {
+  try {
+    var saved = localStorage.getItem('tuxia_theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var theme = saved || (prefersDark ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  } catch (err) {}
+})();
+window.TUXIA_API_CONFIG = {
+  apiBase: {{ .Site.Params.apiBase | default "" | jsonify | safeJS }},
+  feedbackEndpoint: {{ .Site.Params.feedbackEndpoint | default "" | jsonify | safeJS }},
+  onlineUploadEndpoint: {{ .Site.Params.onlineUploadEndpoint | default "" | jsonify | safeJS }}
+};
+window.googleTranslateElementInit = function() {
+  if (!window.google || !window.google.translate) return;
+  new window.google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,zh-CN',
+    autoDisplay: false
+  }, 'google_translate_element');
+};
+</script>
+<link rel="stylesheet" href="{{ "css/common.css?v=20260610l" | relURL }}">
+
+{{ if .IsHome }}
+<script type="application/ld+json">
+{{ dict
+  "@context" "https://schema.org"
+  "@type" "WebApplication"
+  "name" $brandFull
+  "alternateName" (slice $siteName "TUXIA online image toolbox" "TUXIA image tools")
+  "description" $description
+  "url" $canonical
+  "image" $ogImage
+  "applicationCategory" "UtilityApplication"
+  "applicationSubCategory" "Image editor"
+  "operatingSystem" "All"
+  "browserRequirements" "Requires JavaScript and modern browser canvas support"
+  "inLanguage" "en-US"
+  "isAccessibleForFree" true
+  "offers" (dict "@type" "Offer" "price" "0" "priceCurrency" "USD")
+  | jsonify | safeJS }}
+</script>
+{{ $items := slice }}
+{{ range $index, $tool := hugo.Data.tools }}
+  {{ $items = $items | append (dict "@type" "ListItem" "position" (add $index 1) "name" $tool.name "description" $tool.desc "url" ($tool.href | absURL)) }}
+{{ end }}
+<script type="application/ld+json">
+{{ dict
+  "@context" "https://schema.org"
+  "@type" "ItemList"
+  "name" "TUXIA online image tool list"
+  "description" "Entry points for online image compression, conversion, resizing, cropping, watermarking, QR codes, Base64 tools, color picking, and EXIF viewing."
+  "itemListElement" $items
+  | jsonify | safeJS }}
+</script>
+{{ else if eq .Section "tools" }}
+<script type="application/ld+json">
+{{ dict
+  "@context" "https://schema.org"
+  "@type" "SoftwareApplication"
+  "name" $title
+  "description" $description
+  "url" $canonical
+  "applicationCategory" "UtilityApplication"
+  "applicationSubCategory" "Image tool"
+  "operatingSystem" "All"
+  "inLanguage" "en-US"
+  "isAccessibleForFree" true
+  "offers" (dict "@type" "Offer" "price" "0" "priceCurrency" "USD")
+  | jsonify | safeJS }}
+</script>
+{{ end }}
+
+{{ block "head_extra" . }}{{ end }}
+{{ with .Site.Params.googleAdClient }}
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ . }}" crossorigin="anonymous"></script>
+{{ end }}
+<script defer src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</head>
+<body>
+<div id="google_translate_element" aria-hidden="true"></div>
+{{ block "main" . }}{{ end }}
+</body>
+</html>

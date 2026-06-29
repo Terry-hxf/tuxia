@@ -1,0 +1,27 @@
+{{ define "main" }}
+{{ partial "site-header.html" . }}
+
+<main class="tool-page-shell">
+  <section class="tool-intro-band">
+    <div class="container tool-intro-grid">
+      <div>
+        <p class="section-label">TUXIA Tools</p>
+        <h1>{{ .Params.heading | default .Title }}</h1>
+        {{ $introText := .Params.summary | default .Params.description }}
+        <p>{{ $introText }}</p>
+      </div>
+      {{ with .Params.badges }}
+      <div class="tool-intro-panel" aria-label="Tool capabilities">
+        {{ range . }}<span>{{ . }}</span>{{ end }}
+      </div>
+      {{ end }}
+    </div>
+  </section>
+
+  {{ partial "common-scripts.html" . }}
+  {{ .Content }}
+</main>
+
+{{ partial "site-footer.html" . }}
+{{ partial "contact-modal.html" . }}
+{{ end }}

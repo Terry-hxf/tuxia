@@ -1,0 +1,101 @@
+﻿---
+title: "EXIF Viewer | View Photo Metadata and Camera Info Online - TUXIA"
+heading: "EXIF Metadata Viewer - TUXIA"
+description: "TUXIA EXIF Viewer reads photo metadata including camera maker, model, capture time, aperture, shutter speed, ISO, image dimensions, and GPS information."
+keywords: "EXIF viewer,online EXIF viewer,image metadata,photo metadata,camera info,capture time,aperture shutter ISO,GPS metadata,image dimensions,TUXIA"
+badges:
+  - "Image preview"
+  - "Metadata read"
+  - "GPS information"
+---
+
+<style>
+.tool-container { max-width: 700px; margin: 0 auto; padding: 32px 24px; }
+  .exif-grid { display: none; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+  @media (max-width: 500px) { .exif-grid { grid-template-columns: 1fr; } }
+  .exif-grid.visible { display: grid; }
+  .exif-item { padding: 12px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center; }
+  .exif-label { font-size: 0.78rem; color: var(--text-muted); }
+  .exif-value { font-size: 0.85rem; font-weight: 500; text-align: right; max-width: 60%; word-break: break-all; }
+  .exif-none { text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-top: 16px; display: none; }
+  .exif-none.visible { display: block; }
+  .preview-area { text-align: center; margin-top: 18px; display: none; }
+  .preview-area img { max-width: 260px; max-height: 200px; border-radius: var(--radius); border: 1px solid var(--border); }
+</style>
+
+<div class="tool-container">
+  <div class="section-header">
+    <p class="section-label">Metadata</p>
+      <h2>View image metadata</h2>
+      <p>Upload an image to preview it and inspect EXIF metadata.</p>
+  </div>
+
+  {{< upload-zone hint="Supports JPEG files. EXIF metadata is usually stored in JPEG images." >}}
+  <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp">
+
+  <div class="preview-area" id="preview-area"><img id="preview-img" src="" alt="Preview"></div>
+  <div class="exif-grid" id="exif-grid"></div>
+      <div class="exif-none" id="exif-none">This image has no EXIF metadata. This is common for screenshots, AI-generated images, PNG, or WebP files.</div>
+</div>
+
+<script src="../vendor/exif.js"></script>
+<script>
+(function() {
+  var dropZone = document.getElementById('drop-zone');
+  var fileInput = document.getElementById('file-input');
+  var previewArea = document.getElementById('preview-area');
+  var previewImg = document.getElementById('preview-img');
+  var exifGrid = document.getElementById('exif-grid');
+  var exifNone = document.getElementById('exif-none');
+
+  var exifLabels = {
+    Make: 'Camera maker', Model: 'Camera model', DateTimeOriginal: 'Capture time',
+    ExposureTime: 'Shutter speed', FNumber: 'Aperture', ISOSpeedRatings: 'ISO',
+    FocalLength: 'Focal length', Flash: 'Flash', GPSLatitude: 'GPS latitude',
+    GPSLongitude: 'GPS longitude', ImageWidth: 'Image width', ImageHeight: 'Image height',
+    Software: 'Software', Copyright: 'Copyright'
+  };
+
+  function gpsToDecimal(val, ref) {
+    if (!val) return '';
+    var d = val[0].numerator / val[0].denominator;
+    var m = val[1].numerator / val[1].denominator;
+    var s = val[2].numerator / val[2].denominator;
+    var dd = d + m / 60 + s / 3600;
+    if (ref === 'S' || ref === 'W') dd = -dd;
+    return dd.toFixed(6) + '°';
+  }
+
+  bindDragDrop(dropZone, fileInput, function(file) {
+    if (!file.type.startsWith('image/')) { showToast('Please choose an image file'); return; }
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      previewImg.src = e.target.result; previewArea.style.display = 'block';
+      EXIF.getData(file, function() {
+        var all = EXIF.getAllTags(this);
+        var rows = [];
+        Object.keys(exifLabels).forEach(function(key) {
+          var val = all[key];
+          if (val === undefined || val === null) return;
+          var display = val;
+          if (key === 'ExposureTime') display = val < 1 ? '1/' + Math.round(1 / val) : val.toFixed(1) + 's';
+          else if (key === 'FNumber') display = 'f/' + val.toFixed(1);
+          else if (key === 'FocalLength') display = val.toFixed(0) + 'mm';
+          else if (key === 'GPSLatitude') display = gpsToDecimal(val, all.GPSLatitudeRef);
+          else if (key === 'GPSLongitude') display = gpsToDecimal(val, all.GPSLongitudeRef);
+          else if (key === 'Flash') display = val === 0 ? 'Not fired' : 'Fired';
+          else if (key === 'ImageWidth' || key === 'ImageHeight') display = val + 'px';
+          if (display !== undefined && display !== '') rows.push({ label: exifLabels[key], value: String(display) });
+        });
+        if (rows.length > 0) {
+          exifGrid.innerHTML = rows.map(function(r) { return '<div class="exif-item"><span class="exif-label">' + r.label + '</span><span class="exif-value">' + r.value + '</span></div>'; }).join('');
+          exifGrid.classList.add('visible'); exifNone.classList.remove('visible');
+        } else {
+          exifGrid.classList.remove('visible'); exifNone.classList.add('visible');
+        }
+      });
+    };
+    reader.readAsDataURL(file);
+  });
+})();
+</script>

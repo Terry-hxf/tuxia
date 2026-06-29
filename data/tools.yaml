@@ -1,0 +1,84 @@
+- id: base64
+  name: "Image Base64 Workspace"
+  navName: "Base64 Tools"
+  href: "tools/base64.html"
+  desc: "Encode images to Base64 on the left, paste Base64 on the right, preview decoded output, copy code, and download results on one page."
+  meta: "Two-way convert"
+  footer: true
+- id: online
+  name: "Image URL Generator"
+  navName: "Image URL"
+  href: "tools/online.html"
+  desc: "Upload an image with your own ImgBB API Key and generate a shareable image URL for temporary links, asset delivery, or cross-device viewing."
+  meta: "ImgBB upload"
+  footer: false
+- id: qrcode-gen
+  name: "QR Code Generator"
+  navName: "QR Generator"
+  href: "tools/qrcode-gen.html"
+  desc: "Generate QR codes from text or links, customize size, error correction, colors, dot style, and logo, then export PNG or SVG."
+  meta: "Live preview"
+  footer: true
+- id: qrcode-dec
+  name: "QR Code Decoder"
+  navName: "QR Decoder"
+  href: "tools/qrcode-dec.html"
+  desc: "Upload a QR code image, read the embedded text or URL, then copy the result or open the link directly."
+  meta: "Read content"
+  footer: false
+- id: compress
+  name: "Image Compressor"
+  navName: "Compress Image"
+  href: "tools/compress.html"
+  desc: "Compare the original and compressed image, adjust quality, and export PNG, JPG, WebP, or SVG directly in the browser."
+  meta: "Before and after"
+  footer: true
+- id: convert
+  name: "Image Format Converter"
+  navName: "Convert Format"
+  href: "tools/convert.html"
+  desc: "Preview the uploaded image and convert it to PNG, JPG, WebP, BMP, or SVG without installing extra software."
+  meta: "Multi-format export"
+  footer: true
+- id: resize
+  name: "Image Resizer"
+  navName: "Resize Image"
+  href: "tools/resize.html"
+  desc: "Resize by width, height, or percentage, lock aspect ratio, use quick scale presets, and export common image formats."
+  meta: "Width and height"
+  footer: false
+- id: crop
+  name: "Image Cropper"
+  navName: "Crop Image"
+  href: "tools/crop.html"
+  desc: "Drag a crop area on the canvas, use preset ratios, rotate the image, preview the crop, and download the result."
+  meta: "Canvas editor"
+  footer: false
+- id: watermark
+  name: "Image Watermark Tool"
+  navName: "Watermark"
+  href: "tools/watermark.html"
+  desc: "Add text or image watermarks locally, choose single, row-based, or full-screen layouts, then export the watermarked image."
+  meta: "Local watermark"
+  footer: false
+- id: retouch
+  name: "Retouch and Mosaic Tool"
+  navName: "Retouch/Mosaic"
+  href: "tools/retouch.html"
+  desc: "Paint over image areas to apply lightweight repair or mosaic masking for blemish cleanup and privacy protection."
+  meta: "Repair and mask"
+  footer: false
+- id: palette
+  name: "Image Color Picker"
+  navName: "Color Picker"
+  href: "tools/palette.html"
+  desc: "Extract a color palette from an image and hover over the preview to read live HEX, RGB, and HSL color values."
+  meta: "Live color pick"
+  footer: false
+- id: exif
+  name: "EXIF Metadata Viewer"
+  navName: "EXIF Viewer"
+  href: "tools/exif.html"
+  desc: "Upload a photo and inspect image preview, camera model, capture time, aperture, shutter speed, ISO, size, and GPS metadata."
+  meta: "Metadata reader"
+  footer: false

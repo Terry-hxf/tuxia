@@ -1,0 +1,47 @@
+﻿{{ $current := .RelPermalink }}
+{{ $tools := hugo.Data.tools }}
+<header class="site-header">
+  <div class="container header-container">
+    <a href="{{ "" | relURL }}" class="logo-link">
+      <span class="logo-mark"><img class="logo-img" src="{{ "assets/tuxia-logo.svg" | relURL }}?v=20260608c" alt=""></span>
+      <span class="logo-wordmark">
+        <span class="logo-name">TUXIA</span>
+        <span class="logo-pinyin">IMAGE TOOLS</span>
+      </span>
+    </a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="{{ "" | relURL }}">Home</a>
+      <a href="{{ "" | relURL }}" data-scroll-tools>All Tools</a>
+      <details class="tool-switcher">
+        <summary>Switch Tool</summary>
+        <div class="tool-switcher-menu">
+          {{ range $tools }}
+            <a href="{{ .href | relURL }}" class="{{ if eq $current .href }}active{{ end }}">
+              <span class="tool-menu-icon" aria-hidden="true">{{ partial "tool-icon.html" .id }}</span>
+              <span>{{ .navName | default .name }}</span>
+            </a>
+          {{ end }}
+        </div>
+      </details>
+    </nav>
+    <div class="header-actions">
+      {{ if eq .Section "tools" }}
+        <a class="btn btn-ghost btn-sm tool-back" href="{{ "" | relURL }}" data-scroll-tools>All Tools</a>
+      {{ end }}
+      <div class="language-switcher" aria-label="Language">
+        <select id="language-select" aria-label="Select language">
+          <option value="en">English</option>
+          <option value="zh-CN">中文</option>
+        </select>
+      </div>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode" aria-pressed="false">
+        <span class="theme-toggle-icon theme-toggle-sun" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        </span>
+        <span class="theme-toggle-icon theme-toggle-moon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M20 15.8A8.5,8.5 0 0 1 8.2,4 7,7 0 1 0 20,15.8Z"/></svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</header>
