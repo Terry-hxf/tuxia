@@ -4,6 +4,9 @@ heading: "Terms of Use"
 description: "TUXIA terms of use explain that this GitHub static version is a browser-based image toolbox with local processing, no account system, no TUXIA backend storage, and user-controlled third-party uploads."
 keywords: "TUXIA terms of use,static image tools,browser local processing,image tool disclaimer,ImgBB user upload,no backend image tools,no account image tools"
 layout: "legal"
+legalId: "terms"
+pageLang: "en"
+updated: "June 30, 2026"
 ---
 
 ## Scope of This Static Website

@@ -28,6 +28,10 @@
   {{ $enURL = "" | absURL }}
   {{ $zhCNURL = "zh/" | absURL }}
   {{ $zhTWURL = "zh-tw/" | absURL }}
+{{ else if .Params.legalId }}
+  {{ $enURL = printf "%s.html" .Params.legalId | absURL }}
+  {{ $zhCNURL = printf "zh/%s/" .Params.legalId | absURL }}
+  {{ $zhTWURL = printf "zh-tw/%s/" .Params.legalId | absURL }}
 {{ else if $toolId }}
   {{ $enURL = printf "tools/%s.html" $toolId | absURL }}
   {{ $zhCNURL = printf "zh/tools/%s/" $toolId | absURL }}

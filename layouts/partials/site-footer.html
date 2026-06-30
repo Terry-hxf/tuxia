@@ -10,6 +10,8 @@
 {{ $termsLabel := "Terms of Use" }}
 {{ $rightsLabel := "All rights reserved." }}
 {{ $siteInfo := "Local-first processing with clear previews." }}
+{{ $privacyURL := "privacy.html" | relURL }}
+{{ $termsURL := "terms.html" | relURL }}
 {{ if $isZH }}
   {{ $footerDesc = "简洁的在线图片工具箱，覆盖压缩、转换、尺寸调整、裁剪、水印、二维码、取色、Base64 转换和 EXIF 元数据查看。" }}
   {{ $popularLabel = "常用工具" }}
@@ -18,6 +20,8 @@
   {{ $termsLabel = "使用条款" }}
   {{ $rightsLabel = "保留所有权利。" }}
   {{ $siteInfo = "本地优先处理，结果清晰预览。" }}
+  {{ $privacyURL = "zh/privacy/" | relURL }}
+  {{ $termsURL = "zh/terms/" | relURL }}
 {{ else if $isTW }}
   {{ $footerDesc = "簡潔的線上圖片工具箱，涵蓋壓縮、轉換、尺寸調整、裁切、浮水印、QR Code、取色、Base64 轉換和 EXIF 中繼資料查看。" }}
   {{ $popularLabel = "常用工具" }}
@@ -26,6 +30,8 @@
   {{ $termsLabel = "使用條款" }}
   {{ $rightsLabel = "保留所有權利。" }}
   {{ $siteInfo = "本機優先處理，結果清楚預覽。" }}
+  {{ $privacyURL = "zh-tw/privacy/" | relURL }}
+  {{ $termsURL = "zh-tw/terms/" | relURL }}
 {{ end }}
 <footer class="site-footer">
   <div class="container">
@@ -50,8 +56,8 @@
       </nav>
       <nav class="footer-group" aria-label="{{ $productLabel }}">
         <h3>{{ $productLabel }}</h3>
-        <a href="{{ "privacy.html" | relURL }}">{{ $privacyLabel }}</a>
-        <a href="{{ "terms.html" | relURL }}">{{ $termsLabel }}</a>
+        <a href="{{ $privacyURL }}">{{ $privacyLabel }}</a>
+        <a href="{{ $termsURL }}">{{ $termsLabel }}</a>
       </nav>
     </div>
     <div class="footer-bottom">

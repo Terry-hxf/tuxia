@@ -1,10 +1,13 @@
 {{ define "main" }}
+{{ $pageLang := .Params.pageLang | default "en" }}
+{{ $updatedLabel := "Last updated" }}
+{{ if eq $pageLang "zh-CN" }}{{ $updatedLabel = "最后更新" }}{{ else if eq $pageLang "zh-TW" }}{{ $updatedLabel = "最後更新" }}{{ end }}
 {{ partial "site-header.html" . }}
 <main class="legal-shell">
   <article class="container legal-page">
     <p class="section-label">TUXIA</p>
     <h1>{{ .Params.heading | default .Title }}</h1>
-    <p class="legal-updated">Last updated: June 8, 2026</p>
+    <p class="legal-updated">{{ $updatedLabel }}: {{ .Params.updated | default "June 8, 2026" }}</p>
     <div class="legal-content">
       {{ .Content }}
     </div>
