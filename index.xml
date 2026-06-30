@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>TUXIA - Free Online Image Tools for Compression, Conversion, Crop and Watermark</title><link>https://tuxiatools.com/index.html</link><description>Recent content on TUXIA - Free Online Image Tools for Compression, Conversion, Crop and Watermark</description><generator>Hugo</generator><language>en-US</language><atom:link href="https://tuxiatools.com/index.xml" rel="self" type="application/rss+xml"/><item><title>EXIF Viewer | View Photo Metadata and Camera Info Online - TUXIA</title><link>https://tuxiatools.com/tools/exif.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/tools/exif.html</guid><description>&lt;style&gt;
+.tool-container { max-width: 700px; margin: 0 auto; padding: 32px 24px; }
+ .exif-grid { display: none; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+ @media (max-width: 500px) { .exif-grid { grid-template-columns: 1fr; } }
+ .exif-grid.visible { display: grid; }
+ .exif-item { padding: 12px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center; }
+ .exif-label { font-size: 0.78rem; color: var(--text-muted); }
+ .exif-value { font-size: 0.85rem; font-weight: 500; text-align: right; max-width: 60%; word-break: break-all; }
+ .exif-none { text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-top: 16px; display: none; }
+ .exif-none.visible { display: block; }
+ .preview-area { text-align: center; margin-top: 18px; display: none; }
+ .preview-area img { max-width: 260px; max-height: 200px; border-radius: var(--radius); border: 1px solid var(--border); }
+&lt;/style&gt;
+
+&lt;div class="tool-container"&gt;
+ &lt;div class="section-header"&gt;
+ &lt;p class="section-label"&gt;Metadata&lt;/p&gt;</description></item><item><title>EXIF 中繼資料查看工具 - 圖匣 TUXIA</title><link>https://tuxiatools.com/zh-tw/tools/exif/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh-tw/tools/exif/</guid><description/></item><item><title>EXIF 元数据查看工具 - 图匣 TUXIA</title><link>https://tuxiatools.com/zh/tools/exif/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh/tools/exif/</guid><description/></item><item><title>Free Image Compressor | Compress JPG PNG WebP Online - TUXIA</title><link>https://tuxiatools.com/tools/compress.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/tools/compress.html</guid><description>&lt;style&gt;
+.tool-container { max-width: 900px; margin: 0 auto; padding: 32px 24px; }
+ .compare-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+ @media (max-width: 700px) { .compare-layout { grid-template-columns: 1fr; } }
+ .compare-panel { text-align: center; padding: 18px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+ .compare-panel h3 { font-size: 0.9rem; margin-bottom: 12px; color: var(--text-secondary); }
+ .compare-panel img { max-width: 100%; max-height: 260px; border-radius: var(--radius-sm); border: 1px solid var(--border); }
+ .compare-panel .file-info { font-size: 0.78rem; color: var(--text-muted); margin-top: 8px; }
+ .compare-panel .file-info .saved { color: var(--success); font-weight: 600; }
+ .compare-panel .file-info .neutral { color: var(--text-secondary); font-weight: 600; }
+ .quality-control { margin: 20px 0; padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+ .quality-control label { font-size: 0.85rem; font-weight: 500; display: flex; justify-content: space-between; align-items: center; }
+ .quality-control input[type="range"] { width: 100%; margin-top: 8px; }
+&lt;/style&gt;
+
+&lt;div class="tool-container"&gt;
+ &lt;div class="section-header"&gt;
+ &lt;p class="section-label"&gt;Compression&lt;/p&gt;</description></item><item><title>Image Color Picker | Extract HEX RGB HSL Palette Online - TUXIA</title><link>https://tuxiatools.com/tools/palette.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/tools/palette.html</guid><description>&lt;style&gt;
+.tool-container { max-width: 980px; margin: 0 auto; padding: 32px 24px; }
+ #palette-tool.has-result {
+ flex: 1 0 auto;
+ min-height: clamp(580px, calc(100vh - 396px), 720px);
+ padding-bottom: 16px;
+ }
+ #palette-tool.has-result .upload-zone { padding: 16px; }
+ .palette-result { display: none; margin-top: 12px; }
+ .palette-result.visible { display: flex; flex: 1 1 auto; min-height: 0; }
+ #palette-tool.has-result .palette-workspace { display: grid; grid-template-columns: minmax(280px, 340px) 1fr; gap: 18px; align-items: stretch; width: 100%; min-height: 0; flex: 1 1 auto; }
+ .palette-board { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); padding: 16px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; min-height: 0; }
+ .palette-board-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
+ .palette-board-copy { min-width: 0; }
+ .palette-board-title { font-size: 0.92rem; font-weight: 750; color: var(--text); }
+ .palette-board-subtitle { margin-top: 2px; color: var(--text-muted); font-size: 0.72rem; }
+ .palette-strip { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 7px; margin-bottom: 12px; }
+ .palette-strip button { height: 34px; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); }
+ #palette-tool.has-result .palette-preview-card { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); padding: 14px; box-shadow: var(--shadow-sm); height: 100%; display: flex; flex-direction: column; min-height: 0; }
+ .palette-picker-stage { position: relative; flex: 1 1 auto; min-height: 260px; border-radius: var(--radius-sm); overflow: hidden; background: linear-gradient(180deg, #fbfdff 0%, #f3f8ff 100%); cursor: crosshair; display: flex; align-items: center; justify-content: center; }
+ #palette-tool.has-result .palette-preview-card img { width: 100%; height: 100%; max-height: none; object-fit: contain; display: block; }
+ .picker-loupe { position: absolute; z-index: 3; display: none; align-items: center; gap: 8px; min-width: 112px; padding: 7px 9px; border: 1px solid rgba(15,23,42,0.12); border-radius: var(--radius-sm); background: rgba(255,255,255,0.94); box-shadow: 0 10px 26px rgba(15,23,42,0.14); pointer-events: none; transform: translate(12px, 12px); }
+ .picker-loupe.visible { display: flex; }
+ .picker-swatch { width: 22px; height: 22px; border-radius: 5px; border: 1px solid var(--border); flex: 0 0 auto; }
+ .picker-code { font-family: Consolas, "Liberation Mono", monospace; font-size: 0.72rem; font-weight: 750; color: var(--text); white-space: nowrap; }
+ .picker-current { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 9px; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: #f8fbff; }
+ .picker-current-main { display: flex; align-items: center; gap: 8px; min-width: 0; }
+ .picker-current-label { color: var(--text-muted); font-size: 0.7rem; }
+ .picker-current-code { font-family: Consolas, "Liberation Mono", monospace; font-size: 0.76rem; font-weight: 750; color: var(--text); }
+ .palette-preview-meta { display: flex; justify-content: space-between; gap: 10px; margin-top: 10px; font-size: 0.76rem; color: var(--text-muted); }
+ .palette-preview-card .palette-preview-meta { margin-top: auto; padding-top: 10px; }
+ .palette-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+ .format-tabs { display: inline-flex; gap: 4px; padding: 4px; border: 1px solid var(--border); border-radius: var(--radius); background: #f8fafc; }
+ .format-tab { border: 0; border-radius: var(--radius-sm); padding: 7px 11px; background: transparent; color: var(--text-secondary); font-size: 0.76rem; font-weight: 600; cursor: pointer; }
+ .format-tab.active { background: var(--surface); color: var(--accent); box-shadow: var(--shadow-sm); }
+ #palette-tool.has-result .palette-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(118px, 1fr)); gap: 10px; flex: 1 1 auto; min-height: 0; }
+ .color-card { min-height: 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease; display: flex; flex-direction: column; }
+ .color-card:hover { transform: translateY(-2px); border-color: #93c5fd; box-shadow: 0 12px 26px rgba(37,99,235,0.1); }
+ .color-swatch { flex: 0 0 46%; min-height: 48px; cursor: pointer; position: relative; }
+ .color-swatch::after { content: "Click to copy"; position: absolute; right: 10px; top: 10px; padding: 3px 8px; border-radius: var(--radius-full); background: rgba(0,0,0,0.46); color: #fff; font-size: 0.68rem; font-weight: 600; opacity: 0; transform: translateY(-2px); transition: opacity 160ms ease, transform 160ms ease; }
+ .color-card:hover .color-swatch::after { opacity: 1; transform: translateY(0); }
+ .color-card.light .color-swatch::after { background: rgba(255,255,255,0.76); color: var(--text); }
+ .color-info { padding: 10px 12px 12px; flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; min-height: 0; }
+ .color-main { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
+ .color-code { min-width: 0; font-family: Consolas, "Liberation Mono", monospace; font-size: 0.78rem; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+ .copy-mini { width: 30px; height: 30px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text-muted); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; flex: 0 0 auto; }
+ .copy-mini:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-subtle); }
+ .color-sub { display: grid; gap: 4px; font-family: Consolas, "Liberation Mono", monospace; font-size: 0.68rem; color: var(--text-muted); }
+ .palette-empty-note { display: flex; align-items: center; gap: 8px; justify-content: center; margin-top: 10px; color: var(--text-muted); font-size: 0.76rem; }
+ @media (max-width: 820px) {
+ #palette-tool.has-result { min-height: 0; }
+ #palette-tool.has-result .palette-workspace { grid-template-columns: 1fr; }
+ #palette-tool.has-result .palette-preview-card { max-width: 420px; margin: 0 auto; width: 100%; min-height: 380px; }
+ }
+ @media (max-width: 560px) {
+ .tool-container { padding-left: 18px; padding-right: 18px; }
+ .palette-grid { grid-template-columns: 1fr; }
+ .palette-board-head { align-items: stretch; flex-direction: column; }
+ .palette-toolbar { align-items: stretch; }
+ .format-tabs { width: 100%; }
+ .format-tab { flex: 1; }
+ }
+&lt;/style&gt;
+
+&lt;div class="tool-container" id="palette-tool"&gt;
+ &lt;div class="section-header"&gt;
+ &lt;p class="section-label"&gt;Color analysis&lt;/p&gt;</description></item><item><title>Image Format Converter | PNG JPG WebP BMP SVG Online - TUXIA</title><link>https://tuxiatools.com/tools/convert.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/tools/convert.html</guid><description>&lt;style&gt;
+.tool-container { max-width: 680px; margin: 0 auto; padding: 32px 24px; }
+ .format-options { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0; }
+ .format-opt { padding: 8px 18px; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; font-size: 0.85rem; font-weight: 500; background: var(--surface); transition: all var(--transition); }
+ .format-opt:hover { border-color: var(--accent); }
+ .format-opt.active { border-color: var(--accent); background: var(--accent-subtle); color: var(--accent); }
+ .convert-result { text-align: center; padding: 18px; margin-top: 18px; display: none; }
+ .convert-result img { max-width: 100%; max-height: 260px; border-radius: var(--radius-sm); border: 1px solid var(--border); }
+&lt;/style&gt;
+
+&lt;div class="tool-container"&gt;
+ &lt;div class="section-header"&gt;
+ &lt;p class="section-label"&gt;Format conversion&lt;/p&gt;</description></item><item><title>Image Resizer | Resize Photos by Width, Height or Scale - TUXIA</title><link>https://tuxiatools.com/tools/resize.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/tools/resize.html</guid><description>&lt;style&gt;
+ .tool-container { max-width: 920px; margin: 0 auto; padding: 30px 24px; }
+ .resize-workspace { display: none; grid-template-columns: minmax(360px, 1fr) 310px; gap: 16px; align-items: stretch; margin-top: 18px; }
+ .resize-workspace.visible { display: grid; }
+ .resize-preview-card,
+ .resize-control-card { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow-sm); }
+ .resize-preview-card { padding: 14px; display: flex; flex-direction: column; gap: 10px; min-height: 410px; }
+ .resize-canvas-wrap { flex: 1 1 auto; min-height: 310px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: linear-gradient(180deg, #fbfdff 0%, #f4f8ff 100%); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+ #resize-canvas { max-width: 100%; max-height: 500px; display: block; }
+ .resize-meta { display: flex; justify-content: space-between; gap: 10px; color: var(--text-muted); font-size: 0.76rem; }
+ .resize-control-card { padding: 16px; display: grid; gap: 14px; align-content: start; }
+ .resize-field { display: grid; gap: 7px; }
+ .resize-field label,
+ .resize-control-label { color: var(--text-secondary); font-size: 0.78rem; font-weight: 650; }
+ .resize-field input,
+ .resize-field select { width: 100%; height: 38px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); padding: 0 10px; outline: none; }
+ .resize-field input:focus,
+ .resize-field select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,0.12); }
+ .resize-size-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+ .resize-check { display: flex; align-items: center; gap: 9px; color: var(--text-secondary); font-size: 0.8rem; }
+ .resize-presets { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+ .resize-preset { height: 34px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text-secondary); font-size: 0.78rem; font-weight: 650; cursor: pointer; }
+ .resize-preset:hover,
+ .resize-preset.active { border-color: var(--accent); color: var(--accent); background: var(--accent-subtle); }
+ .resize-actions { display: grid; grid-template-columns: 105px 1fr; gap: 10px; align-items: center; }
+ @media (max-width: 820px) {
+ .resize-workspace { grid-template-columns: 1fr; }
+ .resize-control-card { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+ .resize-actions { grid-column: 1 / -1; }
+ }
+ @media (max-width: 560px) {
+ .tool-container { padding-left: 18px; padding-right: 18px; }
+ .resize-preview-card { min-height: 0; }
+ .resize-canvas-wrap { min-height: 260px; }
+ .resize-control-card { grid-template-columns: 1fr; }
+ .resize-actions { grid-template-columns: 1fr; }
+ }
+&lt;/style&gt;
+
+&lt;div class="tool-container" id="resize-tool"&gt;
+ &lt;div class="section-header"&gt;
+ &lt;p class="section-label"&gt;Resize&lt;/p&gt;</description></item><item><title>Image Retouch and Mosaic Tool | Local Repair and Blur Masking - TUXIA</title><link>https://tuxiatools.com/tools/retouch.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/tools/retouch.html</guid><description>&lt;style&gt;
+ .tool-container { max-width: 960px; margin: 0 auto; padding: 30px 24px; }
+ .retouch-workspace { display: none; margin-top: 18px; border: 1px solid var(--border); border-radius: var(--radius); background: rgba(255,255,255,0.9); box-shadow: var(--shadow-sm); overflow: hidden; }
+ .retouch-workspace.visible { display: block; }
+ .retouch-canvas-panel { padding: 16px; }
+ .retouch-canvas-wrap { min-height: 420px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: linear-gradient(180deg, #fbfdff 0%, #f4f8ff 100%); display: flex; align-items: center; justify-content: center; overflow: hidden; touch-action: none; }
+ #retouch-canvas { max-width: 100%; max-height: 540px; display: block; cursor: crosshair; }
+ .retouch-toolbar { display: grid; gap: 14px; padding: 14px 16px 16px; border-top: 1px solid var(--border); background: #f8fbff; }
+ .retouch-controls { display: grid; grid-template-columns: 150px minmax(170px, 1fr) minmax(170px, 1fr) 120px; gap: 12px; align-items: end; }
+ .retouch-field { display: grid; gap: 7px; }
+ .retouch-field label,
+ .retouch-control-label { color: var(--text-secondary); font-size: 0.78rem; font-weight: 650; }
+ .retouch-field select { height: 38px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); padding: 0 10px; }
+ .retouch-field.is-hidden { display: none; }
+ .retouch-range-row { display: grid; grid-template-columns: 1fr 44px; gap: 10px; align-items: center; }
+ .retouch-range-row input { width: 100%; accent-color: var(--accent); }
+ .retouch-range-row output { text-align: right; color: var(--text-muted); font-size: 0.76rem; }
+ .retouch-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+ .retouch-actions .btn { min-width: 96px; }
+ .retouch-note { margin-top: 10px; color: var(--text-muted); font-size: 0.76rem; line-height: 1.7; }
+ .retouch-status { grid-column: 1 / -1; color: var(--text-muted); font-size: 0.76rem; }
+ @media (max-width: 840px) {
+ .retouch-controls { grid-template-columns: 1fr 1fr; }
+ .retouch-actions { justify-content: center; }
+ }
+ @media (max-width: 560px) {
+ .tool-container { padding-left: 18px; padding-right: 18px; }
+ .retouch-canvas-wrap { min-height: 300px; }
+ .retouch-controls { grid-template-columns: 1fr; }
+ .retouch-actions { display: grid; grid-template-columns: 1fr 1fr; }
+ .retouch-actions .btn-primary { grid-column: 1 / -1; }
+ }
+&lt;/style&gt;
+
+&lt;div class="tool-container" id="retouch-tool"&gt;
+ &lt;div class="section-header"&gt;
+ &lt;p class="section-label"&gt;Local edit&lt;/p&gt;</description></item><item><title>Image to Base64 Converter | Base64 to Image Online - TUXIA</title><link>https://tuxiatools.com/tools/base64.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/tools/base64.html</guid><description>&lt;style&gt;
+.convert-container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+ .split-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+ @media (max-width: 768px) { .split-panels { grid-template-columns: 1fr; } }
+ .panel {
+ border: 1px solid var(--border); border-radius: var(--radius);
+ background: var(--surface); overflow: hidden;
+ }
+ .panel-header {
+ padding: 12px 16px; font-weight: 600; font-size: 0.85rem;
+ display: flex; align-items: center; gap: 8px;
+ }
+ .panel-header.left { background: #eef2ff; color: #4f46e5; }
+ .panel-header.right { background: #ecfdf5; color: #059669; }
+ .panel-body { padding: 16px; }
+
+ .panel-drop-zone {
+ border: 2px dashed var(--border); border-radius: var(--radius-sm);
+ padding: 28px 16px; text-align: center; cursor: pointer;
+ transition: all var(--transition); margin-bottom: 12px;
+ }
+ .panel-drop-zone:hover, .panel-drop-zone.drag-over {
+ border-color: var(--accent); background: var(--accent-subtle);
+ }
+
+ .panel-preview { text-align: center; margin-bottom: 12px; }
+ .panel-preview img { max-width: 100%; max-height: 200px; border-radius: var(--radius-sm); border: 1px solid var(--border); }
+ .panel-meta { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px; text-align: center; }
+
+ .panel-textarea {
+ width: 100%; min-height: 100px; max-height: 180px; padding: 10px 12px;
+ border: 1px solid var(--border); border-radius: var(--radius-sm);
+ font-size: 0.72rem; font-family: "SF Mono", "Fira Code", "Cascadia Code", "Consolas", "Menlo", monospace;
+ resize: vertical; line-height: 1.6; word-break: break-all; outline: none; margin-bottom: 12px;
+ }
+ .panel-textarea:focus { border-color: var(--accent); }
+ .panel-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+&lt;/style&gt;
+
+&lt;!-- Tool Header --&gt;
+&lt;div class="convert-container"&gt;
+ &lt;div class="split-panels"&gt;
+ &lt;!-- Left: Image → Base64 --&gt;
+ &lt;div class="panel"&gt;
+ &lt;div class="panel-header left"&gt;Image to Base64&lt;/div&gt;
+ &lt;div class="panel-body"&gt;
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ &lt;div class="panel-drop-zone" id="drop-left"&gt;
+ &lt;div class="upload-icon-circle"&gt;
+ 
+ &lt;svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"&gt;&lt;rect x="3" y="3" width="18" height="18" rx="2"/&gt;&lt;circle cx="8.5" cy="8.5" r="1.5"/&gt;&lt;polyline points="21 15 16 10 5 21"/&gt;&lt;/svg&gt;
+ 
+ &lt;/div&gt;
+ &lt;p class="upload-title-text"&gt;Drag an image here, or&lt;span&gt; click to choose&lt;/span&gt;&lt;/p&gt;</description></item><item><title>Image to URL Tool | Generate Shareable Image Links - TUXIA</title><link>https://tuxiatools.com/tools/online.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/tools/online.html</guid><description>&lt;style&gt;
+.tool-container { max-width: 680px; margin: 0 auto; padding: 32px 24px; }
+ .upload-progress { display: none; width: 100%; height: 3px; background: var(--border); border-radius: 2px; margin-top: 12px; overflow: hidden; }
+ .upload-progress.active { display: block; }
+ .upload-progress .bar { height: 100%; background: var(--accent); border-radius: 2px; animation: indeterminate 1.5s ease infinite; width: 28%; }
+ @keyframes indeterminate { 0% { transform: translateX(-100%); } 100% { transform: translateX(420%); } }
+ .url-result { display: none; align-items: center; gap: 10px; padding: 10px 13px; background: #fafaf9; border: 1px solid var(--border); border-radius: var(--radius-sm); margin-top: 12px; }
+ .url-result .url-text { flex: 1; font-size: 0.78rem; font-family: "SF Mono", "Fira Code", "Cascadia Code", "Consolas", monospace; color: var(--accent); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-decoration: none; }
+&lt;/style&gt;
+
+&lt;div class="tool-container"&gt;
+ &lt;div class="section-header"&gt;
+ &lt;p class="section-label"&gt;Cloud upload&lt;/p&gt;</description></item><item><title>Image Watermark Tool | Add Text or Image Watermarks Online - TUXIA</title><link>https://tuxiatools.com/tools/watermark.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/tools/watermark.html</guid><description>&lt;style&gt;
+ .tool-container { max-width: 980px; margin: 0 auto; padding: 30px 24px; }
+ .watermark-workspace { display: none; grid-template-columns: minmax(360px, 1fr) 330px; gap: 16px; align-items: stretch; margin-top: 18px; }
+ .watermark-workspace.visible { display: grid; }
+ .watermark-preview-card,
+ .watermark-settings-card { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow-sm); }
+ .watermark-preview-card { padding: 14px; display: flex; flex-direction: column; gap: 10px; min-height: 420px; }
+ .watermark-canvas-wrap { flex: 1 1 auto; min-height: 320px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: linear-gradient(180deg, #fbfdff 0%, #f4f8ff 100%); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+ #watermark-canvas { max-width: 100%; max-height: 520px; display: block; }
+ .watermark-meta { display: flex; justify-content: space-between; gap: 10px; color: var(--text-muted); font-size: 0.76rem; }
+ .watermark-settings-card { padding: 16px; display: grid; gap: 13px; align-content: start; }
+ .watermark-field { display: grid; gap: 7px; }
+ .watermark-field label,
+ .watermark-control-label { color: var(--text-secondary); font-size: 0.78rem; font-weight: 650; }
+ .watermark-field input[type="text"],
+ .watermark-field select { width: 100%; height: 38px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); padding: 0 11px; outline: none; }
+ .watermark-field input[type="text"]:focus,
+ .watermark-field select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,0.12); }
+ .watermark-inline { display: grid; grid-template-columns: 1fr 82px; gap: 10px; align-items: center; }
+ .watermark-inline input[type="color"] { width: 100%; height: 38px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); padding: 4px; }
+ .watermark-range-row { display: grid; grid-template-columns: 1fr 48px; gap: 10px; align-items: center; }
+ .watermark-range-row input[type="range"] { width: 100%; accent-color: var(--accent); }
+ .watermark-range-row output { color: var(--text-muted); font-size: 0.76rem; text-align: right; }
+ .watermark-check { display: flex; align-items: center; gap: 9px; color: var(--text-secondary); font-size: 0.8rem; }
+ .watermark-logo-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; }
+ .watermark-logo-name { min-width: 0; color: var(--text-muted); font-size: 0.76rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+ .watermark-actions { display: grid; grid-template-columns: 110px 1fr; gap: 10px; align-items: center; margin-top: 4px; }
+ @media (max-width: 860px) {
+ .watermark-workspace { grid-template-columns: 1fr; }
+ .watermark-settings-card { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+ .watermark-actions { grid-column: 1 / -1; }
+ }
+ @media (max-width: 560px) {
+ .tool-container { padding-left: 18px; padding-right: 18px; }
+ .watermark-preview-card { min-height: 0; }
+ .watermark-canvas-wrap { min-height: 260px; }
+ .watermark-settings-card { grid-template-columns: 1fr; }
+ .watermark-actions { grid-template-columns: 1fr; }
+ }
+&lt;/style&gt;
+
+&lt;div class="tool-container" id="watermark-tool"&gt;
+ &lt;div class="section-header"&gt;
+ &lt;p class="section-label"&gt;Watermark editor&lt;/p&gt;</description></item><item><title>Online Image Cropper | Crop Photos, Ratios and Rotation - TUXIA</title><link>https://tuxiatools.com/tools/crop.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/tools/crop.html</guid><description>&lt;style&gt;
+.tool-container { max-width: 900px; margin: 0 auto; padding: 32px 24px; }
+ .crop-section { display: none; margin-top: 22px; }
+ .crop-panel { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); padding: 18px; box-shadow: var(--shadow-sm); }
+ .crop-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 16px; }
+ .ratio-control { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+ .ratio-label { font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); }
+ .ratio-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+ .ratio-btn { padding: 6px 11px; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; font-size: 0.76rem; font-weight: 600; background: var(--surface); transition: all var(--transition); }
+ .ratio-btn:hover, .ratio-btn.active { border-color: var(--accent); background: var(--accent-subtle); color: var(--accent); }
+ .crop-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+ .crop-canvas-wrap { position: relative; display: flex; justify-content: center; align-items: center; min-height: 260px; padding: 14px; border: 1px solid #dbeafe; border-radius: var(--radius); background: linear-gradient(45deg, #f8fafc 25%, transparent 25%), linear-gradient(-45deg, #f8fafc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f8fafc 75%), linear-gradient(-45deg, transparent 75%, #f8fafc 75%); background-size: 18px 18px; background-position: 0 0, 0 9px, 9px -9px, -9px 0; overflow: auto; }
+ #crop-canvas { max-width: 100%; display: block; border-radius: var(--radius-sm); box-shadow: 0 12px 28px rgba(15,23,42,0.12); touch-action: none; user-select: none; }
+ .crop-tip { margin-top: 10px; font-size: 0.76rem; color: var(--text-muted); text-align: center; }
+ .preview-result { text-align: center; margin-top: 20px; display: none; }
+ .preview-result img { max-width: 100%; max-height: 300px; border-radius: var(--radius-sm); border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+ @media (max-width: 680px) {
+ .crop-toolbar { align-items: stretch; }
+ .crop-actions { justify-content: flex-start; }
+ }
+&lt;/style&gt;
+
+&lt;div class="tool-container"&gt;
+ &lt;div class="section-header"&gt;
+ &lt;p class="section-label"&gt;Crop editor&lt;/p&gt;</description></item><item><title>Privacy Policy | Browser Local Image Processing - TUXIA</title><link>https://tuxiatools.com/privacy.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/privacy.html</guid><description>&lt;h2 id="local-browser-processing"&gt;Local Browser Processing&lt;/h2&gt;
+&lt;p&gt;TUXIA is a static front-end website. The image tools are designed to run in your browser by using local browser features such as JavaScript, Canvas, FileReader, and local storage. There is no TUXIA account system, membership system, user database, or TUXIA-operated file storage service in this GitHub static version.&lt;/p&gt;
+&lt;p&gt;Tools such as Base64 conversion, QR code generation and decoding, image compression, format conversion, resizing, cropping, watermarking, local retouching, mosaic masking, color extraction, and EXIF viewing process the selected files locally in your browser. These tools do not upload your selected images to a TUXIA server.&lt;/p&gt;</description></item><item><title>QR Code Decoder | Read QR Code Images Online - TUXIA</title><link>https://tuxiatools.com/tools/qrcode-dec.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/tools/qrcode-dec.html</guid><description>&lt;style&gt;
+.tool-container { max-width: 680px; margin: 0 auto; padding: 32px 24px; }
+ .result-card { display: none; padding: 20px; margin-top: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+ .result-card.visible { display: block; }
+ .result-content { font-size: 1rem; font-weight: 600; word-break: break-all; padding: 10px 14px; background: #fafaf9; border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 14px; }
+ .result-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+ .result-type { display: inline-block; font-size: 0.7rem; padding: 2px 8px; border-radius: var(--radius-full); font-weight: 500; margin-bottom: 8px; }
+ .type-url { background: #eef2ff; color: var(--accent); }
+ .type-text { background: #ecfdf5; color: var(--success); }
+ .preview-img-wrap { text-align: center; margin: 16px 0; }
+ .preview-img-wrap img { max-width: 260px; max-height: 260px; border-radius: var(--radius-sm); border: 1px solid var(--border); }
+&lt;/style&gt;
+
+&lt;div class="tool-container"&gt;
+ &lt;div class="section-header"&gt;
+ &lt;p class="section-label"&gt;Decode&lt;/p&gt;</description></item><item><title>QR Code Generator | Create QR Codes with Logo and Styles - TUXIA</title><link>https://tuxiatools.com/tools/qrcode-gen.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/tools/qrcode-gen.html</guid><description>&lt;style&gt;
+.tool-container { max-width: 1000px; margin: 0 auto; padding: 32px 24px; }
+ .qr-layout { display: grid; grid-template-columns: 300px 1fr; gap: 28px; align-items: start; }
+ @media (max-width: 700px) { .qr-layout { grid-template-columns: 1fr; } }
+ .settings-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; }
+ .setting-group { margin-bottom: 14px; }
+ .setting-group label { display: block; font-size: 0.8rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 4px; }
+ .setting-group input[type="text"], .setting-group textarea, .setting-group select {
+ width: 100%; padding: 7px 11px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+ font-size: 0.82rem; font-family: inherit; background: var(--surface-soft); color: var(--text); outline: none;
+ }
+ .setting-group input:focus, .setting-group textarea:focus, .setting-group select:focus { border-color: var(--accent); }
+ .setting-group input[type="color"] { width: 36px; height: 32px; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; padding: 2px; }
+ .setting-group input[type="range"] { width: 100%; }
+ .color-row { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 8px; align-items: center; }
+ .color-row input[type="color"] { width: 42px; height: 34px; background: var(--surface); }
+ .color-row input[type="text"] {
+ height: 34px;
+ min-width: 0;
+ font-family: "SF Mono", "Cascadia Code", Consolas, monospace;
+ font-weight: 700;
+ letter-spacing: 0;
+ text-transform: uppercase;
+ }
+ :root[data-theme="dark"] .color-row input[type="text"] {
+ background: #f8fbff;
+ color: #0f172a;
+ border-color: #9db8d8;
+ }
+ :root[data-theme="dark"] .color-row input[type="text"]::placeholder { color: #64748b; }
+ .preview-area { text-align: center; }
+ #qr-container { display: inline-block; padding: 20px; background: #fff; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow); }
+ .download-actions { margin-top: 16px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+ /* Dot style buttons */
+ .dot-style-opts { display: flex; gap: 6px; flex-wrap: wrap; }
+ .dot-style-btn { flex: 0 0 auto; padding: 5px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; font-size: 0.7rem; font-weight: 500; background: var(--surface); transition: all var(--transition); }
+ .dot-style-btn:hover { border-color: var(--accent); }
+ .dot-style-btn.active { border-color: var(--accent); background: var(--accent-subtle); color: var(--accent); }
+
+ /* Logo upload */
+ .logo-upload-row { display: flex; gap: 8px; align-items: center; }
+ .logo-preview-mini { width: 28px; height: 28px; border-radius: 4px; border: 1px solid var(--border); object-fit: contain; display: none; }
+ #logo-input { display: none; }
+
+ /* Preset templates */
+ .preset-grid { display: flex; gap: 6px; flex-wrap: wrap; }
+ .preset-dot { width: 26px; height: 26px; border-radius: 4px; cursor: pointer; border: 2px solid transparent; background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; transition: all var(--transition); }
+ .preset-dot:hover { border-color: var(--accent); }
+ .preset-dot.active { border-color: var(--accent); background: var(--accent-subtle); }
+ .preset-dot .dot { width: 8px; height: 8px; border-radius: 50%; background: #000; }
+ .preset-dot .dot.sq { border-radius: 1px; }
+ .preset-dot .dot.ro { border-radius: 3px; }
+&lt;/style&gt;
+
+&lt;div class="tool-container"&gt;
+ &lt;div class="section-header"&gt;
+ &lt;p class="section-label"&gt;QR code tool&lt;/p&gt;</description></item><item><title>QR Code 產生工具 - 圖匣 TUXIA</title><link>https://tuxiatools.com/zh-tw/tools/qrcode-gen/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh-tw/tools/qrcode-gen/</guid><description/></item><item><title>QR Code 解碼工具 - 圖匣 TUXIA</title><link>https://tuxiatools.com/zh-tw/tools/qrcode-dec/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh-tw/tools/qrcode-dec/</guid><description/></item><item><title>Terms of Use | Static Browser Image Tools - TUXIA</title><link>https://tuxiatools.com/terms.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/terms.html</guid><description>&lt;h2 id="scope-of-this-static-website"&gt;Scope of This Static Website&lt;/h2&gt;
+&lt;p&gt;TUXIA is a static front-end website that offers browser-based image utilities. It is not an account platform, cloud storage service, file hosting service, professional editing service, or managed image processing service.&lt;/p&gt;
+&lt;p&gt;The tools are provided as general-purpose utilities for tasks such as compression, format conversion, resizing, cropping, watermarking, local retouching, mosaic masking, Base64 conversion, QR code generation and decoding, color extraction, EXIF viewing, and optional image URL generation through a third-party provider.&lt;/p&gt;</description></item><item><title>二维码生成工具 - 图匣 TUXIA</title><link>https://tuxiatools.com/zh/tools/qrcode-gen/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh/tools/qrcode-gen/</guid><description/></item><item><title>二维码解码工具 - 图匣 TUXIA</title><link>https://tuxiatools.com/zh/tools/qrcode-dec/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh/tools/qrcode-dec/</guid><description/></item><item><title>使用条款 | 图匣 TUXIA</title><link>https://tuxiatools.com/zh/terms/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh/terms/</guid><description>&lt;h2 id="静态网站范围"&gt;静态网站范围&lt;/h2&gt;
+&lt;p&gt;TUXIA 是一个提供浏览器图片工具的静态前端网站。它不是账号平台、云存储服务、文件托管服务、专业编辑服务，也不是托管式图片处理服务。&lt;/p&gt;
+&lt;p&gt;本站工具用于通用图片处理任务，例如压缩、格式转换、尺寸调整、裁剪、水印、局部擦除、马赛克、Base64 转换、二维码生成和解码、取色、EXIF 元数据查看，以及通过第三方服务生成图片在线链接。&lt;/p&gt;
+&lt;h2 id="用户责任"&gt;用户责任&lt;/h2&gt;
+&lt;p&gt;你需要对自己选择打开、处理、导出、上传到第三方或分享的图片和内容负责。你应当只使用自己拥有或有权使用的图片。请勿将这些工具用于违法、侵权、恶意、欺骗或滥用目的。&lt;/p&gt;
+&lt;h2 id="本地处理和导出"&gt;本地处理和导出&lt;/h2&gt;
+&lt;p&gt;大多数工具在你的浏览器本地运行，不会把你选择的图片文件发送到 TUXIA 服务器。导出的文件由你的浏览器生成。用于生产、法律、商业或敏感流程前，请自行检查最终输出。&lt;/p&gt;
+&lt;p&gt;图片在线链接工具只有在你提供自己的 ImgBB API Key 并选择上传时，才会由你的浏览器直接把图片发送到 ImgBB。该上传行为受 ImgBB 自己的服务规则约束。TUXIA 不托管、不存储、不审核，也不删除上传到 ImgBB 的文件。&lt;/p&gt;
+&lt;h2 id="免责声明"&gt;免责声明&lt;/h2&gt;
+&lt;p&gt;TUXIA 按现状和可用状态提供。浏览器兼容性、设备性能、本地存储行为、网络状况、第三方脚本和第三方 API 都可能影响结果。在适用法律允许的最大范围内，TUXIA 不对数据丢失、输出不准确、导出失败、第三方上传问题或用户误用承担责任。&lt;/p&gt;
+&lt;p&gt;本站内容不构成法律、版权、隐私、安全或其他专业建议。&lt;/p&gt;
+&lt;h2 id="更新"&gt;更新&lt;/h2&gt;
+&lt;p&gt;当静态站点发生变化时，本条款可能会更新。继续使用本站即表示你接受更新后的条款。&lt;/p&gt;</description></item><item><title>使用條款 | 圖匣 TUXIA</title><link>https://tuxiatools.com/zh-tw/terms/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh-tw/terms/</guid><description>&lt;h2 id="靜態網站範圍"&gt;靜態網站範圍&lt;/h2&gt;
+&lt;p&gt;TUXIA 是一個提供瀏覽器圖片工具的靜態前端網站。它不是帳號平台、雲端儲存服務、檔案託管服務、專業編輯服務，也不是託管式圖片處理服務。&lt;/p&gt;
+&lt;p&gt;本站工具用於通用圖片處理任務，例如壓縮、格式轉換、尺寸調整、裁切、浮水印、局部擦除、馬賽克、Base64 轉換、QR Code 產生和解碼、取色、EXIF 中繼資料查看，以及透過第三方服務產生圖片線上連結。&lt;/p&gt;
+&lt;h2 id="使用者責任"&gt;使用者責任&lt;/h2&gt;
+&lt;p&gt;你需要對自己選擇開啟、處理、匯出、上傳到第三方或分享的圖片和內容負責。你應當只使用自己擁有或有權使用的圖片。請勿將這些工具用於違法、侵權、惡意、欺騙或濫用目的。&lt;/p&gt;
+&lt;h2 id="本機處理和匯出"&gt;本機處理和匯出&lt;/h2&gt;
+&lt;p&gt;大多數工具在你的瀏覽器本機執行，不會把你選擇的圖片檔案送到 TUXIA 伺服器。匯出的檔案由你的瀏覽器產生。用於正式、法律、商業或敏感流程前，請自行檢查最終輸出。&lt;/p&gt;
+&lt;p&gt;圖片線上連結工具只有在你提供自己的 ImgBB API Key 並選擇上傳時，才會由你的瀏覽器直接把圖片送到 ImgBB。該上傳行為受 ImgBB 自己的服務規則約束。TUXIA 不託管、不儲存、不審核，也不刪除上傳到 ImgBB 的檔案。&lt;/p&gt;
+&lt;h2 id="免責聲明"&gt;免責聲明&lt;/h2&gt;
+&lt;p&gt;TUXIA 按現狀和可用狀態提供。瀏覽器相容性、裝置效能、本機儲存行為、網路狀況、第三方腳本和第三方 API 都可能影響結果。在適用法律允許的最大範圍內，TUXIA 不對資料遺失、輸出不準確、匯出失敗、第三方上傳問題或使用者誤用承擔責任。&lt;/p&gt;
+&lt;p&gt;本站內容不構成法律、著作權、隱私、安全或其他專業建議。&lt;/p&gt;
+&lt;h2 id="更新"&gt;更新&lt;/h2&gt;
+&lt;p&gt;當靜態網站發生變化時，本條款可能會更新。繼續使用本站即表示你接受更新後的條款。&lt;/p&gt;</description></item><item><title>图匣 TUXIA - 免费在线图片工具箱</title><link>https://tuxiatools.com/zh/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh/</guid><description/></item><item><title>图片 Base64 转换工具 - 图匣 TUXIA</title><link>https://tuxiatools.com/zh/tools/base64/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh/tools/base64/</guid><description/></item><item><title>图片加水印工具 - 图匣 TUXIA</title><link>https://tuxiatools.com/zh/tools/watermark/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh/tools/watermark/</guid><description/></item><item><title>图片压缩工具 - 图匣 TUXIA</title><link>https://tuxiatools.com/zh/tools/compress/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh/tools/compress/</guid><description/></item><item><title>图片在线链接生成工具 - 图匣 TUXIA</title><link>https://tuxiatools.com/zh/tools/online/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh/tools/online/</guid><description/></item><item><title>图片尺寸调整工具 - 图匣 TUXIA</title><link>https://tuxiatools.com/zh/tools/resize/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh/tools/resize/</guid><description/></item><item><title>图片格式转换工具 - 图匣 TUXIA</title><link>https://tuxiatools.com/zh/tools/convert/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh/tools/convert/</guid><description/></item><item><title>图片裁剪工具 - 图匣 TUXIA</title><link>https://tuxiatools.com/zh/tools/crop/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh/tools/crop/</guid><description/></item><item><title>图片配色提取工具 - 图匣 TUXIA</title><link>https://tuxiatools.com/zh/tools/palette/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh/tools/palette/</guid><description/></item><item><title>圖匣 TUXIA - 免費線上圖片工具箱</title><link>https://tuxiatools.com/zh-tw/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh-tw/</guid><description/></item><item><title>圖片 Base64 轉換工具 - 圖匣 TUXIA</title><link>https://tuxiatools.com/zh-tw/tools/base64/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh-tw/tools/base64/</guid><description/></item><item><title>圖片加浮水印工具 - 圖匣 TUXIA</title><link>https://tuxiatools.com/zh-tw/tools/watermark/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh-tw/tools/watermark/</guid><description/></item><item><title>圖片壓縮工具 - 圖匣 TUXIA</title><link>https://tuxiatools.com/zh-tw/tools/compress/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh-tw/tools/compress/</guid><description/></item><item><title>圖片尺寸調整工具 - 圖匣 TUXIA</title><link>https://tuxiatools.com/zh-tw/tools/resize/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh-tw/tools/resize/</guid><description/></item><item><title>圖片格式轉換工具 - 圖匣 TUXIA</title><link>https://tuxiatools.com/zh-tw/tools/convert/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh-tw/tools/convert/</guid><description/></item><item><title>圖片線上連結產生工具 - 圖匣 TUXIA</title><link>https://tuxiatools.com/zh-tw/tools/online/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh-tw/tools/online/</guid><description/></item><item><title>圖片裁切工具 - 圖匣 TUXIA</title><link>https://tuxiatools.com/zh-tw/tools/crop/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh-tw/tools/crop/</guid><description/></item><item><title>圖片配色擷取工具 - 圖匣 TUXIA</title><link>https://tuxiatools.com/zh-tw/tools/palette/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh-tw/tools/palette/</guid><description/></item><item><title>局部擦除和馬賽克工具 - 圖匣 TUXIA</title><link>https://tuxiatools.com/zh-tw/tools/retouch/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh-tw/tools/retouch/</guid><description/></item><item><title>局部擦除和马赛克工具 - 图匣 TUXIA</title><link>https://tuxiatools.com/zh/tools/retouch/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh/tools/retouch/</guid><description/></item><item><title>隐私政策 | 图匣 TUXIA</title><link>https://tuxiatools.com/zh/privacy/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh/privacy/</guid><description>&lt;h2 id="浏览器本地处理"&gt;浏览器本地处理&lt;/h2&gt;
+&lt;p&gt;TUXIA 是一个静态前端网站。图片工具主要通过浏览器能力运行，例如 JavaScript、Canvas、FileReader 和本地存储。本 GitHub 静态版本不提供 TUXIA 账号系统、会员系统、用户数据库，也不提供由 TUXIA 运营的文件存储服务。&lt;/p&gt;
+&lt;p&gt;Base64 转换、二维码生成和解码、图片压缩、格式转换、尺寸调整、裁剪、水印、局部擦除、马赛克、取色和 EXIF 元数据查看等工具，会在你的浏览器中处理所选文件。这些工具不会把你选择的图片上传到 TUXIA 服务器。&lt;/p&gt;
+&lt;h2 id="图片在线链接工具"&gt;图片在线链接工具&lt;/h2&gt;
+&lt;p&gt;图片在线链接工具的用途是生成公开图片链接，因此它和其他本地工具不同。如果你输入自己的 ImgBB API Key 并点击上传，你的浏览器会通过 ImgBB API 直接把所选图片发送给 ImgBB。TUXIA 不接收、不代理、不存储、不审核，也不控制该上传过程。使用前请阅读 ImgBB 自己的服务条款和隐私政策。&lt;/p&gt;
+&lt;h2 id="本地存储"&gt;本地存储&lt;/h2&gt;
+&lt;p&gt;TUXIA 可能会在你的浏览器中保存少量数据，例如主题偏好、语言偏好、导出格式偏好，以及你选择保存的 ImgBB API Key。这些数据保存在你的浏览器本地存储中，可以通过浏览器设置清除。&lt;/p&gt;
+&lt;h2 id="cookie广告和语言页面"&gt;Cookie、广告和语言页面&lt;/h2&gt;
+&lt;p&gt;TUXIA 可能通过 Google AdSense 展示广告。Google 及其合作伙伴可能使用 Cookie、广告标识符、IP 地址信息、浏览器信息、设备信号和页面交互数据，用于投放、衡量和改进广告。根据你所在地区和 Google 设置，广告可能是个性化或非个性化的。&lt;/p&gt;
+&lt;p&gt;TUXIA 不运营自己的广告画像数据库，也不会把你选择的图片文件与广告数据合并。页面加载时，浏览器仍可能请求 Google 广告脚本。你可以在浏览器设置中管理 Cookie，也可以通过 Google 的广告控制选项管理广告个性化。&lt;/p&gt;
+&lt;p&gt;本站提供英语、简体中文和繁体中文静态页面。语言切换器会在这些静态页面之间跳转，并可能在你的浏览器中保存语言偏好。TUXIA 不需要通过翻译服务来处理你的图片。&lt;/p&gt;
+&lt;h2 id="无账号和无-tuxia-用户追踪"&gt;无账号和无 TUXIA 用户追踪&lt;/h2&gt;
+&lt;p&gt;本静态版本不包含登录、注册、个人资料、用户云端历史或服务端账号隔离，因为 TUXIA 在该版本中不运营后端账号服务。&lt;/p&gt;
+&lt;h2 id="第三方服务"&gt;第三方服务&lt;/h2&gt;
+&lt;p&gt;本站可能加载 Google AdSense 等第三方脚本。这些服务商可能会按照其自身政策处理技术信息。如果你使用图片在线链接工具，你的浏览器会直接与 ImgBB 通信。TUXIA 不控制这些第三方服务、Cookie、保存期限或政策更新。&lt;/p&gt;</description></item><item><title>隱私政策 | 圖匣 TUXIA</title><link>https://tuxiatools.com/zh-tw/privacy/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://tuxiatools.com/zh-tw/privacy/</guid><description>&lt;h2 id="瀏覽器本機處理"&gt;瀏覽器本機處理&lt;/h2&gt;
+&lt;p&gt;TUXIA 是一個靜態前端網站。圖片工具主要透過瀏覽器能力執行，例如 JavaScript、Canvas、FileReader 和本機儲存。本 GitHub 靜態版本不提供 TUXIA 帳號系統、會員系統、使用者資料庫，也不提供由 TUXIA 營運的檔案儲存服務。&lt;/p&gt;
+&lt;p&gt;Base64 轉換、QR Code 產生和解碼、圖片壓縮、格式轉換、尺寸調整、裁切、浮水印、局部擦除、馬賽克、取色和 EXIF 中繼資料查看等工具，會在你的瀏覽器中處理所選檔案。這些工具不會把你選擇的圖片上傳到 TUXIA 伺服器。&lt;/p&gt;
+&lt;h2 id="圖片線上連結工具"&gt;圖片線上連結工具&lt;/h2&gt;
+&lt;p&gt;圖片線上連結工具的用途是產生公開圖片連結，因此它和其他本機工具不同。如果你輸入自己的 ImgBB API Key 並點擊上傳，你的瀏覽器會透過 ImgBB API 直接把所選圖片送到 ImgBB。TUXIA 不接收、不代理、不儲存、不審核，也不控制該上傳過程。使用前請閱讀 ImgBB 自己的服務條款和隱私政策。&lt;/p&gt;
+&lt;h2 id="本機儲存"&gt;本機儲存&lt;/h2&gt;
+&lt;p&gt;TUXIA 可能會在你的瀏覽器中保存少量資料，例如主題偏好、語言偏好、匯出格式偏好，以及你選擇保存的 ImgBB API Key。這些資料保存在你的瀏覽器本機儲存中，可以透過瀏覽器設定清除。&lt;/p&gt;
+&lt;h2 id="cookie廣告和語言頁面"&gt;Cookie、廣告和語言頁面&lt;/h2&gt;
+&lt;p&gt;TUXIA 可能透過 Google AdSense 顯示廣告。Google 及其合作夥伴可能使用 Cookie、廣告識別碼、IP 位址資訊、瀏覽器資訊、裝置信號和頁面互動資料，用於投放、衡量和改善廣告。依照你所在區域和 Google 設定，廣告可能是個人化或非個人化的。&lt;/p&gt;
+&lt;p&gt;TUXIA 不營運自己的廣告輪廓資料庫，也不會把你選擇的圖片檔案與廣告資料合併。頁面載入時，瀏覽器仍可能請求 Google 廣告腳本。你可以在瀏覽器設定中管理 Cookie，也可以透過 Google 的廣告控制選項管理廣告個人化。&lt;/p&gt;
+&lt;p&gt;本站提供英文、簡體中文和繁體中文靜態頁面。語言切換器會在這些靜態頁面之間跳轉，並可能在你的瀏覽器中保存語言偏好。TUXIA 不需要透過翻譯服務來處理你的圖片。&lt;/p&gt;
+&lt;h2 id="無帳號和無-tuxia-使用者追蹤"&gt;無帳號和無 TUXIA 使用者追蹤&lt;/h2&gt;
+&lt;p&gt;本靜態版本不包含登入、註冊、個人資料、使用者雲端歷史或伺服器端帳號隔離，因為 TUXIA 在此版本中不營運後端帳號服務。&lt;/p&gt;
+&lt;h2 id="第三方服務"&gt;第三方服務&lt;/h2&gt;
+&lt;p&gt;本站可能載入 Google AdSense 等第三方腳本。這些服務商可能會按照其自身政策處理技術資訊。如果你使用圖片線上連結工具，你的瀏覽器會直接與 ImgBB 通訊。TUXIA 不控制這些第三方服務、Cookie、保存期限或政策更新。&lt;/p&gt;</description></item></channel></rss>
