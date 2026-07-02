@@ -194,6 +194,9 @@
   {{ $content = replace $content "current颜色" "currentColor" }}
   {{ $content = replace $content "二维码解码d preview" "解码预览" }}
   {{ $content = replace $content "下载 format" "下载格式" }}
+  {{ $content = replace $content "图片压缩 quality:" "压缩质量：" }}
+  {{ $content = replace $content "下载 watermarked image" "下载水印图片" }}
+  {{ $content = replace $content "Multiple layouts" "多种排列" }}
   {{ $content = replace $content "Drag a 二维码 image here, or" "拖拽二维码图片到这里，或" }}
   {{ $content = replace $content "内容 reading" "内容识别" }}
   {{ $content = replace $content "Supports PNG, JPG, and WebP 二维码 images" "支持 PNG、JPG、WebP 格式的二维码图片" }}
@@ -400,6 +403,9 @@
   {{ $content = replace $content "current顏色" "currentColor" }}
   {{ $content = replace $content "QR Code 解碼d preview" "解碼預覽" }}
   {{ $content = replace $content "下載 format" "下載格式" }}
+  {{ $content = replace $content "圖片壓縮 quality:" "壓縮品質：" }}
+  {{ $content = replace $content "下載 watermarked image" "下載浮水印圖片" }}
+  {{ $content = replace $content "Multiple layouts" "多種排列" }}
   {{ $content = replace $content "Drag a QR Code image here, or" "拖曳 QR Code 圖片到這裡，或" }}
   {{ $content = replace $content "內容 reading" "內容識別" }}
   {{ $content = replace $content "Supports PNG, JPG, and WebP QR Code images" "支援 PNG、JPG、WebP 格式的 QR Code 圖片" }}
@@ -418,4 +424,59 @@
   {{ $content = replace $content "Supports JPEG files. EXIF metadata is usually stored in JPEG images." "支援 JPEG 檔案。EXIF 中繼資料通常保存在 JPEG 圖片中。" }}
 {{ end }}
 {{ $scriptContent = replace $scriptContent "src=\"../vendor/" "src=\"/vendor/" }}
+{{ if eq $lang "zh-CN" }}
+  {{ $scriptReplacements := slice
+    (slice "Please upload an image first" "请先上传图片")
+    (slice "Please choose an image first" "请先选择图片")
+    (slice "Please paste a valid Base64 string first" "请先粘贴有效的 Base64 字符串")
+    (slice "Unable to decode. Please check the Base64 format." "无法解码，请检查 Base64 格式。")
+    (slice "Decoded successfully,  " "解码成功，")
+    (slice "Total " "共 ")
+    (slice " characters, about " " 个字符，约 ")
+    (slice "Original size: " "原图大小：")
+    (slice "Compressed: " "压缩后：")
+    (slice "Reduced " "减少 ")
+    (slice "The original is already small: " "原图已经足够小：")
+    (slice "Keep the original to avoid increasing file size" "保留原图，避免文件变大")
+    (slice "No image watermark selected" "未选择图片水印")
+    (slice "Paint the area to repair first" "请先涂抹需要修复的区域")
+    (slice "Paint the area to mosaic first" "请先涂抹需要打码的区域")
+    (slice "Repair area marked" "已标记修复区域")
+    (slice "Mosaic area marked" "已标记马赛克区域")
+    (slice "Repairing..." "正在修复...")
+    (slice "Applying mosaic..." "正在应用马赛克...")
+    (slice "Repair complete" "修复完成")
+    (slice "Mosaic applied" "已应用马赛克")
+    (slice "Mask cleared" "选区已清除")
+    (slice "Image reset" "图片已重置")
+  }}
+  {{ range $scriptReplacements }}{{ $scriptContent = replace $scriptContent (index . 0) (index . 1) }}{{ end }}
+{{ else if eq $lang "zh-TW" }}
+  {{ $scriptReplacements := slice
+    (slice "Please upload an image first" "請先上傳圖片")
+    (slice "Please choose an image first" "請先選擇圖片")
+    (slice "Please paste a valid Base64 string first" "請先貼上有效的 Base64 字串")
+    (slice "Unable to decode. Please check the Base64 format." "無法解碼，請檢查 Base64 格式。")
+    (slice "Decoded successfully,  " "解碼成功，")
+    (slice "Total " "共 ")
+    (slice " characters, about " " 個字元，約 ")
+    (slice "Original size: " "原圖大小：")
+    (slice "Compressed: " "壓縮後：")
+    (slice "Reduced " "減少 ")
+    (slice "The original is already small: " "原圖已經足夠小：")
+    (slice "Keep the original to avoid increasing file size" "保留原圖，避免檔案變大")
+    (slice "No image watermark selected" "未選擇圖片浮水印")
+    (slice "Paint the area to repair first" "請先塗抹需要修復的區域")
+    (slice "Paint the area to mosaic first" "請先塗抹需要打碼的區域")
+    (slice "Repair area marked" "已標記修復區域")
+    (slice "Mosaic area marked" "已標記馬賽克區域")
+    (slice "Repairing..." "正在修復...")
+    (slice "Applying mosaic..." "正在套用馬賽克...")
+    (slice "Repair complete" "修復完成")
+    (slice "Mosaic applied" "已套用馬賽克")
+    (slice "Mask cleared" "選區已清除")
+    (slice "Image reset" "圖片已重置")
+  }}
+  {{ range $scriptReplacements }}{{ $scriptContent = replace $scriptContent (index . 0) (index . 1) }}{{ end }}
+{{ end }}
 {{ return (printf "%s%s" $content $scriptContent) }}

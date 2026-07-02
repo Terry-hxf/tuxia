@@ -48,8 +48,8 @@
         {{ range where hugo.Data.tools "footer" true }}
           {{ $toolName := .navName | default .name }}
           {{ $toolHref := .href | relURL }}
-          {{ if $isZH }}{{ with index hugo.Data.zh_tools .id }}{{ $toolName = .name }}{{ end }}{{ end }}
-          {{ if $isTW }}{{ with index hugo.Data.zh_tw_tools .id }}{{ $toolName = .name }}{{ end }}{{ end }}
+          {{ if $isZH }}{{ with index hugo.Data.zh_tools .id }}{{ $toolName = .navName | default .name }}{{ end }}{{ end }}
+          {{ if $isTW }}{{ with index hugo.Data.zh_tw_tools .id }}{{ $toolName = .navName | default .name }}{{ end }}{{ end }}
           {{ if $isZH }}{{ $toolHref = printf "zh/tools/%s/" .id | relURL }}{{ else if $isTW }}{{ $toolHref = printf "zh-tw/tools/%s/" .id | relURL }}{{ end }}
           <a href="{{ $toolHref }}">{{ $toolName }}</a>
         {{ end }}

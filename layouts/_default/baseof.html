@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 {{ $pageLang := .Params.pageLang | default "en" }}
+{{ $schemaLang := cond (eq $pageLang "zh-CN") "zh-CN" (cond (eq $pageLang "zh-TW") "zh-TW" "en-US") }}
 <html lang="{{ $pageLang }}">
 <head>
 <meta charset="UTF-8">
@@ -90,7 +91,7 @@ window.TUXIA_API_CONFIG = {
 </script>
 <link rel="stylesheet" href="{{ "css/common.css?v=20260629a" | relURL }}">
 
-{{ if .IsHome }}
+{{ if or .IsHome (eq (.Params.layout | default "") "zh-home") }}
 <script type="application/ld+json">
 {{ dict
   "@context" "https://schema.org"
@@ -104,25 +105,43 @@ window.TUXIA_API_CONFIG = {
   "applicationSubCategory" "Image editor"
   "operatingSystem" "All"
   "browserRequirements" "Requires JavaScript and modern browser canvas support"
-  "inLanguage" "en-US"
+  "inLanguage" $schemaLang
   "isAccessibleForFree" true
   "offers" (dict "@type" "Offer" "price" "0" "priceCurrency" "USD")
   | jsonify | safeJS }}
 </script>
 {{ $items := slice }}
 {{ range $index, $tool := hugo.Data.tools }}
-  {{ $items = $items | append (dict "@type" "ListItem" "position" (add $index 1) "name" $tool.name "description" $tool.desc "url" ($tool.href | absURL)) }}
+  {{ $itemName := $tool.name }}
+  {{ $itemDesc := $tool.desc }}
+  {{ $itemURL := $tool.href | absURL }}
+  {{ if eq $pageLang "zh-CN" }}
+    {{ with index hugo.Data.zh_tools $tool.id }}
+      {{ $itemName = .name }}
+      {{ $itemDesc = .summary }}
+      {{ $itemURL = printf "zh/tools/%s/" $tool.id | absURL }}
+    {{ end }}
+  {{ else if eq $pageLang "zh-TW" }}
+    {{ with index hugo.Data.zh_tw_tools $tool.id }}
+      {{ $itemName = .name }}
+      {{ $itemDesc = .summary }}
+      {{ $itemURL = printf "zh-tw/tools/%s/" $tool.id | absURL }}
+    {{ end }}
+  {{ end }}
+  {{ $items = $items | append (dict "@type" "ListItem" "position" (add $index 1) "name" $itemName "description" $itemDesc "url" $itemURL) }}
 {{ end }}
 <script type="application/ld+json">
 {{ dict
   "@context" "https://schema.org"
   "@type" "ItemList"
-  "name" "TUXIA online image tool list"
-  "description" "Entry points for online image compression, conversion, resizing, cropping, watermarking, QR codes, Base64 tools, color picking, and EXIF viewing."
+  "name" (cond (eq $pageLang "zh-CN") "TUXIA 图匣在线图片工具列表" (cond (eq $pageLang "zh-TW") "TUXIA 圖匣線上圖片工具列表" "TUXIA online image tool list"))
+  "description" (cond (eq $pageLang "zh-CN") "图片压缩、格式转换、尺寸调整、裁剪、水印、二维码、Base64、图片取色和 EXIF 查看等在线工具入口。" (cond (eq $pageLang "zh-TW") "圖片壓縮、格式轉換、尺寸調整、裁切、浮水印、QR Code、Base64、圖片取色和 EXIF 查看等線上工具入口。" "Entry points for online image compression, conversion, resizing, cropping, watermarking, QR codes, Base64 tools, color picking, and EXIF viewing."))
   "itemListElement" $items
   | jsonify | safeJS }}
 </script>
-{{ else if eq .Section "tools" }}
+{{ else if $toolId }}
+{{ $featureList := slice }}
+{{ with .Params.badges }}{{ $featureList = . }}{{ end }}
 <script type="application/ld+json">
 {{ dict
   "@context" "https://schema.org"
@@ -133,9 +152,25 @@ window.TUXIA_API_CONFIG = {
   "applicationCategory" "UtilityApplication"
   "applicationSubCategory" "Image tool"
   "operatingSystem" "All"
-  "inLanguage" "en-US"
+  "inLanguage" $schemaLang
+  "keywords" $keywords
+  "featureList" $featureList
+  "mainEntityOfPage" $canonical
+  "isPartOf" (dict "@type" "WebSite" "name" $brandFull "url" ("" | absURL))
   "isAccessibleForFree" true
   "offers" (dict "@type" "Offer" "price" "0" "priceCurrency" "USD")
+  | jsonify | safeJS }}
+</script>
+{{ $homeLabel := cond (eq $pageLang "zh-CN") "首页" (cond (eq $pageLang "zh-TW") "首頁" "Home") }}
+{{ $homeBreadcrumbURL := cond (eq $pageLang "zh-CN") ("zh/" | absURL) (cond (eq $pageLang "zh-TW") ("zh-tw/" | absURL) ("" | absURL)) }}
+<script type="application/ld+json">
+{{ dict
+  "@context" "https://schema.org"
+  "@type" "BreadcrumbList"
+  "itemListElement" (slice
+    (dict "@type" "ListItem" "position" 1 "name" $homeLabel "item" $homeBreadcrumbURL)
+    (dict "@type" "ListItem" "position" 2 "name" $title "item" $canonical)
+  )
   | jsonify | safeJS }}
 </script>
 {{ end }}

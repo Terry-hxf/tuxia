@@ -437,9 +437,9 @@ body {
   right: 0;
   z-index: 120;
   display: grid;
-  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 6px;
-  width: 316px;
+  width: min(420px, calc(100vw - 32px));
   padding: 10px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -447,11 +447,19 @@ body {
   box-shadow: var(--shadow-lg);
 }
 .tool-switcher-menu a {
+  min-width: 0;
   justify-content: flex-start;
   gap: 8px;
   height: auto;
   padding: 8px 10px;
   color: var(--text-secondary);
+  overflow: hidden;
+  white-space: nowrap;
+}
+.tool-switcher-menu a span:last-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 .tool-menu-icon {
@@ -2217,6 +2225,25 @@ body {
   font-size: 0.92rem;
   line-height: 1.8;
 }
+.tool-keyword-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+.tool-keyword-row span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 650;
+}
 .tool-seo-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2751,6 +2778,9 @@ body {
   }
   .tool-seo-head {
     text-align: left;
+  }
+  .tool-keyword-row {
+    justify-content: flex-start;
   }
   .tool-seo-card,
   .tool-faq,

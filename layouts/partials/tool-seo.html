@@ -6,12 +6,15 @@
 {{ $seo := index hugo.Data.tool_seo $toolId }}
 {{ $toolName := .Params.heading | default .Title }}
 {{ $toolSummary := .Params.summary | default .Params.description }}
+{{ $keywordsParam := .Params.keywords | default "" }}
+{{ $keywordString := cond (reflect.IsSlice $keywordsParam) (delimit $keywordsParam ",") $keywordsParam }}
 {{ $toolFaq := slice }}
 {{ if $isZH }}
   {{ with index hugo.Data.zh_tool_guides $toolId }}{{ $seo = . }}{{ end }}
   {{ with index hugo.Data.zh_tools $toolId }}
     {{ $toolName = .name }}
     {{ $toolSummary = .summary }}
+    {{ $keywordString = .keywords }}
     {{ $toolFaq = .faq }}
   {{ end }}
 {{ else if $isTW }}
@@ -19,6 +22,7 @@
   {{ with index hugo.Data.zh_tw_tools $toolId }}
     {{ $toolName = .name }}
     {{ $toolSummary = .summary }}
+    {{ $keywordString = .keywords }}
     {{ $toolFaq = .faq }}
   {{ end }}
 {{ end }}
@@ -29,6 +33,11 @@
       <p class="section-label">{{ if $isTW }}工具指南{{ else if $isZH }}工具指南{{ else }}Tool Guide{{ end }}</p>
       <h2 id="tool-seo-title">{{ if or $isZH $isTW }}{{ $toolName }}{{ if $isTW }}指南與常見問題{{ else }}指南和常见问题{{ end }}{{ else }}{{ .title }} Guide and FAQ{{ end }}</h2>
       <p>{{ if or $isZH $isTW }}{{ $toolSummary }}{{ else }}{{ .intro }}{{ end }}</p>
+      {{ with $keywordString }}
+      <div class="tool-keyword-row" aria-label="{{ if $isTW }}相關搜尋{{ else if $isZH }}相关搜索{{ else }}Related searches{{ end }}">
+        {{ range (first 8 (split . ",")) }}<span>{{ . }}</span>{{ end }}
+      </div>
+      {{ end }}
     </div>
 
     <div class="tool-seo-grid">
