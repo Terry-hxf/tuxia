@@ -3,6 +3,76 @@
 {{ $toolId := .Params.toolId }}
 {{ $tool := cond $isTW (index hugo.Data.zh_tw_tools $toolId) (index hugo.Data.zh_tools $toolId) }}
 {{ $sourcePage := site.GetPage (printf "tools/%s.html" $toolId) }}
+{{ $badgeZH := dict
+  "Text watermark" "文字水印"
+  "Image watermark" "图片水印"
+  "Multiple layouts" "多种排列"
+  "Paint selection" "涂抹选区"
+  "Repair or mosaic" "修复或马赛克"
+  "Export result" "导出结果"
+  "Width and height" "宽高调整"
+  "Lock ratio" "锁定比例"
+  "Local export" "本地导出"
+  "Live preview" "实时预览"
+  "Custom styles" "样式定制"
+  "Format export" "格式导出"
+  "Upload preview" "上传预览"
+  "Content reading" "内容识别"
+  "Copy or open" "复制或打开"
+  "Main palette" "主色提取"
+  "Hover picker" "悬停取色"
+  "Copy formats" "复制格式"
+  "Generate link" "生成链接"
+  "Copy and share" "复制分享"
+  "Multiple outputs" "多格式输出"
+  "Fast download" "快速下载"
+  "Image preview" "图片预览"
+  "Metadata read" "元数据读取"
+  "GPS information" "GPS 信息"
+  "Two-way panels" "双向转换"
+  "Code preview" "编码预览"
+  "Copy and download" "复制下载"
+  "Canvas selection" "画布选区"
+  "Ratio crop" "比例裁剪"
+  "Rotate preview" "旋转预览"
+  "Before and after" "前后对比"
+  "Quality control" "质量调节"
+}}
+{{ $badgeTW := dict
+  "Text watermark" "文字浮水印"
+  "Image watermark" "圖片浮水印"
+  "Multiple layouts" "多種排列"
+  "Paint selection" "塗抹選區"
+  "Repair or mosaic" "修復或馬賽克"
+  "Export result" "匯出結果"
+  "Width and height" "寬高調整"
+  "Lock ratio" "鎖定比例"
+  "Local export" "本機匯出"
+  "Live preview" "即時預覽"
+  "Custom styles" "樣式自訂"
+  "Format export" "格式匯出"
+  "Upload preview" "上傳預覽"
+  "Content reading" "內容辨識"
+  "Copy or open" "複製或打開"
+  "Main palette" "主色擷取"
+  "Hover picker" "懸停取色"
+  "Copy formats" "複製格式"
+  "Generate link" "產生連結"
+  "Copy and share" "複製分享"
+  "Multiple outputs" "多格式輸出"
+  "Fast download" "快速下載"
+  "Image preview" "圖片預覽"
+  "Metadata read" "中繼資料讀取"
+  "GPS information" "GPS 資訊"
+  "Two-way panels" "雙向轉換"
+  "Code preview" "編碼預覽"
+  "Copy and download" "複製下載"
+  "Canvas selection" "畫布選區"
+  "Ratio crop" "比例裁切"
+  "Rotate preview" "旋轉預覽"
+  "Before and after" "前後對比"
+  "Quality control" "品質調節"
+}}
 {{ partial "site-header.html" . }}
 
 <main class="tool-page-shell">
@@ -16,13 +86,8 @@
       {{ with $sourcePage.Params.badges }}
       <div class="tool-intro-panel" aria-label="{{ if $isTW }}工具能力{{ else }}工具能力{{ end }}">
         {{ range . }}
-          {{ $badge := . }}
-          {{ if $isTW }}
-            {{ $badge = partial "localize-tool-content.html" (dict "content" $badge "lang" "zh-TW") }}
-          {{ else }}
-            {{ $badge = partial "localize-tool-content.html" (dict "content" $badge "lang" "zh-CN") }}
-          {{ end }}
-          <span>{{ $badge }}</span>
+          {{ $label := cond $isTW (index $badgeTW . | default .) (index $badgeZH . | default .) }}
+          <span>{{ $label }}</span>
         {{ end }}
       </div>
       {{ end }}

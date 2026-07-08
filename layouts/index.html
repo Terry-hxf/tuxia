@@ -109,13 +109,22 @@
   .step-item h3 { font-size: 0.9rem; margin-bottom: 4px; }
   .step-item p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.6; }
 
+  /* ── Guide ── */
+  .guide-section { padding: 56px 0; background: rgba(239,246,255,0.54); border-top: 1px solid var(--border); }
+  .guide-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 920px; margin: 0 auto; }
+  .guide-card { padding: 22px; background: rgba(255,255,255,0.86); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+  .guide-card h3 { font-size: 1rem; margin-bottom: 10px; }
+  .guide-card p, .guide-card li { font-size: 0.86rem; color: var(--text-secondary); line-height: 1.72; }
+  .guide-card ul { padding-left: 18px; }
+  .guide-card li + li { margin-top: 6px; }
+
   /* ── CTA ── */
   .cta-section { padding: 42px 0 50px; text-align: center; background: rgba(255,255,255,0.7); border-top: 1px solid var(--border); }
   .cta-section h2 { margin-bottom: 10px; }
 
   @media (max-width: 768px) {
     .hero { padding: 44px 0 34px; }
-    .features-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+    .features-grid, .guide-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
     .tools-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .tool-card { min-height: 136px; padding: 18px; }
     .steps-grid { grid-template-columns: 1fr; max-width: 420px; }
@@ -227,6 +236,26 @@
         <h3>Copy or download</h3>
         <p>Choose a format, copy values or links, and save the result</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Guide ── -->
+<section class="guide-section">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-label">Image Tool Guide</p>
+      <h2>Choose the right workspace for each image task</h2>
+    </div>
+    <div class="guide-grid">
+      <article class="guide-card">
+        <h3>Start with the result you need</h3>
+        <p>Use the compressor when the goal is smaller JPG, PNG, or WebP files. Choose the resizer or cropper when the target is a fixed width, height, or aspect ratio. Use the format converter when a website, email, document, or publishing workflow needs a different image type.</p>
+      </article>
+      <article class="guide-card">
+        <h3>Understand local processing and sharing</h3>
+        <p>Most TUXIA tools use browser APIs and keep the selected image on your device. The image URL generator is different: it uploads through the ImgBB API key you provide, so it is best for images that are safe to publish or share. For screenshots with private text, faces, QR codes, or license plates, use the retouch and mosaic tool before sharing.</p>
+      </article>
     </div>
   </div>
 </section>

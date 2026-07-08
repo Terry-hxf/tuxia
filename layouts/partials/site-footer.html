@@ -39,7 +39,7 @@
       <div class="footer-brand-block">
         <a href="{{ $homeURL }}" class="footer-logo-link">
           <img src="{{ "assets/tuxia-logo.svg" | relURL }}?v=20260608c" alt="">
-          <span class="notranslate" translate="no" data-brand-name>TUXIA</span>
+          <span class="notranslate" translate="no" data-brand-name>{{ if or $isZH $isTW }}图匣{{ else }}TUXIA{{ end }}</span>
         </a>
         <p>{{ $footerDesc }}</p>
       </div>
@@ -61,7 +61,7 @@
       </nav>
     </div>
     <div class="footer-bottom">
-      <span>&copy; 2026 <span class="notranslate" translate="no" data-brand-name>TUXIA</span>. {{ $rightsLabel }}</span>
+      <span>&copy; 2026 <span class="notranslate" translate="no" data-brand-name>{{ if or $isZH $isTW }}图匣{{ else }}TUXIA{{ end }}</span>. {{ $rightsLabel }}</span>
       <span class="footer-site-info" id="footer-site-info">{{ $siteInfo }}</span>
     </div>
   </div>

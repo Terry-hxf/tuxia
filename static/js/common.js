@@ -361,14 +361,6 @@ function correctBrandTranslation() {
   document.querySelectorAll('[data-brand-subtitle]').forEach(function(node) {
     node.textContent = brandSubtitle;
   });
-  document.querySelectorAll('body *').forEach(function(node) {
-    if (!node.childNodes || node.childNodes.length !== 1) return;
-    var textNode = node.childNodes[0];
-    if (!textNode || textNode.nodeType !== Node.TEXT_NODE) return;
-    if (textNode.nodeValue.indexOf('兔侠') >= 0) {
-      textNode.nodeValue = textNode.nodeValue.replace(/兔侠/g, '图匣');
-    }
-  });
 }
 
 function observeBrandTranslation() {

@@ -31,8 +31,8 @@
     <a href="{{ $homeURL }}" class="logo-link">
       <span class="logo-mark"><img class="logo-img" src="{{ "assets/tuxia-logo.svg" | relURL }}?v=20260608c" alt=""></span>
       <span class="logo-wordmark notranslate" translate="no">
-        <span class="logo-name" data-brand-name>TUXIA</span>
-        <span class="logo-pinyin" data-brand-subtitle>IMAGE TOOLS</span>
+        <span class="logo-name" data-brand-name>{{ if or $isZH $isTW }}图匣{{ else }}TUXIA{{ end }}</span>
+        <span class="logo-pinyin" data-brand-subtitle>{{ if or $isZH $isTW }}图像工具{{ else }}IMAGE TOOLS{{ end }}</span>
       </span>
     </a>
     <nav class="site-nav" aria-label="{{ $navLabel }}">
@@ -44,8 +44,8 @@
           {{ range $tools }}
             {{ $toolName := .navName | default .name }}
             {{ $toolHref := .href | relURL }}
-              {{ if $isZH }}{{ with index hugo.Data.zh_tools .id }}{{ $toolName = .navName | default .name }}{{ end }}{{ end }}
-              {{ if $isTW }}{{ with index hugo.Data.zh_tw_tools .id }}{{ $toolName = .navName | default .name }}{{ end }}{{ end }}
+            {{ if $isZH }}{{ with index hugo.Data.zh_tools .id }}{{ $toolName = .navName | default .name }}{{ end }}{{ end }}
+            {{ if $isTW }}{{ with index hugo.Data.zh_tw_tools .id }}{{ $toolName = .navName | default .name }}{{ end }}{{ end }}
             {{ if $isZH }}{{ $toolHref = printf "zh/tools/%s/" .id | relURL }}{{ else if $isTW }}{{ $toolHref = printf "zh-tw/tools/%s/" .id | relURL }}{{ end }}
             <a href="{{ $toolHref }}" class="{{ if eq $current $toolHref }}active{{ end }}">
               <span class="tool-menu-icon" aria-hidden="true">{{ partial "tool-icon.html" .id }}</span>
