@@ -1,6 +1,28 @@
 base64:
   title: "Image Base64 Converter"
   intro: "Use the TUXIA Image Base64 Converter to encode image files into Base64 data URLs or decode pasted Base64 strings back into previewable images. It is useful for small icons, email templates, CSS embeds, quick prototypes, and debugging image data without installing a desktop utility."
+  introduction: |
+    Base64 encoding converts binary image data into a text string that can be embedded directly in HTML, CSS, JSON, or other text-based formats. This is useful when you need to bundle images inside a single file — for example, a self-contained HTML email, a single-file web component, or a CSS sprite sheet where external image references are impractical. TUXIA's Image Base64 Workspace provides a two-panel interface: the left panel converts any image to a Base64 data URL with automatic character count and estimated file size, while the right panel lets you paste any Base64 string to instantly decode and preview the resulting image. Both operations run entirely in your browser using the FileReader and Canvas APIs, so your image files and Base64 strings never leave your device.
+  useCases:
+    - title: "CSS and HTML Embeds"
+      description: "Small icons, logos, and decorative elements can be embedded as Base64 data URLs directly in CSS or HTML, eliminating extra HTTP requests. This is particularly valuable for single-page applications, email templates, and offline-capable web apps where every network round-trip matters."
+    - title: "API Data Transfer"
+      description: "When sending image data through REST APIs or GraphQL, Base64 encoding provides a text-safe format that survives JSON serialization without binary corruption. Developers often use this pattern for profile photo uploads, document attachments, or image annotation workflows."
+    - title: "Debugging and Testing"
+      description: "Base64 output makes it easy to inspect image data in log files, compare encoded representations across formats, or create reproducible test fixtures. You can also verify whether an image was correctly decoded by pasting Base64 text and checking the preview."
+  technicalNotes:
+    - "Base64 encoding increases file size by approximately 33% compared to the original binary. For large photos, this overhead can be substantial — a 1 MB image becomes a ~1.33 MB Base64 string."
+    - "Not all browsers handle very long Base64 strings efficiently in textareas. For images larger than 2-3 MB, consider using a direct file transfer instead."
+    - "The `data:image/` prefix specifies the MIME type. TUXIA automatically includes the correct prefix based on the detected image format."
+    - "When decoding Base64, any string that starts with `data:image/` is treated as a complete data URL. Raw Base64 without a prefix defaults to PNG decoding."
+  comparisons: |
+    Unlike server-based Base64 converters that may log your image data or impose upload limits, TUXIA's tool processes everything locally in your browser. There is no file size limit from TUXIA's side (browser memory is the only constraint), and you can convert files instantly without waiting for uploads. However, Base64 encoding alone does not compress images — if file size is your primary concern, use TUXIA's Image Compressor before encoding.
+  bestPractices:
+    - "Keep Base64-encoded images under 10 KB when possible. Icons, small logos, and inline graphics are ideal candidates; full-resolution photos are not."
+    - "Use Base64 for images that appear above the fold and would otherwise block rendering due to additional HTTP requests."
+    - "When embedding Base64 in CSS, place it at the end of your stylesheet or in an inline `<style>` block to avoid blocking critical CSS delivery."
+    - "Always test decoded images before using the Base64 string in production — verify dimensions, colors, and transparency."
+
   bestFor:
     - "Convert PNG, JPG, WebP, SVG, GIF, or BMP images into Base64 strings."
     - "Paste Base64 image data and preview the decoded result before downloading."
@@ -17,9 +39,32 @@ base64:
       answer: "Yes. Paste a valid Base64 image string into the decoder panel and TUXIA will preview it and let you download the result."
     - question: "Is Base64 conversion private?"
       answer: "The conversion is performed locally in the browser. Avoid pasting sensitive data into third-party pages, but TUXIA itself does not send it to a TUXIA backend."
+
 online:
   title: "Image URL Generator"
   intro: "The Image URL Generator helps you create a shareable image link by using your own ImgBB API key. It is designed for quick temporary sharing, device-to-device transfer, forum posts, and lightweight asset handoff when you need a public URL."
+  introduction: |
+    While most TUXIA tools process images locally without any network requests, the Image URL Generator serves a distinct purpose: creating a publicly accessible link for an image. This is useful when you need to share an image on a forum, embed it in a chat message, send it to someone who cannot receive attachments, or display it on a website that does not host its own images. The tool uses the ImgBB API, which requires your own API key (free from ImgBB). Once configured, your browser sends the image directly to ImgBB and returns a direct URL and a viewer page URL that you can copy and share. TUXIA does not proxy, store, or see the uploaded image — the connection is between your browser and ImgBB only.
+  useCases:
+    - title: "Quick Sharing Without Attachments"
+      description: "Instead of emailing large image attachments or dealing with messaging app compression, upload the image to get a shareable URL. The recipient sees the image at full quality by simply opening the link."
+    - title: "Cross-Device Transfer"
+      description: "Upload an image from your desktop and open the generated link on your phone, tablet, or another device without needing a cable, cloud sync, or messaging app."
+    - title: "Temporary Asset Delivery"
+      description: "Designers and developers can share draft images, mockups, or screenshots with clients or teammates through a temporary public URL without committing the file to a permanent hosting solution."
+  technicalNotes:
+    - "ImgBB API keys are free and can be created from your ImgBB account dashboard. The key is stored only in your browser's localStorage, not on any TUXIA server."
+    - "Upload limits depend on your ImgBB account tier. Free accounts typically allow a maximum file size of 32 MB."
+    - "The image is sent over HTTPS from your browser to ImgBB's API endpoint. TUXIA's static site cannot intercept or modify this request."
+    - "Generated URLs are public — anyone with the link can view the image. Do not use this tool for private, sensitive, or confidential images."
+  comparisons: |
+    Unlike cloud storage services (Google Drive, Dropbox) that require account creation and folder management, the Image URL Generator creates a direct, anonymous image link in one step. However, ImgBB links may expire or be removed based on ImgBB's retention policies. For permanent hosting, consider a dedicated image hosting service or your own web server.
+  bestPractices:
+    - "Always preview the image before uploading to confirm it is the correct file and does not contain unintended metadata."
+    - "Use the URL generator after running images through other TUXIA tools — compress or resize the image first to reduce upload time and bandwidth."
+    - "Save your ImgBB API key in the browser settings panel so you do not need to re-enter it each time."
+    - "Bookmark important ImgBB viewer page URLs, as ImgBB may eventually remove images from free accounts."
+
   bestFor:
     - "Upload an image with a personal ImgBB API key."
     - "Generate a public image link that can be copied and shared."
@@ -36,9 +81,33 @@ online:
       answer: "No. TUXIA does not receive, proxy, store, or delete ImgBB uploads. The request is made directly from your browser to ImgBB."
     - question: "Can I use the generated URL anywhere?"
       answer: "The link can usually be shared wherever public image URLs are accepted, subject to ImgBB's own terms and availability."
+
 qrcode-gen:
   title: "QR Code Generator"
   intro: "Create custom QR codes for links, text, contact snippets, Wi-Fi notes, labels, packaging drafts, and quick sharing. The generator includes live preview, size controls, error correction, colors, dot style, corner style, optional logo embedding, and PNG or SVG export."
+  introduction: |
+    QR codes have become an essential bridge between physical and digital content — they appear on product packaging, restaurant menus, event tickets, business cards, and marketing materials. TUXIA's QR Code Generator gives you full creative control over the appearance of your QR code while ensuring it remains scannable. You can adjust the size (in pixels), choose from four error correction levels (L, M, Q, H), customize foreground and background colors, switch between square dots and rounded styles, modify corner patterns, and optionally embed a logo in the center. The live preview updates instantly as you make changes, so you can experiment with different designs before exporting as PNG or SVG. All generation runs locally in your browser using the qr-code-styling library.
+  useCases:
+    - title: "Branded Marketing Materials"
+      description: "Create QR codes that match your brand colors and feature your logo in the center. Export as SVG for print-ready materials like flyers, posters, and product packaging where scalable vector graphics are essential."
+    - title: "Digital-to-Physical Links"
+      description: "Generate a QR code from any URL to place on business cards, event signage, or product labels. Users scan with their phone camera to instantly visit your website, social media profile, or landing page."
+    - title: "Wi-Fi and Contact Sharing"
+      description: "Encode Wi-Fi network credentials or contact information (vCard format) into a QR code. Guests scan to auto-connect to Wi-Fi, and new contacts scan to add you to their address book without manual typing."
+  technicalNotes:
+    - "Higher error correction levels (Q, H) allow the QR code to remain readable even if part of it is covered or damaged, but they increase the module count and make the code denser."
+    - "When embedding a logo, use Q or H error correction. The logo covers some QR modules, and higher error correction compensates for the obscured area."
+    - "QR code colors must maintain sufficient contrast. Dark foreground on light background works best. Avoid light colors on white backgrounds or dark colors on black backgrounds."
+    - "SVG export produces vector output that can be scaled to any size without pixelation, making it ideal for print. PNG export is better for quick digital sharing."
+    - "The recommended minimum QR code size for print is 2 × 2 cm (about 0.8 × 0.8 inches). For digital displays, 200 × 200 pixels is a practical minimum."
+  comparisons: |
+    Many online QR code generators watermark the output, require sign-up, or limit the number of codes you can create. TUXIA's generator has no limits, no watermarks, and no sign-up — all styling and export run locally. However, TUXIA does not track scan analytics; if you need scan count tracking, you may need a dedicated QR management platform.
+  bestPractices:
+    - "Always test your QR code with at least two different phones (iOS and Android) before printing or publishing."
+    - "Use SVG export for logos, print materials, and any use case that requires scaling. Use PNG for quick digital sharing."
+    - "Keep logos small (under 20% of the QR code area) and use a transparent PNG logo with adequate padding around it."
+    - "Test color combinations in both light and dark mode to ensure contrast works across different display conditions."
+
   bestFor:
     - "Generate QR codes from URLs, plain text, or short messages."
     - "Customize foreground color, background color, pattern style, and size."
@@ -55,9 +124,30 @@ qrcode-gen:
       answer: "Yes. You can upload a small logo and tune error correction to keep the QR code readable."
     - question: "Why should I test a QR code after export?"
       answer: "Color contrast, logo size, print quality, and error correction can affect scanning. Always test the final file with a phone camera."
+
 qrcode-dec:
   title: "QR Code Decoder"
   intro: "Decode QR code images directly in the browser. Upload a screenshot or photo of a QR code to read the embedded text, URL, or message, then copy the result or open the link."
+  introduction: |
+    QR code decoding is the companion to generation — it reads the content hidden inside a QR code image. You might encounter a QR code in a screenshot, a downloaded image, a PDF document, or a photo someone sent you. Before scanning with your phone, you may want to preview what the QR code actually contains, especially when the code comes from an untrusted source. TUXIA's QR Code Decoder uses the jsQR library to analyze uploaded images and extract the embedded text or URL. The tool displays the result clearly, labels whether it is a URL or plain text, and provides buttons to copy the content or open the link safely after inspection.
+  useCases:
+    - title: "Security Verification"
+      description: "Before scanning a QR code with your phone camera, decode it first to see the actual URL. This helps you identify phishing attempts, shortened URLs that hide their destination, or codes placed in suspicious locations."
+    - title: "Content Extraction from Screenshots"
+      description: "If you receive a QR code as a screenshot or in a PDF, upload it to the decoder to extract the embedded text or link without needing to scan the screen with another device."
+    - title: "Troubleshooting Generated Codes"
+      description: "After creating a QR code with the generator, use the decoder to verify that the correct content was encoded. This catches errors before you print or publish the code."
+  technicalNotes:
+    - "The jsQR library works best with clear, well-lit, front-facing QR codes. Blurry, skewed, or partially obscured codes may fail to decode."
+    - "QR codes can encode URLs, plain text, phone numbers, email addresses, SMS messages, Wi-Fi credentials, and vCard contact data."
+    - "The decoder reads the raw text content regardless of format — it does not distinguish between a URL and non-URL text except to provide an 'Open link' button for URLs."
+  comparisons: |
+    Phone camera apps can scan QR codes quickly, but they usually navigate directly to the URL without letting you inspect it first. TUXIA's decoder shows the raw content before you act on it, providing a safety layer. For batch decoding or automated workflows, specialized desktop software may be more efficient, but for quick one-off checks, TUXIA offers the simplest experience.
+  bestPractices:
+    - "Always inspect the decoded URL before clicking 'Open link' — especially for QR codes from unknown sources."
+    - "Use a clear, front-facing image of the QR code. If the first attempt fails, try cropping the image to only the QR code area or using a higher-resolution version."
+    - "If you are generating QR codes, decode them as a final verification step before sharing or printing."
+
   bestFor:
     - "Read QR codes from screenshots, downloaded images, and photos."
     - "Check the actual URL before opening a QR code."
@@ -74,9 +164,32 @@ qrcode-dec:
       answer: "The decoder shows the text first so you can inspect it before opening the link."
     - question: "Does the QR decoder support photos?"
       answer: "Yes, as long as the QR code is clear enough and the image format is supported by the browser."
+
 compress:
   title: "Image Compressor"
   intro: "Compress images online with a before-and-after preview. TUXIA lets you adjust quality, compare the original and compressed file, and export common image formats for websites, email, documents, social posts, and lightweight publishing."
+  introduction: |
+    Image compression is one of the most impactful optimizations you can make for web performance, email deliverability, and storage management. Large, uncompressed images slow down page loads, consume mobile data, get rejected by email servers, and fill up cloud storage. TUXIA's Image Compressor provides a side-by-side comparison workspace where you can see exactly how compression affects your image in real time. Upload a JPG, PNG, or WebP file, adjust the quality slider from 10% to 100%, and immediately see the compressed preview alongside the original. The tool automatically chooses the best compression format (WebP where supported, JPEG for photos, PNG for graphics with transparency) and shows the exact file size reduction in bytes and percentage. You can also override the output format to PNG, JPG, WebP, or SVG before downloading. All processing uses the browser's Canvas API — your original image file stays on your device and is never uploaded to a server.
+  useCases:
+    - title: "Website Performance Optimization"
+      description: "Unoptimized images are the leading cause of slow page loads. Compress product photos, hero images, and blog illustrations before uploading to your CMS. Even a 30-50% size reduction per image can cut total page weight significantly, improving Core Web Vitals scores and SEO rankings."
+    - title: "Email Attachment Size Reduction"
+      description: "Most email providers cap attachments at 25 MB per message. Photos straight from a modern phone camera can easily exceed 5-10 MB each. Compress images before attaching to ensure they reach the recipient without bouncing or being automatically downsized by the email service."
+    - title: "Social Media and Messaging"
+      description: "Social platforms and messaging apps apply their own compression when you upload, often degrading quality unpredictably. Pre-compressing with TUXIA gives you control over the quality-to-size trade-off, so you can share images that look good without consuming unnecessary bandwidth."
+  technicalNotes:
+    - "JPEG compression is lossy — each re-compression permanently discards some image data. For archival purposes, keep an uncompressed master copy and create compressed versions for distribution."
+    - "WebP compression typically produces files 25-35% smaller than JPEG at equivalent visual quality. Most modern browsers support WebP, but some older email clients and apps do not."
+    - "PNG compression in browsers is lossless — TUXIA re-encodes the PNG, which can sometimes produce a smaller file without quality loss, especially if the original PNG was not optimized."
+    - "Images with transparency (alpha channel) are converted carefully: JPEG output adds a white background, while WebP and PNG preserve transparency."
+  comparisons: |
+    Server-based compressors like TinyPNG or Compressor.io offer similar quality through cloud processing, but they require uploading your images to a third-party server. TUXIA's compressor runs entirely in your browser, which is faster for large files (no upload wait) and more private (no server ever sees your image). Desktop tools like ImageOptim or Photoshop offer batch processing and more advanced options, but require installation and are not available on all devices.
+  bestPractices:
+    - "Start with quality at 80% and preview the result. Gradually reduce quality until you notice visible degradation, then step back 5-10%."
+    - "Use WebP format for web images — it offers the best size-to-quality ratio for photos and mixed-content graphics."
+    - "For text-heavy images (screenshots, infographics), keep quality above 60% to ensure text remains sharp and readable."
+    - "If the compressed file is larger than the original (shown as a neutral note), the image was already well-optimized. Try a different output format or accept the original as the best version."
+
   bestFor:
     - "Reduce JPG, PNG, and WebP file size before uploading to websites."
     - "Compare the original and compressed result visually."
@@ -93,9 +206,32 @@ compress:
       answer: "WebP often produces small files for photos and mixed graphics. JPG is widely compatible for photos, while PNG is better for transparency and sharp graphics."
     - question: "Will compression reduce quality?"
       answer: "Lossy formats can reduce quality. Use the preview to balance file size and visual clarity."
+
 convert:
   title: "Image Format Converter"
   intro: "Convert images between PNG, JPG, WebP, BMP, and SVG-style export from one focused browser workspace. Preview the uploaded image, choose the output format, and download the converted file without installing extra software."
+  introduction: |
+    Different platforms and workflows demand different image formats. A website may need WebP for performance, a print shop may require TIFF (converted from JPG), an email signature might need a small PNG, and a legacy system might only accept BMP. TUXIA's Image Format Converter handles the common web formats — PNG, JPG, WebP, and BMP — plus SVG wrapper export, all from a single upload. The tool previews your source image so you can confirm you are converting the right file, then lets you choose from five output formats. Conversion happens instantly in your browser using the Canvas API: the image is drawn onto an offscreen canvas and exported in the selected format. This means no upload delay, no server dependency, and complete privacy for your image files.
+  useCases:
+    - title: "Web Development Format Switching"
+      description: "Convert PNG screenshots and JPG photos to WebP for modern web deployment, cutting file sizes by 25-35% without visible quality loss. Or convert WebP images back to JPG for compatibility with older browsers, email clients, and CMS platforms that do not support WebP."
+    - title: "Document and Presentation Preparation"
+      description: "Convert images to universally compatible formats before inserting them into Word documents, PowerPoint presentations, or PDF reports. JPG is the safest choice for maximum compatibility across office software."
+    - title: "Transparency Management"
+      description: "Convert PNG images with transparency to JPG when you need a solid background, or convert opaque JPG images to PNG when you need to preserve exact pixel data without compression artifacts."
+  technicalNotes:
+    - "Converting from a lossy format (JPG, WebP) to a lossless format (PNG, BMP) does not restore quality that was already lost. The converted file will be larger but will look identical to the source."
+    - "The SVG export option wraps the raster image inside an SVG container. It does not vectorize or trace the bitmap — the SVG still contains the original raster data as an embedded image."
+    - "BMP is an uncompressed format that produces very large files. Only use BMP when specifically required by a legacy system or application."
+    - "Alpha transparency is preserved when converting to PNG or WebP. Converting to JPG replaces transparency with a white background."
+  comparisons: |
+    Dedicated desktop tools like Adobe Photoshop or GIMP offer far more format options (TIFF, PSD, HEIC, RAW) and fine-grained export settings. TUXIA's converter is best for quick, one-off conversions between common web formats when you do not have — or do not want to open — desktop editing software.
+  bestPractices:
+    - "Choose WebP as the output format when the destination is a modern website. It delivers the best file size for visual quality."
+    - "Use PNG when you need to preserve transparency or when the image contains text and sharp lines that would show JPEG artifacts."
+    - "After converting, always preview the downloaded file before using it in production — especially when converting between lossy and lossless formats."
+    - "Avoid BMP unless you have a specific requirement, as it produces very large files with no quality advantage over PNG."
+
   bestFor:
     - "Convert PNG to JPG, JPG to WebP, WebP to PNG, or BMP to PNG."
     - "Prepare images for websites, documents, email, or design handoff."
@@ -112,9 +248,30 @@ convert:
       answer: "The SVG option wraps the raster image for compatibility. It does not automatically vectorize a bitmap into editable paths."
     - question: "Which format should I use for websites?"
       answer: "WebP is often a strong choice for modern websites. Use PNG for transparent graphics and JPG for broad photo compatibility."
+
 resize:
   title: "Image Resizer"
   intro: "Resize images by width, height, or percentage directly in the browser. TUXIA keeps aspect ratio controls visible, provides quick scale presets, and exports the resized result for websites, profiles, product images, thumbnails, and documents."
+  introduction: |
+    Image dimensions directly affect file size, load time, and how an image fits into a layout. A photo from a modern smartphone might be 4000 × 3000 pixels — far larger than needed for a website thumbnail or social media post. TUXIA's Image Resizer lets you specify exact width and height in pixels, or scale by a percentage of the original dimensions. An aspect ratio lock toggle ensures you do not accidentally stretch or squash the image when changing one dimension. Quick scale presets (25%, 50%, 75%) provide one-click shortcuts for common reductions. The resized image can be exported as PNG, JPG, or WebP. As with all TUXIA tools, resizing runs locally in your browser using the Canvas API — your original image never leaves your device.
+  useCases:
+    - title: "Thumbnail and Preview Generation"
+      description: "Create consistent thumbnail sizes for product galleries, blog post listings, video covers, or image search results. A standard size (e.g., 300 × 300 or 400 × 300) ensures uniform layouts and faster page loads."
+    - title: "Social Media Profile and Cover Images"
+      description: "Each platform has recommended image dimensions: LinkedIn profile photos (400 × 400), Facebook cover photos (820 × 312), Twitter/X header images (1500 × 500). Resize your source image to the exact dimensions each platform expects."
+    - title: "E-Commerce Product Images"
+      description: "Online stores typically require all product images to have the same dimensions for consistent category pages. Resize each product photo to the required size before uploading to your store platform."
+  technicalNotes:
+    - "Enlarging an image (upscaling) beyond its original dimensions causes the browser to interpolate missing pixels, resulting in blurriness or softness. Resizing is best used to reduce (downscale), not enlarge."
+    - "The aspect ratio lock ensures width and height maintain the original proportions. Unlocking it allows freeform dimensions, which may stretch or squash the image."
+    - "Quick scale presets (25%, 50%, 75%) multiply both dimensions by the given percentage. For example, 50% on a 2000 × 1000 image produces 1000 × 500."
+  comparisons: |
+    TUXIA's resizer is optimized for quick, interactive dimension changes with immediate visual feedback. For batch resizing of dozens or hundreds of images, desktop tools like Photoshop (Image Processor), XnConvert, or command-line tools like ImageMagick are more efficient. For mobile-only workflows, TUXIA's resizer works on phone browsers without any app installation.
+  bestPractices:
+    - "Keep aspect ratio locked for most use cases. Only unlock it when you intentionally want to change the image proportions."
+    - "Resize images BEFORE compressing them. Reducing dimensions is the most effective way to reduce file size — then fine-tune with compression."
+    - "Check the target platform's recommended image dimensions before resizing. Each social network, CMS, and e-commerce platform has specific size requirements."
+
   bestFor:
     - "Resize large photos before uploading or sending."
     - "Create thumbnails, avatars, and product image variants."
@@ -131,9 +288,30 @@ resize:
       answer: "Yes, but enlarging can soften details because the browser has to interpolate missing pixels."
     - question: "What size should I use for web images?"
       answer: "Use the smallest dimensions that still look sharp in the final layout. This improves loading speed and saves bandwidth."
+
 crop:
   title: "Image Cropper"
   intro: "Crop images with a visual canvas, freeform selection, preset aspect ratios, and rotation controls. The cropper is useful for product photos, social media images, avatars, banners, screenshots, and focused composition adjustments."
+  introduction: |
+    Cropping is about removing unwanted areas from an image to improve composition, fit a specific aspect ratio, or focus attention on the subject. TUXIA's Image Cropper provides a visual canvas editor where you can drag a crop area over your uploaded image. Choose from preset ratios — 1:1 (square, ideal for Instagram and profile photos), 4:3 (standard photo ratio), 16:9 (widescreen, ideal for video thumbnails and presentation slides), 3:4, 9:16 (vertical video), or freeform for custom dimensions. You can also rotate the image 90° left or right before cropping. The canvas shows a live preview of the crop result, and the download preserves the cropped dimensions at full resolution.
+  useCases:
+    - title: "Social Media Content Creation"
+      description: "Crop photos to platform-specific aspect ratios: 1:1 for Instagram posts, 16:9 for YouTube thumbnails, 9:16 for Instagram Stories and TikTok, and 4:5 for portrait Instagram posts. Each platform displays images differently, and correct cropping ensures your subject is not cut off unexpectedly."
+    - title: "Product Photography"
+      description: "Standardize e-commerce product photos by cropping to a consistent aspect ratio (often 1:1 or 4:3) so that all products appear uniform in category grids and search results."
+    - title: "Composition Improvement"
+      description: "Remove distracting background elements, center the subject using the rule of thirds, or create a tighter frame around the focal point. Good cropping can transform a mediocre photo into a strong composition."
+  technicalNotes:
+    - "Cropping permanently removes pixels outside the selection area. The exported image will have the exact dimensions of the crop rectangle, scaled to the original image resolution."
+    - "Rotating the image before cropping changes the orientation of the canvas. Rotation is applied visually and reflected in the final crop output."
+    - "The crop area can be moved by dragging the selection, resized by dragging edges or corners, or redrawn by clicking an empty area of the canvas."
+  comparisons: |
+    TUXIA's cropper runs entirely in the browser with an interactive canvas. It is more responsive than server-based crop tools (no upload wait) and simpler than desktop editors for quick one-off crops. For advanced editing — perspective correction, content-aware cropping, or non-destructive cropping — desktop tools like Lightroom, Photoshop, or the built-in Photos app on your device offer more capabilities.
+  bestPractices:
+    - "Choose the aspect ratio FIRST, then adjust the crop area. This ensures your output matches the target dimensions without guesswork."
+    - "Leave a small buffer around the subject when cropping for social media — some platforms apply additional cropping to preview thumbnails."
+    - "If you may need the cropped area later, save the original image separately before cropping. Cropping is destructive and cannot be undone after download."
+
   bestFor:
     - "Crop screenshots, photos, and product images."
     - "Use common ratios such as 1:1, 4:3, 16:9, 3:4, or 9:16."
@@ -150,9 +328,31 @@ crop:
       answer: "Yes. Use the rotation controls before generating the final crop."
     - question: "Will cropping change image quality?"
       answer: "Cropping removes pixels outside the selected area. Export format and quality settings can also affect the final file."
+
 watermark:
   title: "Image Watermark Tool"
   intro: "Add text or image watermarks to pictures in your browser. Choose single placement, one-row, two-row, three-row, or full-screen watermark layouts, adjust size, opacity, rotation, color, and export the final protected image."
+  introduction: |
+    Watermarking adds a visible overlay to images for brand identification, copyright assertion, draft labeling, or deterrence against unauthorized use. TUXIA's Image Watermark Tool supports two watermark types: text watermarks (custom text with configurable font, size, color, opacity, and rotation) and image watermarks (upload a logo or graphic PNG with adjustable size, opacity, and placement). You can choose from five layout modes — single watermark at a corner or center, or repeating rows (1-row, 2-row, 3-row, or full-screen tiled pattern). All adjustments update a live preview on the canvas so you can see exactly how the watermark will appear before exporting. The watermarked image is composed entirely in your browser — neither the original image nor the watermark image is uploaded to any server.
+  useCases:
+    - title: "Brand and Copyright Protection"
+      description: "Add your brand name, logo, or website URL as a semi-transparent watermark before sharing photos online. While watermarks are not foolproof (they can be cropped or edited out), they serve as a visible deterrent and make it easier to trace unauthorized copies back to the source."
+    - title: "Draft and Review Labeling"
+      description: "Apply 'DRAFT', 'PREVIEW', 'CONFIDENTIAL', or 'DO NOT DISTRIBUTE' text watermarks across work-in-progress images, design mockups, or sensitive documents before sharing with clients or reviewers."
+    - title: "Portfolio and Social Media Branding"
+      description: "Photographers and artists can add subtle corner watermarks to portfolio images so that viewers can identify the creator even when images are shared without attribution."
+  technicalNotes:
+    - "Full-screen and multi-row watermarks provide stronger protection than single corner watermarks. A corner watermark can be easily cropped out, while a tiled watermark is much harder to remove."
+    - "Image watermarks (logos) look best when using a transparent PNG. The opacity control applies to the entire watermark image uniformly."
+    - "Watermark text color should contrast with the underlying image. For images with varied backgrounds, consider using a semi-transparent white or black text with a contrasting shadow."
+  comparisons: |
+    TUXIA's watermark tool is local-first, meaning your images and watermark assets never leave your browser. This is a significant privacy advantage over cloud-based watermark tools. However, for batch watermarking hundreds of photos, desktop tools like Lightroom (export with watermark) or command-line tools like ImageMagick are more efficient.
+  bestPractices:
+    - "Use 30-50% opacity for watermark text — opaque enough to be visible, subtle enough not to ruin the viewing experience."
+    - "For brand protection, use a full-screen tiled layout. For portfolio display, use a small single watermark in a corner."
+    - "If using an image watermark (logo), upload a PNG with transparent background. The tool overlays it directly without background removal."
+    - "Test the watermarked image at the intended display size. A watermark that looks good at full resolution may be illegible when the image is scaled down."
+
   bestFor:
     - "Add brand text, author names, draft labels, or copyright notes."
     - "Apply a single watermark or repeated full-screen watermark pattern."
@@ -169,9 +369,32 @@ watermark:
       answer: "Yes. Upload an image watermark and adjust its placement and opacity."
     - question: "Can watermarks be removed?"
       answer: "Any visible watermark can sometimes be edited out. Use placement, opacity, and repetition based on the protection level you need."
+
 retouch:
   title: "Retouch and Mosaic Tool"
   intro: "Use the retouch and mosaic workspace to paint over local image areas. Lightweight repair can clean small blemishes, while mosaic masking helps hide faces, license plates, QR codes, private text, and other sensitive regions before sharing."
+  introduction: |
+    When sharing images publicly, you sometimes need to obscure sensitive information — a face in a crowd photo, a license plate in a car picture, a phone number on a document, or a credit card in a receipt. TUXIA's Retouch and Mosaic Tool provides two modes for local image editing: lightweight repair (for small blemishes or minor distractions, using pixel blending to smooth over the painted area) and mosaic masking (for privacy, applying a pixelation grid to obscure details). You paint the target area with an adjustable brush, choose the mode, and apply the effect. The result downloads as a new image with the edits baked in. All processing happens locally on the Canvas, so sensitive images never leave your device.
+  useCases:
+    - title: "Privacy Protection Before Sharing"
+      description: "Blur or pixelate faces, license plates, house numbers, email addresses, phone numbers, and other personal details from screenshots, photos, or document scans before posting them online or sending them to others."
+    - title: "Minor Blemish Cleanup"
+      description: "Remove small dust spots, skin blemishes, stray hairs, or minor sensor spots from photos using the lightweight repair mode. Best for small, isolated imperfections rather than large-area edits."
+    - title: "Sensitive Document Redaction"
+      description: "Apply mosaic masking over confidential text, account numbers, signatures, or QR code fragments in document photos before sharing them for reference or support purposes."
+  technicalNotes:
+    - "The retouch mode applies pixel-level blending — it samples surrounding pixels and attempts to create a smooth transition over the painted area. Results depend on the image content and brush size."
+    - "Mosaic strength controls the size of the pixelation blocks. Higher strength means larger blocks and stronger obfuscation."
+    - "This is NOT AI-powered inpainting. The tool uses simple Canvas pixel manipulation. For complex object removal or large-area reconstruction, consider dedicated tools with AI capabilities."
+    - "The maximum supported image size is 10 MB to ensure smooth brush interaction and processing."
+  comparisons: |
+    TUXIA's retouch tool provides basic local editing in the browser without any uploads. It excels at privacy masking and small blemish fixes. For professional retouching — AI-powered object removal, content-aware fill, skin smoothing, or complex compositing — dedicated tools like Photoshop, GIMP, or online AI editors offer much more advanced capabilities. TUXIA's advantage is privacy and simplicity: no account, no upload, instant results for common privacy tasks.
+  bestPractices:
+    - "For mosaic masking, use a brush size that comfortably covers the target area in a few strokes. The mosaic effect is applied once you click the apply button."
+    - "For retouch mode, keep brush size close to the blemish size. Large brush strokes create unnatural-looking blended areas."
+    - "Always preview the result at full size before downloading. Mosaic masking may leave edges visible if the brush does not fully cover the target."
+    - "Only process images you have rights to use. Respect others' privacy when applying masks to photos that include people who have not consented to sharing."
+
   bestFor:
     - "Mask private areas with mosaic blocks."
     - "Apply lightweight local repair to small visual distractions."
@@ -188,9 +411,32 @@ retouch:
       answer: "Use mosaic mode when you want to hide sensitive details such as faces, IDs, license plates, QR codes, or private messages."
     - question: "Can I undo edits?"
       answer: "You can clear the selection or reset the image before exporting the final result."
+
 palette:
   title: "Image Color Picker"
   intro: "Extract a color palette from any image and inspect live color values by hovering over the preview. TUXIA shows HEX, RGB, HSL, and CSS variable formats so designers and developers can quickly copy colors into websites, brand drafts, or UI prototypes."
+  introduction: |
+    Color is one of the most powerful elements of visual design, and extracting the right colors from an image can inspire a complete brand palette, a website theme, or a UI component library. TUXIA's Image Color Picker serves two functions: it extracts a representative 6-color palette from the uploaded image using an analysis of dominant hues and color distribution, and it provides a live hover picker over the image preview that reads the exact pixel color at your cursor position. Colors are displayed in four formats — HEX (e.g., #3B82F6), RGB (rgb(59, 130, 246)), HSL (hsl(217, 91%, 60%)), and CSS custom property (--color: #3B82F6) — each copyable with a single click. The palette and color picker run entirely in the browser, so your images are never uploaded.
+  useCases:
+    - title: "Brand Color Extraction"
+      description: "Upload a logo, hero image, or mood board photo to extract the dominant colors that define a brand's visual identity. Copy the HEX values directly into your brand guidelines document or CSS variables file."
+    - title: "UI and Web Design"
+      description: "Extract colors from a hero image, illustration, or product photo to create a harmonious UI color scheme. Use the extracted palette for buttons, accents, backgrounds, and text colors that naturally complement the main imagery."
+    - title: "Art and Photography Analysis"
+      description: "Study the color composition of artwork, photography, or design references by extracting and comparing palettes. Understand how professional images balance warm and cool tones, saturation levels, and contrast."
+  technicalNotes:
+    - "HEX format (#RRGGBB) is the most widely used color format on the web and in CSS. Each pair of characters represents red, green, and blue values in hexadecimal."
+    - "RGB format specifies colors as red, green, blue values from 0-255. It is useful for programmatic color manipulation in JavaScript and Canvas operations."
+    - "HSL format (hue, saturation, lightness) is more intuitive for designers — hue is the color angle on the wheel (0-360), saturation is color intensity (0-100%), and lightness is brightness (0-100%)."
+    - "The extracted palette may contain similar-looking colors if the image has a narrow color range. For diverse palettes, use images with varied color content."
+  comparisons: |
+    Browser extensions and dedicated color picker apps can sample colors from anywhere on screen, which is more powerful for cross-application workflows. However, TUXIA's tool provides palette extraction plus live pixel picking in one integrated workspace without installing anything. For detailed color grading, ICC profile management, or print color spaces (CMYK), professional tools like Adobe Color or Capture One are more appropriate.
+  bestPractices:
+    - "Switch between HEX, RGB, and HSL formats to match your workflow. Web developers typically use HEX, UI designers often prefer HSL, and Canvas/JavaScript developers work in RGB."
+    - "Copy all six palette colors at once using the 'Copy all' button when building a complete color scheme."
+    - "For accurate color sampling, ensure your browser and display are calibrated. Colors may appear differently on other screens."
+    - "Use the hover picker over areas of interest before extracting the palette — this lets you verify specific pixel colors directly."
+
   bestFor:
     - "Extract dominant colors from product photos, screenshots, or artwork."
     - "Hover over the image to read live pixel colors."
@@ -207,9 +453,31 @@ palette:
       answer: "Yes. Hover over the image preview to see the color under your pointer."
     - question: "Why are some palette colors similar?"
       answer: "Images may contain many near-identical tones. The extracted palette groups representative colors, but close shades can still appear."
+
 exif:
   title: "EXIF Metadata Viewer"
   intro: "View image metadata in the browser, including camera make and model, capture time, aperture, shutter speed, ISO, image dimensions, and GPS fields when available. It is useful for checking photo details before publishing or sharing."
+  introduction: |
+    Every digital photo contains more than just pixels — it carries metadata that records how, when, and where the photo was taken. EXIF (Exchangeable Image File Format) metadata is embedded in JPEG and TIFF files by cameras and smartphones, storing details like the camera model, lens, exposure settings (aperture, shutter speed, ISO), capture date and time, GPS coordinates, image orientation, and even software used to edit the photo. TUXIA's EXIF Metadata Viewer reads this data using the exif.js library and presents it in a clean, readable format alongside the image preview. It also shows basic file information such as image dimensions and file type. Understanding your photo's metadata is essential for privacy awareness, photography workflow analysis, and verifying image authenticity.
+  useCases:
+    - title: "Privacy Check Before Sharing"
+      description: "Smartphones and many cameras embed GPS coordinates in photos by default. Before sharing a photo online or sending it to someone, use the EXIF viewer to check whether GPS data is present. If it reveals your home, workplace, or current location, you may want to strip the metadata before sharing."
+    - title: "Photography Workflow Analysis"
+      description: "Review exposure settings (aperture, shutter speed, ISO) from past shoots to understand what worked and what did not. Compare metadata across multiple photos to identify patterns in your shooting style or diagnose exposure issues."
+    - title: "Image Authenticity Verification"
+      description: "Check the capture date, camera model, and editing software fields to verify claims about when and how a photo was taken. This can help identify edited or misrepresented images."
+  technicalNotes:
+    - "EXIF data is most commonly found in JPEG and TIFF files. PNG and WebP files typically do not contain EXIF metadata, though some tools may embed it in non-standard ways."
+    - "Many social media platforms and messaging apps strip EXIF metadata when you upload or share images. Screenshots, AI-generated images, and heavily edited exports also typically have no EXIF data."
+    - "GPS coordinates in EXIF are stored in degrees, minutes, and seconds format and can include altitude data. When present, they can pinpoint the photo location with surprising accuracy."
+    - "The 'Software' EXIF field often reveals which program was last used to edit the photo, such as Adobe Photoshop, Lightroom, or a phone's built-in editor."
+  comparisons: |
+    Operating system file explorers (Windows File Properties, macOS Preview Inspector) show basic EXIF data without any additional tools. Dedicated EXIF viewers like ExifTool (command-line) or PhotoME offer exhaustive metadata coverage including maker-specific tags that TUXIA's viewer does not parse. TUXIA's viewer focuses on the most commonly needed fields and runs instantly in the browser without installation.
+  bestPractices:
+    - "Always check EXIF metadata before sharing personal photos online, especially photos taken at home. Strip GPS data if location privacy is a concern."
+    - "If your camera's clock was set incorrectly, the capture time in EXIF will be wrong. Use this information to assess metadata reliability."
+    - "For photos that show no EXIF data, consider that the metadata may have been intentionally or automatically removed — this is common for images shared through messaging apps."
+
   bestFor:
     - "Inspect camera and capture settings from JPEG photos."
     - "Check image dimensions and basic metadata."

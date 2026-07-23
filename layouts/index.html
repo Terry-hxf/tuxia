@@ -256,6 +256,50 @@
         <h3>Understand local processing and sharing</h3>
         <p>Most TUXIA tools use browser APIs and keep the selected image on your device. The image URL generator is different: it uploads through the ImgBB API key you provide, so it is best for images that are safe to publish or share. For screenshots with private text, faces, QR codes, or license plates, use the retouch and mosaic tool before sharing.</p>
       </article>
+      <article class="guide-card">
+        <h3>When to use each image format</h3>
+        <p>Use JPEG for photos and complex images where small file size matters. Choose PNG for graphics with text, sharp edges, or transparency needs. WebP offers the best compression for modern web use — often 25-35% smaller than JPEG at similar quality. SVG works for logos and icons that need to scale without losing sharpness. If unsure, try TUXIA's format converter to preview before exporting.</p>
+      </article>
+      <article class="guide-card">
+        <h3>Privacy-first image tools: what local processing means</h3>
+        <p>Unlike cloud-based editors that upload your images to their servers, TUXIA runs 11 of 12 tools entirely in your browser using the Canvas API. Your photos, documents, and screenshots never leave your device — no upload time, no server storage, and complete privacy. Even the QR code generator, color picker, and EXIF viewer process everything locally. The only exception is the image URL generator, which sends images directly to ImgBB using your own API key.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ── From Our Guides ── -->
+<section class="home-guides-section">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-label">From Our Guides</p>
+      <h2>Learn more about image processing</h2>
+      <p style="color:var(--text-secondary);font-size:0.92rem;max-width:600px;margin:0 auto;">In-depth articles on compression, format selection, QR codes, watermarking, metadata privacy, color palettes, and more.</p>
+    </div>
+    <div class="home-guides-grid">
+      <a class="home-guide-item" href="{{ "guides/image-compression-guide.html" | relURL }}">
+        <span class="home-guide-tag">Compression</span>
+        <h3>Complete Guide to Image Compression</h3>
+        <p>Learn how to reduce image file sizes without visible quality loss using lossy and lossless techniques.</p>
+      </a>
+      <a class="home-guide-item" href="{{ "guides/image-formats-compared.html" | relURL }}">
+        <span class="home-guide-tag">Formats</span>
+        <h3>PNG vs JPG vs WebP vs SVG</h3>
+        <p>Compare image formats side by side and choose the right one for your specific needs.</p>
+      </a>
+      <a class="home-guide-item" href="{{ "guides/qr-code-best-practices.html" | relURL }}">
+        <span class="home-guide-tag">QR Codes</span>
+        <h3>QR Code Design Best Practices</h3>
+        <p>Master error correction, color contrast, logo embedding, and testing for reliable QR codes.</p>
+      </a>
+      <a class="home-guide-item" href="{{ "guides/image-metadata-and-privacy.html" | relURL }}">
+        <span class="home-guide-tag">Privacy</span>
+        <h3>Image Metadata and Privacy</h3>
+        <p>Understand what EXIF data reveals about your photos and how to protect your privacy.</p>
+      </a>
+    </div>
+    <div style="text-align:center;margin-top:22px;">
+      <a href="{{ "guides/" | relURL }}" class="btn btn-primary">Browse all guides</a>
     </div>
   </div>
 </section>

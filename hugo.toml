@@ -5,7 +5,7 @@ defaultContentLanguage = "en"
 title = "TUXIA - Free Online Image Tools for Compression, Conversion, Crop and Watermark"
 uglyURLs = true
 enableRobotsTXT = true
-disableKinds = ["taxonomy", "term", "section"]
+disableKinds = ["taxonomy", "term"]
 
 [params]
   siteName = "TUXIA"

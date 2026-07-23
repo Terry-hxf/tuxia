@@ -5,9 +5,11 @@
 {{ $isTW := eq $pageLang "zh-TW" }}
 {{ $homeURL := "" | relURL }}
 {{ if $isZH }}{{ $homeURL = "zh/" | relURL }}{{ else if $isTW }}{{ $homeURL = "zh-tw/" | relURL }}{{ end }}
+{{ $guidesURL := cond $isZH ("zh/guides/" | relURL) (cond $isTW ("zh-tw/guides/" | relURL) ("guides/" | relURL)) }}
 {{ $homeLabel := "Home" }}
 {{ $allToolsLabel := "All Tools" }}
 {{ $switchToolLabel := "Switch Tool" }}
+{{ $guidesLabel := "Guides" }}
 {{ $navLabel := "Main navigation" }}
 {{ $languageLabel := "Language" }}
 {{ $selectLanguageLabel := "Select language" }}
@@ -15,6 +17,7 @@
   {{ $homeLabel = "首页" }}
   {{ $allToolsLabel = "全部工具" }}
   {{ $switchToolLabel = "切换工具" }}
+  {{ $guidesLabel = "指南" }}
   {{ $navLabel = "主导航" }}
   {{ $languageLabel = "语言" }}
   {{ $selectLanguageLabel = "选择语言" }}
@@ -22,6 +25,7 @@
   {{ $homeLabel = "首頁" }}
   {{ $allToolsLabel = "全部工具" }}
   {{ $switchToolLabel = "切換工具" }}
+  {{ $guidesLabel = "指南" }}
   {{ $navLabel = "主導覽" }}
   {{ $languageLabel = "語言" }}
   {{ $selectLanguageLabel = "選擇語言" }}
@@ -37,6 +41,7 @@
     </a>
     <nav class="site-nav" aria-label="{{ $navLabel }}">
       <a href="{{ $homeURL }}">{{ $homeLabel }}</a>
+      <a href="{{ $guidesURL }}">{{ $guidesLabel }}</a>
       <a href="{{ $homeURL }}" data-scroll-tools>{{ $allToolsLabel }}</a>
       <details class="tool-switcher">
         <summary>{{ $switchToolLabel }}</summary>

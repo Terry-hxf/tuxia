@@ -1,0 +1,42 @@
+{{ define "main" }}
+{{ $pageLang := .Params.pageLang | default "en" }}
+{{ $isZH := eq $pageLang "zh-CN" }}
+{{ $isTW := eq $pageLang "zh-TW" }}
+{{ $homeURL := "" | relURL }}
+{{ if $isZH }}{{ $homeURL = "zh/" | relURL }}{{ else if $isTW }}{{ $homeURL = "zh-tw/" | relURL }}{{ end }}
+
+{{ partial "site-header.html" . }}
+
+<main class="guides-shell">
+  <section class="guides-hero">
+    <div class="container">
+      <p class="section-label">TUXIA</p>
+      <h1>{{ .Params.heading | default .Title }}</h1>
+      <p class="guides-hero-desc">{{ .Params.description }}</p>
+    </div>
+  </section>
+
+  <section class="guides-list">
+    <div class="container">
+      <div class="guides-grid">
+        {{ range .Pages.ByDate.Reverse }}
+        <article class="guide-card">
+          <h2><a href="{{ .Permalink }}">{{ .Params.heading | default .Title }}</a></h2>
+          <p class="guide-excerpt">{{ .Params.summary | default .Params.description }}</p>
+          <div class="guide-meta">
+            {{ with .Date }}<time datetime="{{ .Format "2006-01-02" }}">{{ .Format "January 2, 2006" }}</time>{{ end }}
+            {{ with .Params.readingTime }}<span class="reading-time">{{ . }} min read</span>{{ end }}
+          </div>
+          <a href="{{ .Permalink }}" class="guide-read-more">
+            {{ if $isTW }}閱讀全文 →{{ else if $isZH }}阅读全文 →{{ else }}Read more →{{ end }}
+          </a>
+        </article>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+</main>
+
+{{ partial "site-footer.html" . }}
+{{ partial "common-scripts.html" . }}
+{{ end }}

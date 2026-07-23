@@ -6,30 +6,42 @@
 {{ $footerDesc := "A clean online image toolbox for compression, conversion, resizing, cropping, watermarking, QR codes, color picking, Base64 conversion, and EXIF metadata viewing." }}
 {{ $popularLabel := "Popular Tools" }}
 {{ $productLabel := "Product" }}
+{{ $aboutLabel := "About" }}
+{{ $contactLabel := "Contact" }}
 {{ $privacyLabel := "Privacy Policy" }}
 {{ $termsLabel := "Terms of Use" }}
 {{ $rightsLabel := "All rights reserved." }}
 {{ $siteInfo := "Local-first processing with clear previews." }}
+{{ $aboutURL := "about.html" | relURL }}
+{{ $contactURL := "contact.html" | relURL }}
 {{ $privacyURL := "privacy.html" | relURL }}
 {{ $termsURL := "terms.html" | relURL }}
 {{ if $isZH }}
   {{ $footerDesc = "简洁的在线图片工具箱，覆盖压缩、转换、尺寸调整、裁剪、水印、二维码、取色、Base64 转换和 EXIF 元数据查看。" }}
   {{ $popularLabel = "常用工具" }}
   {{ $productLabel = "产品" }}
+  {{ $aboutLabel = "关于我们" }}
+  {{ $contactLabel = "联系我们" }}
   {{ $privacyLabel = "隐私政策" }}
   {{ $termsLabel = "使用条款" }}
   {{ $rightsLabel = "保留所有权利。" }}
   {{ $siteInfo = "本地优先处理，结果清晰预览。" }}
+  {{ $aboutURL = "zh/about/" | relURL }}
+  {{ $contactURL = "zh/contact/" | relURL }}
   {{ $privacyURL = "zh/privacy/" | relURL }}
   {{ $termsURL = "zh/terms/" | relURL }}
 {{ else if $isTW }}
   {{ $footerDesc = "簡潔的線上圖片工具箱，涵蓋壓縮、轉換、尺寸調整、裁切、浮水印、QR Code、取色、Base64 轉換和 EXIF 中繼資料查看。" }}
   {{ $popularLabel = "常用工具" }}
   {{ $productLabel = "產品" }}
+  {{ $aboutLabel = "關於我們" }}
+  {{ $contactLabel = "聯絡我們" }}
   {{ $privacyLabel = "隱私政策" }}
   {{ $termsLabel = "使用條款" }}
   {{ $rightsLabel = "保留所有權利。" }}
   {{ $siteInfo = "本機優先處理，結果清楚預覽。" }}
+  {{ $aboutURL = "zh-tw/about/" | relURL }}
+  {{ $contactURL = "zh-tw/contact/" | relURL }}
   {{ $privacyURL = "zh-tw/privacy/" | relURL }}
   {{ $termsURL = "zh-tw/terms/" | relURL }}
 {{ end }}
@@ -56,6 +68,8 @@
       </nav>
       <nav class="footer-group" aria-label="{{ $productLabel }}">
         <h3>{{ $productLabel }}</h3>
+        <a href="{{ $aboutURL }}">{{ $aboutLabel }}</a>
+        <a href="{{ $contactURL }}">{{ $contactLabel }}</a>
         <a href="{{ $privacyURL }}">{{ $privacyLabel }}</a>
         <a href="{{ $termsURL }}">{{ $termsLabel }}</a>
       </nav>

@@ -159,6 +159,49 @@
         <h3>{{ if $isTW }}隱私和第三方上傳{{ else }}隐私和第三方上传{{ end }}</h3>
         <p>{{ if $isTW }}大多數工具只使用瀏覽器能力處理圖片。圖片線上連結工具會使用你填寫的 ImgBB API Key 直接上傳到 ImgBB，適合需要公開連結的場景；如果圖片包含敏感資訊，建議先用局部擦除/馬賽克處理。{{ else }}大多数工具只使用浏览器能力处理图片。图片在线链接工具会使用你填写的 ImgBB API Key 直接上传到 ImgBB，适合需要公开链接的场景；如果图片包含敏感信息，建议先用局部擦除/马赛克处理。{{ end }}</p>
       </article>
+      <article class="guide-card">
+        <h3>{{ if $isTW }}如何選擇圖片格式{{ else }}如何选择图片格式{{ end }}</h3>
+        <p>{{ if $isTW }}JPEG 適合照片和複雜圖片，檔案小且相容性最廣。PNG 適合需要透明背景或包含文字的圖片。WebP 在現代網頁中最省空間，通常比 JPEG 小 25-35%。SVG 適合 logo 和圖示，可任意放大而不失真。如果不確定，可用格式轉換工具先預覽再匯出。{{ else }}JPEG 适合照片和复杂图片，文件小且兼容性最广。PNG 适合需要透明背景或包含文字的图片。WebP 在现代网页中最省空间，通常比 JPEG 小 25-35%。SVG 适合 logo 和图标，可任意放大而不失真。如果不确定，可用格式转换工具先预览再导出。{{ end }}</p>
+      </article>
+      <article class="guide-card">
+        <h3>{{ if $isTW }}隱私優先：本地處理的意義{{ else }}隐私优先：本地处理的意义{{ end }}</h3>
+        <p>{{ if $isTW }}與需要上傳圖片的雲端編輯器不同，TUXIA 的 12 款工具中有 11 款完全在你的瀏覽器中執行。你的照片、文件和截圖永遠不會離開你的裝置——沒有上傳等待時間、沒有伺服器儲存、完全保護隱私。只有圖片線上連結工具會使用你自己的 API Key 直接將圖片發送到 ImgBB。{{ else }}与需要上传图片的云端编辑器不同，TUXIA 的 12 款工具中有 11 款完全在你的浏览器中执行。你的照片、文件和截图永远不会离开你的设备——没有上传等待时间、没有服务器储存、完全保护隐私。只有图片在线链接工具会使用你自己的 API Key 直接将图片发送到 ImgBB。{{ end }}</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="home-guides-section">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-label">{{ if $isTW }}精選指南{{ else }}精选指南{{ end }}</p>
+      <h2>{{ if $isTW }}深入了解圖片處理技巧{{ else }}深入了解图片处理技巧{{ end }}</h2>
+      <p style="color:var(--text-secondary);font-size:0.92rem;max-width:600px;margin:0 auto;">{{ if $isTW }}關於壓縮、格式選擇、QR Code、浮水印、中繼資料隱私與色彩配色的深度文章。{{ else }}关于压缩、格式选择、二维码、水印、元数据隐私与色彩配色的深度文章。{{ end }}</p>
+    </div>
+    <div class="home-guides-grid">
+      <a class="home-guide-item" href="{{ printf "%s/guides/image-compression-guide.html" $langPrefix | relURL }}">
+        <span class="home-guide-tag">{{ if $isTW }}壓縮{{ else }}压缩{{ end }}</span>
+        <h3>{{ if $isTW }}圖片壓縮完全指南{{ else }}图片压缩完全指南{{ end }}</h3>
+        <p>{{ if $isTW }}學習如何在不損失畫質的情況下減小圖片檔案大小。{{ else }}学习如何在不损失画质的情况下减小图片文件大小。{{ end }}</p>
+      </a>
+      <a class="home-guide-item" href="{{ printf "%s/guides/image-formats-compared.html" $langPrefix | relURL }}">
+        <span class="home-guide-tag">{{ if $isTW }}格式{{ else }}格式{{ end }}</span>
+        <h3>{{ if $isTW }}PNG vs JPG vs WebP vs SVG{{ else }}PNG vs JPG vs WebP vs SVG{{ end }}</h3>
+        <p>{{ if $isTW }}比較各種圖片格式，為你的需求選擇最合適的。{{ else }}比较各种图片格式，为你的需求选择最合适的。{{ end }}</p>
+      </a>
+      <a class="home-guide-item" href="{{ printf "%s/guides/qr-code-best-practices.html" $langPrefix | relURL }}">
+        <span class="home-guide-tag">QR Code</span>
+        <h3>{{ if $isTW }}QR Code 設計最佳實踐{{ else }}二维码设计最佳实践{{ end }}</h3>
+        <p>{{ if $isTW }}掌握容錯等級、色彩對比、Logo 嵌入和測試技巧。{{ else }}掌握容错等级、色彩对比、Logo 嵌入和测试技巧。{{ end }}</p>
+      </a>
+      <a class="home-guide-item" href="{{ printf "%s/guides/image-metadata-and-privacy.html" $langPrefix | relURL }}">
+        <span class="home-guide-tag">{{ if $isTW }}隱私{{ else }}隐私{{ end }}</span>
+        <h3>{{ if $isTW }}圖片中繼資料與隱私保護{{ else }}图片元数据与隐私保护{{ end }}</h3>
+        <p>{{ if $isTW }}了解 EXIF 資料會透露哪些照片資訊，以及如何保護隱私。{{ else }}了解 EXIF 数据会透露哪些照片信息，以及如何保护隐私。{{ end }}</p>
+      </a>
+    </div>
+    <div style="text-align:center;margin-top:22px;">
+      <a href="{{ printf "%s/guides/" $langPrefix | relURL }}" class="btn btn-primary">{{ if $isTW }}瀏覽全部指南{{ else }}浏览全部指南{{ end }}</a>
     </div>
   </div>
 </section>

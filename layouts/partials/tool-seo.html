@@ -40,6 +40,53 @@
       {{ end }}
     </div>
 
+    <div class="tool-seo-detail">
+      {{ with .introduction }}
+      <div class="tool-seo-intro">
+        <p>{{ . }}</p>
+      </div>
+      {{ end }}
+
+      {{ with .useCases }}
+      <div class="tool-seo-block">
+        <h3>{{ if $isTW }}使用場景{{ else if $isZH }}使用场景{{ else }}Common Use Cases{{ end }}</h3>
+        {{ range . }}
+        <div class="tool-seo-block-item">
+          {{ with .title }}<strong>{{ . }}</strong>{{ end }}
+          {{ with .description }}<p>{{ . }}</p>{{ end }}
+        </div>
+        {{ end }}
+      </div>
+      {{ end }}
+
+      {{ with .comparisons }}
+      <div class="tool-seo-block">
+        <h3>{{ if $isTW }}與其他方案比較{{ else if $isZH }}与其他方案比较{{ else }}How It Compares{{ end }}</h3>
+        <p>{{ . }}</p>
+      </div>
+      {{ end }}
+
+      <div class="tool-seo-notes-grid">
+        {{ with .technicalNotes }}
+        <div class="tool-seo-block">
+          <h3>{{ if $isTW }}技術說明{{ else if $isZH }}技术说明{{ else }}Technical Notes{{ end }}</h3>
+          <ul>
+            {{ range . }}<li>{{ . }}</li>{{ end }}
+          </ul>
+        </div>
+        {{ end }}
+
+        {{ with .bestPractices }}
+        <div class="tool-seo-block">
+          <h3>{{ if $isTW }}最佳實踐{{ else if $isZH }}最佳实践{{ else }}Best Practices{{ end }}</h3>
+          <ul>
+            {{ range . }}<li>{{ . }}</li>{{ end }}
+          </ul>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+
     <div class="tool-seo-grid">
       <article class="tool-seo-card">
         <h3>{{ if $isTW }}適合使用{{ else if $isZH }}适合使用{{ else }}Best for{{ end }}</h3>

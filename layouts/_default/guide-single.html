@@ -1,0 +1,93 @@
+{{ define "head_extra" }}
+{{ with .Date }}<meta property="article:published_time" content="{{ .Format "2006-01-02T15:04:05-07:00" }}">{{ end }}
+{{ with .Params.lastmod }}<meta property="article:modified_time" content="{{ .Format "2006-01-02T15:04:05-07:00" }}">{{ end }}
+<script type="application/ld+json">
+{{ $authorName := "TUXIA" }}
+{{ $authorURL := "" | absURL }}
+{{ $publisher := dict "@type" "Organization" "name" "TUXIA" "url" ("" | absURL) "logo" (dict "@type" "ImageObject" "url" (.Site.Params.ogImage | default "assets/tuxia-logo.svg" | absURL)) }}
+{{ dict
+  "@context" "https://schema.org"
+  "@type" "Article"
+  "headline" (.Params.heading | default .Title)
+  "description" (.Params.description | default .Site.Params.description)
+  "url" .Permalink
+  "datePublished" (.Date.Format "2006-01-02T15:04:05-07:00")
+  "dateModified" ((.Params.lastmod | default .Date).Format "2006-01-02T15:04:05-07:00")
+  "author" (dict "@type" "Organization" "name" $authorName "url" $authorURL)
+  "publisher" $publisher
+  "mainEntityOfPage" .Permalink
+  "inLanguage" (.Params.pageLang | default "en")
+  "isAccessibleForFree" true
+  | jsonify | safeJS }}
+</script>
+{{ end }}
+
+{{ define "main" }}
+{{ $pageLang := .Params.pageLang | default "en" }}
+{{ $isZH := eq $pageLang "zh-CN" }}
+{{ $isTW := eq $pageLang "zh-TW" }}
+{{ $homeURL := "" | relURL }}
+{{ if $isZH }}{{ $homeURL = "zh/" | relURL }}{{ else if $isTW }}{{ $homeURL = "zh-tw/" | relURL }}{{ end }}
+{{ $guidesURL := cond $isZH ("zh/guides/" | relURL) (cond $isTW ("zh-tw/guides/" | relURL) ("guides/" | relURL)) }}
+{{ $homeLabel := cond $isZH "首页" (cond $isTW "首頁" "Home") }}
+{{ $guidesLabel := cond $isZH "指南" (cond $isTW "指南" "Guides") }}
+
+{{ partial "site-header.html" . }}
+
+<main class="article-shell">
+  <article class="container article-page">
+    <nav class="article-breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ $homeURL }}">{{ $homeLabel }}</a>
+      <span aria-hidden="true">/</span>
+      <a href="{{ $guidesURL }}">{{ $guidesLabel }}</a>
+      <span aria-hidden="true">/</span>
+      <span>{{ .Params.heading | default .Title }}</span>
+    </nav>
+
+    <header class="article-header">
+      <h1>{{ .Params.heading | default .Title }}</h1>
+      <div class="article-meta">
+        {{ with .Date }}<time datetime="{{ .Format "2006-01-02" }}">{{ .Format "January 2, 2006" }}</time>{{ end }}
+        {{ with .Params.readingTime }}<span class="reading-time">{{ . }} min read</span>{{ end }}
+      </div>
+    </header>
+
+    <div class="article-body">
+      {{ .Content }}
+    </div>
+
+    {{ with .Params.relatedTools }}
+    <aside class="article-related">
+      <h3>{{ if $isTW }}相關工具{{ else if $isZH }}相关工具{{ else }}Related Tools{{ end }}</h3>
+      <div class="related-tools-grid">
+        {{ range . }}
+          {{ $toolId := . }}
+          {{ $tool := false }}
+          {{ range hugo.Data.tools }}
+            {{ if eq .id $toolId }}{{ $tool = . }}{{ end }}
+          {{ end }}
+          {{ if $tool }}
+            {{ $toolName := $tool.name }}
+            {{ $toolHref := $tool.href | relURL }}
+            {{ if $isZH }}
+              {{ with index hugo.Data.zh_tools . }}{{ $toolName = .navName | default .name }}{{ end }}
+              {{ $toolHref = printf "zh/tools/%s/" . | relURL }}
+            {{ else if $isTW }}
+              {{ with index hugo.Data.zh_tw_tools . }}{{ $toolName = .navName | default .name }}{{ end }}
+              {{ $toolHref = printf "zh-tw/tools/%s/" . | relURL }}
+            {{ end }}
+            <a href="{{ $toolHref }}" class="related-tool-link">
+              <span class="related-tool-icon">{{ partial "tool-icon.html" $tool.id }}</span>
+              <span>{{ $toolName }}</span>
+            </a>
+          {{ end }}
+        {{ end }}
+      </div>
+    </aside>
+    {{ end }}
+  </article>
+</main>
+
+{{ partial "site-footer.html" . }}
+{{ partial "common-scripts.html" . }}
+{{ end }}
