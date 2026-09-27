@@ -8,6 +8,8 @@ readingTime: 6
 layout: "guide-single"
 pageLang: "en"
 relatedTools: ["exif", "retouch"]
+aliases:
+  - "/guides/image-metadata-and-privacy.html"
 ---
 
 Every photo you take with a smartphone or digital camera contains more than just pixels. Embedded in the file is a layer of metadata called EXIF (Exchangeable Image File Format) that records details about how, when, and where the photo was taken. This information can be useful for organizing and editing photos, but it also carries significant privacy implications that many people do not realize until it is too late.

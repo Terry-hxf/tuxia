@@ -8,6 +8,8 @@ readingTime: 6
 layout: "guide-single"
 pageLang: "en"
 relatedTools: ["qrcode-gen", "qrcode-dec"]
+aliases:
+  - "/guides/qr-code-best-practices.html"
 ---
 
 A QR code that looks beautiful but will not scan is worse than no QR code at all. Every design decision -- color, size, logo placement, error correction -- affects whether a smartphone can reliably read your code in the real world. This guide explains how QR codes work, what the design parameters mean, and how to create codes that balance aesthetics with reliability.

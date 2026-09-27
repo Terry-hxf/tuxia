@@ -7,6 +7,8 @@ layout: "legal"
 legalId: "contact"
 pageLang: "en"
 updated: "July 23, 2026"
+aliases:
+  - "/contact.html"
 ---
 
 ## Get In Touch
@@ -39,7 +41,7 @@ While we cannot implement every suggestion, we carefully review all submissions 
 
 ## Frequently Asked Questions
 
-Before reaching out, you may find answers to common questions on our [Privacy Policy](/privacy.html) page (which explains how TUXIA handles data) or our [Terms of Use](/terms.html) page (which covers usage guidelines). Each tool also has its own FAQ section at the bottom of its page.
+Before reaching out, you may find answers to common questions on our [Privacy Policy](/privacy/) page (which explains how TUXIA handles data) or our [Terms of Use](/terms/) page (which covers usage guidelines). Each tool also has its own FAQ section at the bottom of its page.
 
 ## Response Time
 

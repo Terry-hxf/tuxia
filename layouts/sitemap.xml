@@ -1,8 +1,9 @@
 {{- printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   {{- range .Data.Pages }}
+  {{- if not (and (eq .Kind "section") (eq .Section "tools")) }}
   <url>
-    <loc>{{ if .IsHome }}{{ "/" | absURL }}{{ else }}{{ .Permalink }}{{ end }}</loc>
+    <loc>{{ if .IsHome }}{{ "/" | absURL }}{{ else }}{{ replaceRE "/index\\.html$" "/" .Permalink }}{{ end }}</loc>
     {{- if eq .Section "tools" }}
     <priority>0.8</priority>
     {{- else if .IsHome }}
@@ -11,5 +12,6 @@
     <priority>0.4</priority>
     {{- end }}
   </url>
+  {{- end }}
   {{- end }}
 </urlset>

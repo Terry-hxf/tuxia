@@ -208,6 +208,13 @@ section { padding: 64px 0; }
   position: relative;
   display: inline-flex;
   align-items: center;
+  gap: 6px;
+}
+.language-switcher-label {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 650;
+  white-space: nowrap;
 }
 .language-switcher select {
   height: 34px;
@@ -2694,6 +2701,7 @@ body {
   .site-nav > a { display: none; }
   .site-nav { margin-left: 0; }
   .tool-switcher summary { padding: 0 8px; }
+  .language-switcher-label { display: none; }
   .tool-switcher-menu {
     position: fixed;
     top: 56px;

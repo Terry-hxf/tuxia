@@ -8,6 +8,8 @@ readingTime: 7
 layout: "guide-single"
 pageLang: "en"
 relatedTools: ["watermark", "crop"]
+aliases:
+  - "/guides/watermark-guide.html"
 ---
 
 Watermarking is one of the most common techniques photographers, designers, and brands use to protect their images online. But a watermark is only as good as its design and placement. A watermark that is too small or placed in a corner is easily cropped out. One that is too large or opaque ruins the viewing experience. Getting it right means understanding the tradeoffs between visibility, aesthetics, and actual protection.

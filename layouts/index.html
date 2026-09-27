@@ -1,4 +1,4 @@
-﻿{{ define "head_extra" }}
+{{ define "head_extra" }}
 <style>
 /* ── Hero ── */
   .hero { padding: 58px 0 42px; text-align: center; }
@@ -164,7 +164,7 @@
       <h2>Choose a workspace to start</h2>
     </div>
     <div class="tools-grid" id="tools-grid">
-      {{ range hugo.Data.tools }}
+      {{ range site.Data.tools }}
         <a class="tool-card" href="{{ .href | relURL }}">
           <div class="tool-icon-wrap">{{ partial "tool-icon.html" .id }}</div>
           <div class="tool-info">
@@ -277,22 +277,22 @@
       <p style="color:var(--text-secondary);font-size:0.92rem;max-width:600px;margin:0 auto;">In-depth articles on compression, format selection, QR codes, watermarking, metadata privacy, color palettes, and more.</p>
     </div>
     <div class="home-guides-grid">
-      <a class="home-guide-item" href="{{ "guides/image-compression-guide.html" | relURL }}">
+      <a class="home-guide-item" href="{{ "guides/image-compression-guide/" | relURL }}">
         <span class="home-guide-tag">Compression</span>
         <h3>Complete Guide to Image Compression</h3>
         <p>Learn how to reduce image file sizes without visible quality loss using lossy and lossless techniques.</p>
       </a>
-      <a class="home-guide-item" href="{{ "guides/image-formats-compared.html" | relURL }}">
+      <a class="home-guide-item" href="{{ "guides/image-formats-compared/" | relURL }}">
         <span class="home-guide-tag">Formats</span>
         <h3>PNG vs JPG vs WebP vs SVG</h3>
         <p>Compare image formats side by side and choose the right one for your specific needs.</p>
       </a>
-      <a class="home-guide-item" href="{{ "guides/qr-code-best-practices.html" | relURL }}">
+      <a class="home-guide-item" href="{{ "guides/qr-code-best-practices/" | relURL }}">
         <span class="home-guide-tag">QR Codes</span>
         <h3>QR Code Design Best Practices</h3>
         <p>Master error correction, color contrast, logo embedding, and testing for reliable QR codes.</p>
       </a>
-      <a class="home-guide-item" href="{{ "guides/image-metadata-and-privacy.html" | relURL }}">
+      <a class="home-guide-item" href="{{ "guides/image-metadata-and-privacy/" | relURL }}">
         <span class="home-guide-tag">Privacy</span>
         <h3>Image Metadata and Privacy</h3>
         <p>Understand what EXIF data reveals about your photos and how to protect your privacy.</p>

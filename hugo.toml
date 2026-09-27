@@ -3,7 +3,7 @@ baseURL = "https://tuxiatools.com/"
 locale = "en-US"
 defaultContentLanguage = "en"
 title = "TUXIA - Free Online Image Tools for Compression, Conversion, Crop and Watermark"
-uglyURLs = true
+uglyURLs = false
 enableRobotsTXT = true
 disableKinds = ["taxonomy", "term"]
 

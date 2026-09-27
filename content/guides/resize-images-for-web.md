@@ -8,6 +8,8 @@ readingTime: 7
 layout: "guide-single"
 pageLang: "en"
 relatedTools: ["resize", "crop", "compress"]
+aliases:
+  - "/guides/resize-images-for-web.html"
 ---
 
 A 4000-pixel-wide photo uploaded to a webpage that only displays at 800 pixels wide is a silent performance killer. The browser still downloads every one of those unused pixels, wasting bandwidth, slowing your page, and frustrating visitors. Resizing images before uploading them is one of the simplest and most impactful optimizations you can make.

@@ -67,7 +67,7 @@
 {{ define "main" }}
 {{ $isTW := eq (.Params.pageLang | default "zh-CN") "zh-TW" }}
 {{ $langPrefix := cond $isTW "zh-tw" "zh" }}
-{{ $toolsData := cond $isTW hugo.Data.zh_tw_tools hugo.Data.zh_tools }}
+{{ $toolsData := cond $isTW site.Data.zh_tw_tools site.Data.zh_tools }}
 {{ partial "site-header.html" . }}
 
 <section class="hero">
@@ -89,7 +89,7 @@
       <h2>{{ if $isTW }}選擇一個工作區開始{{ else }}选择一个工作台开始{{ end }}</h2>
     </div>
     <div class="tools-grid" id="tools-grid">
-      {{ range hugo.Data.tools }}
+      {{ range site.Data.tools }}
         {{ $copy := index $toolsData .id }}
         <a class="tool-card" href="{{ printf "%s/tools/%s/" $langPrefix .id | relURL }}">
           <div class="tool-icon-wrap">{{ partial "tool-icon.html" .id }}</div>
@@ -179,22 +179,22 @@
       <p style="color:var(--text-secondary);font-size:0.92rem;max-width:600px;margin:0 auto;">{{ if $isTW }}關於壓縮、格式選擇、QR Code、浮水印、中繼資料隱私與色彩配色的深度文章。{{ else }}关于压缩、格式选择、二维码、水印、元数据隐私与色彩配色的深度文章。{{ end }}</p>
     </div>
     <div class="home-guides-grid">
-      <a class="home-guide-item" href="{{ printf "%s/guides/image-compression-guide.html" $langPrefix | relURL }}">
+      <a class="home-guide-item" href="{{ "guides/image-compression-guide/" | relURL }}">
         <span class="home-guide-tag">{{ if $isTW }}壓縮{{ else }}压缩{{ end }}</span>
         <h3>{{ if $isTW }}圖片壓縮完全指南{{ else }}图片压缩完全指南{{ end }}</h3>
         <p>{{ if $isTW }}學習如何在不損失畫質的情況下減小圖片檔案大小。{{ else }}学习如何在不损失画质的情况下减小图片文件大小。{{ end }}</p>
       </a>
-      <a class="home-guide-item" href="{{ printf "%s/guides/image-formats-compared.html" $langPrefix | relURL }}">
+      <a class="home-guide-item" href="{{ "guides/image-formats-compared/" | relURL }}">
         <span class="home-guide-tag">{{ if $isTW }}格式{{ else }}格式{{ end }}</span>
         <h3>{{ if $isTW }}PNG vs JPG vs WebP vs SVG{{ else }}PNG vs JPG vs WebP vs SVG{{ end }}</h3>
         <p>{{ if $isTW }}比較各種圖片格式，為你的需求選擇最合適的。{{ else }}比较各种图片格式，为你的需求选择最合适的。{{ end }}</p>
       </a>
-      <a class="home-guide-item" href="{{ printf "%s/guides/qr-code-best-practices.html" $langPrefix | relURL }}">
+      <a class="home-guide-item" href="{{ "guides/qr-code-best-practices/" | relURL }}">
         <span class="home-guide-tag">QR Code</span>
         <h3>{{ if $isTW }}QR Code 設計最佳實踐{{ else }}二维码设计最佳实践{{ end }}</h3>
         <p>{{ if $isTW }}掌握容錯等級、色彩對比、Logo 嵌入和測試技巧。{{ else }}掌握容错等级、色彩对比、Logo 嵌入和测试技巧。{{ end }}</p>
       </a>
-      <a class="home-guide-item" href="{{ printf "%s/guides/image-metadata-and-privacy.html" $langPrefix | relURL }}">
+      <a class="home-guide-item" href="{{ "guides/image-metadata-and-privacy/" | relURL }}">
         <span class="home-guide-tag">{{ if $isTW }}隱私{{ else }}隐私{{ end }}</span>
         <h3>{{ if $isTW }}圖片中繼資料與隱私保護{{ else }}图片元数据与隐私保护{{ end }}</h3>
         <p>{{ if $isTW }}了解 EXIF 資料會透露哪些照片資訊，以及如何保護隱私。{{ else }}了解 EXIF 数据会透露哪些照片信息，以及如何保护隐私。{{ end }}</p>

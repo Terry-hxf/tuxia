@@ -7,6 +7,8 @@ layout: "legal"
 legalId: "about"
 pageLang: "en"
 updated: "July 23, 2026"
+aliases:
+  - "/about.html"
 ---
 
 ## Our Story
@@ -47,4 +49,4 @@ TUXIA is powered by Hugo, a fast static site generator, and deployed via GitHub 
 
 **Continuous improvement.** We actively monitor browser compatibility, performance, and usability. The tools are regularly updated to support new formats, fix edge cases, and improve the editing experience.
 
-**Transparency.** Our [Privacy Policy](/privacy.html) and [Terms of Use](/terms.html) are written in plain language so you can understand exactly how the site works and how your data is handled. If you have questions or feedback, visit our [Contact page](/contact.html).
+**Transparency.** Our [Privacy Policy](/privacy/) and [Terms of Use](/terms/) are written in plain language so you can understand exactly how the site works and how your data is handled. If you have questions or feedback, visit our [Contact page](/contact/).

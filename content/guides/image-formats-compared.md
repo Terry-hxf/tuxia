@@ -8,6 +8,8 @@ readingTime: 7
 layout: "guide-single"
 pageLang: "en"
 relatedTools: ["convert", "compress"]
+aliases:
+  - "/guides/image-formats-compared.html"
 ---
 
 Choosing the wrong image format wastes bandwidth, slows page loads, and can ruin the appearance of your content. A photograph saved as a PNG can be five times larger than an equivalent JPEG. A logo saved as a JPEG develops ugly compression artifacts around the edges. Each format was designed for a specific job, and understanding those jobs lets you make the right call every time.

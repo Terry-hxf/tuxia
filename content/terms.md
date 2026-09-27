@@ -7,6 +7,8 @@ layout: "legal"
 legalId: "terms"
 pageLang: "en"
 updated: "June 30, 2026"
+aliases:
+  - "/terms.html"
 ---
 
 ## Scope of This Static Website

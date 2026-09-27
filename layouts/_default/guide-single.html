@@ -63,17 +63,17 @@
         {{ range . }}
           {{ $toolId := . }}
           {{ $tool := false }}
-          {{ range hugo.Data.tools }}
+          {{ range site.Data.tools }}
             {{ if eq .id $toolId }}{{ $tool = . }}{{ end }}
           {{ end }}
           {{ if $tool }}
             {{ $toolName := $tool.name }}
             {{ $toolHref := $tool.href | relURL }}
             {{ if $isZH }}
-              {{ with index hugo.Data.zh_tools . }}{{ $toolName = .navName | default .name }}{{ end }}
+              {{ with index site.Data.zh_tools . }}{{ $toolName = .navName | default .name }}{{ end }}
               {{ $toolHref = printf "zh/tools/%s/" . | relURL }}
             {{ else if $isTW }}
-              {{ with index hugo.Data.zh_tw_tools . }}{{ $toolName = .navName | default .name }}{{ end }}
+              {{ with index site.Data.zh_tw_tools . }}{{ $toolName = .navName | default .name }}{{ end }}
               {{ $toolHref = printf "zh-tw/tools/%s/" . | relURL }}
             {{ end }}
             <a href="{{ $toolHref }}" class="related-tool-link">

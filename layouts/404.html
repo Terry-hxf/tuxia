@@ -1,0 +1,14 @@
+{{ define "main" }}
+{{ partial "site-header.html" . }}
+<main class="legal-shell">
+  <article class="container legal-page">
+    <p class="section-label">TUXIA</p>
+    <h1>Page not found</h1>
+    <div class="legal-content">
+      <p>The page you requested is no longer available or the address is incomplete.</p>
+      <p><a class="btn btn-primary" href="{{ "" | relURL }}">Return to TUXIA</a></p>
+    </div>
+  </article>
+</main>
+{{ partial "site-footer.html" . }}
+{{ end }}

@@ -8,6 +8,8 @@ readingTime: 6
 layout: "guide-single"
 pageLang: "en"
 relatedTools: ["base64", "compress"]
+aliases:
+  - "/guides/base64-image-encoding-guide.html"
 ---
 
 Base64 encoding is a technique that converts binary data -- such as an image file -- into a string of text characters. For images, this means transforming every byte of pixel and metadata information into a long, seemingly random string of letters, numbers, and symbols. That string can then be embedded directly into HTML, CSS, or JSON, eliminating the need for a separate image file request.

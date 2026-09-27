@@ -7,6 +7,8 @@ layout: "legal"
 legalId: "privacy"
 pageLang: "en"
 updated: "June 30, 2026"
+aliases:
+  - "/privacy.html"
 ---
 
 ## Local Browser Processing
@@ -27,7 +29,7 @@ TUXIA may save a small amount of data in your own browser, such as theme prefere
 
 TUXIA may display advertising through Google AdSense. Google and its partners may use cookies, advertising identifiers, IP address information, browser information, device signals, and page interaction data to serve, measure, and improve ads. Depending on your location and Google settings, those ads may be personalized or non-personalized.
 
-TUXIA does not operate its own advertising profile database and does not combine your selected image files with advertising data. The browser may still request Google advertising scripts when a page is loaded. You can manage cookies in your browser settings and manage Google ad personalization through Google's advertising controls.
+TUXIA does not operate its own advertising profile database and does not combine your selected image files with advertising data. The browser may still request Google advertising scripts when a page is loaded. You can manage cookies in your browser settings and manage Google ad personalization through Google's advertising controls. Where Google requires consent for users in the EEA, the UK, or Switzerland, the publisher must use a Google-certified consent management platform before serving personalised ads. Where Google requires consent for users in the EEA, the UK, or Switzerland, the publisher must use a Google-certified consent management platform before serving personalised ads.
 
 This website provides static English, Simplified Chinese, and Traditional Chinese pages. The language switcher navigates between those static pages and may store your language preference in your browser. TUXIA does not need a translation service to process your images.
 

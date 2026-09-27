@@ -345,6 +345,7 @@ function getCurrentLanguagePreference() {
   var docLang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
   if (docLang.indexOf('zh-tw') === 0 || docLang.indexOf('zh-hant') === 0) return 'zh-TW';
   if (docLang.indexOf('zh') === 0) return 'zh-CN';
+  if (docLang.indexOf('en') === 0) return 'en';
   var saved = '';
   try { saved = localStorage.getItem('tuxia_language') || ''; } catch (err) {}
   if (saved === 'zh-TW') return 'zh-TW';

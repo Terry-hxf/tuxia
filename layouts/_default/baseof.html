@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 {{ $pageLang := .Params.pageLang | default "en" }}
 {{ $schemaLang := cond (eq $pageLang "zh-CN") "zh-CN" (cond (eq $pageLang "zh-TW") "zh-TW" "en-US") }}
 <html lang="{{ $pageLang }}">
@@ -14,7 +14,8 @@
 {{ $keywords := cond (reflect.IsSlice $keywordsParam) (delimit $keywordsParam ",") $keywordsParam }}
 {{ $rawTitle := cond .IsHome .Site.Title .Title }}
 {{ $title := cond (in $rawTitle $brandPinyin) $rawTitle (replace $rawTitle $siteName $brandFull) }}
-{{ $canonical := cond .IsHome ("" | absURL) .Permalink }}
+{{ $canonical := .Permalink }}
+{{ if .IsHome }}{{ $canonical = "" | absURL }}{{ else }}{{ $canonical = replaceRE "/index\\.html$" "/" $canonical }}{{ end }}
 {{ $ogImage := (.Site.Params.ogImage | default "assets/tuxia-logo.svg") | absURL }}
 {{ $themeColor := .Site.Params.themeColor | default "#2563eb" }}
 {{ $toolId := .Params.toolId | default "" }}
@@ -30,20 +31,26 @@
   {{ $zhCNURL = "zh/" | absURL }}
   {{ $zhTWURL = "zh-tw/" | absURL }}
 {{ else if .Params.legalId }}
-  {{ $enURL = printf "%s.html" .Params.legalId | absURL }}
+  {{ with site.GetPage (printf "%s.html" .Params.legalId) }}{{ $enURL = replaceRE "/index\\.html$" "/" .Permalink }}{{ end }}
   {{ $zhCNURL = printf "zh/%s/" .Params.legalId | absURL }}
   {{ $zhTWURL = printf "zh-tw/%s/" .Params.legalId | absURL }}
 {{ else if $toolId }}
-  {{ $enURL = printf "tools/%s.html" $toolId | absURL }}
+  {{ with site.GetPage (printf "tools/%s.html" $toolId) }}{{ $enURL = replaceRE "/index\\.html$" "/" .Permalink }}{{ end }}
   {{ $zhCNURL = printf "zh/tools/%s/" $toolId | absURL }}
   {{ $zhTWURL = printf "zh-tw/tools/%s/" $toolId | absURL }}
+{{ else if and (eq .Kind "section") (eq .Section "guides") }}
+  {{ $enURL = "guides/" | absURL }}
+  {{ $zhCNURL = "zh/guides/" | absURL }}
+  {{ $zhTWURL = "zh-tw/guides/" | absURL }}
 {{ end }}
 
 <title>{{ $title }}</title>
 <meta name="description" content="{{ $description }}">
 <meta name="keywords" content="{{ $keywords }}">
 <meta name="author" content="{{ $siteName }}">
-<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+{{ $robots := "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" }}
+{{ if or (eq .Kind "404") (and (eq .Kind "section") (eq .Section "tools")) }}{{ $robots = "noindex,follow" }}{{ end }}
+<meta name="robots" content="{{ $robots }}">
 <meta name="application-name" content="{{ $brandFull }}">
 <meta name="apple-mobile-web-app-title" content="{{ $brandFull }}">
 <meta name="theme-color" content="{{ $themeColor }}">
@@ -89,7 +96,7 @@ window.TUXIA_API_CONFIG = {
   onlineUploadEndpoint: {{ .Site.Params.onlineUploadEndpoint | default "" | jsonify | safeJS }}
 };
 </script>
-<link rel="stylesheet" href="{{ "css/common.css?v=20260629a" | relURL }}">
+<link rel="stylesheet" href="{{ "css/common.css?v=20260927a" | relURL }}">
 
 {{ if or .IsHome (eq (.Params.layout | default "") "zh-home") }}
 <script type="application/ld+json">
@@ -111,18 +118,18 @@ window.TUXIA_API_CONFIG = {
   | jsonify | safeJS }}
 </script>
 {{ $items := slice }}
-{{ range $index, $tool := hugo.Data.tools }}
+{{ range $index, $tool := site.Data.tools }}
   {{ $itemName := $tool.name }}
   {{ $itemDesc := $tool.desc }}
   {{ $itemURL := $tool.href | absURL }}
   {{ if eq $pageLang "zh-CN" }}
-    {{ with index hugo.Data.zh_tools $tool.id }}
+    {{ with index site.Data.zh_tools $tool.id }}
       {{ $itemName = .name }}
       {{ $itemDesc = .summary }}
       {{ $itemURL = printf "zh/tools/%s/" $tool.id | absURL }}
     {{ end }}
   {{ else if eq $pageLang "zh-TW" }}
-    {{ with index hugo.Data.zh_tw_tools $tool.id }}
+    {{ with index site.Data.zh_tw_tools $tool.id }}
       {{ $itemName = .name }}
       {{ $itemDesc = .summary }}
       {{ $itemURL = printf "zh-tw/tools/%s/" $tool.id | absURL }}
@@ -175,11 +182,11 @@ window.TUXIA_API_CONFIG = {
 </script>
 {{ end }}
 
-{{ $faqSource := index hugo.Data.tool_seo $toolId }}
+{{ $faqSource := index site.Data.tool_seo $toolId }}
 {{ if eq $pageLang "zh-CN" }}
-  {{ with index hugo.Data.zh_tools $toolId }}{{ $faqSource = . }}{{ end }}
+  {{ with index site.Data.zh_tools $toolId }}{{ $faqSource = . }}{{ end }}
 {{ else if eq $pageLang "zh-TW" }}
-  {{ with index hugo.Data.zh_tw_tools $toolId }}{{ $faqSource = . }}{{ end }}
+  {{ with index site.Data.zh_tw_tools $toolId }}{{ $faqSource = . }}{{ end }}
 {{ end }}
 {{ with $faqSource }}
   {{ $faqEntities := slice }}
@@ -198,9 +205,10 @@ window.TUXIA_API_CONFIG = {
 {{ end }}
 
 {{ block "head_extra" . }}{{ end }}
-{{ with .Site.Params.googleAdClient }}
+{{ $adsEnabled := or .IsHome (eq (.Params.layout | default "") "zh-home") (eq .Section "guides") }}
+{{ if $adsEnabled }}{{ with .Site.Params.googleAdClient }}
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ . }}" crossorigin="anonymous"></script>
-{{ end }}
+{{ end }}{{ end }}
 </head>
 <body>
 {{ block "main" . }}{{ end }}

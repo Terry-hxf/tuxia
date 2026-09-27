@@ -8,6 +8,8 @@ readingTime: 8
 layout: "guide-single"
 pageLang: "en"
 relatedTools: ["compress", "convert", "resize"]
+aliases:
+  - "/guides/image-compression-guide.html"
 ---
 
 Every kilobyte counts. Whether you are shipping a production website, attaching photos to an email, or posting to social media, oversized images slow everything down, consume bandwidth, and frustrate users. Image compression is the single most effective optimization you can perform -- a well-compressed image can drop to 10% of its original size while looking nearly identical to the human eye.

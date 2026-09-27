@@ -8,6 +8,8 @@ readingTime: 6
 layout: "guide-single"
 pageLang: "en"
 relatedTools: ["palette", "watermark"]
+aliases:
+  - "/guides/color-palette-extraction-guide.html"
 ---
 
 Color is one of the most powerful tools in design. It sets mood, guides attention, and communicates meaning before a single word is read. But choosing colors from scratch is hard -- even experienced designers can spend hours tweaking individual color values. One of the most effective shortcuts is to extract a palette directly from a source image that already embodies the look and feel you want.

@@ -12,10 +12,10 @@
 {{ $termsLabel := "Terms of Use" }}
 {{ $rightsLabel := "All rights reserved." }}
 {{ $siteInfo := "Local-first processing with clear previews." }}
-{{ $aboutURL := "about.html" | relURL }}
-{{ $contactURL := "contact.html" | relURL }}
-{{ $privacyURL := "privacy.html" | relURL }}
-{{ $termsURL := "terms.html" | relURL }}
+{{ $aboutURL := "about/" | relURL }}
+{{ $contactURL := "contact/" | relURL }}
+{{ $privacyURL := "privacy/" | relURL }}
+{{ $termsURL := "terms/" | relURL }}
 {{ if $isZH }}
   {{ $footerDesc = "简洁的在线图片工具箱，覆盖压缩、转换、尺寸调整、裁剪、水印、二维码、取色、Base64 转换和 EXIF 元数据查看。" }}
   {{ $popularLabel = "常用工具" }}
@@ -57,11 +57,11 @@
       </div>
       <nav class="footer-group" aria-label="{{ $popularLabel }}">
         <h3>{{ $popularLabel }}</h3>
-        {{ range where hugo.Data.tools "footer" true }}
+        {{ range where site.Data.tools "footer" true }}
           {{ $toolName := .navName | default .name }}
           {{ $toolHref := .href | relURL }}
-          {{ if $isZH }}{{ with index hugo.Data.zh_tools .id }}{{ $toolName = .navName | default .name }}{{ end }}{{ end }}
-          {{ if $isTW }}{{ with index hugo.Data.zh_tw_tools .id }}{{ $toolName = .navName | default .name }}{{ end }}{{ end }}
+          {{ if $isZH }}{{ with index site.Data.zh_tools .id }}{{ $toolName = .navName | default .name }}{{ end }}{{ end }}
+          {{ if $isTW }}{{ with index site.Data.zh_tw_tools .id }}{{ $toolName = .navName | default .name }}{{ end }}{{ end }}
           {{ if $isZH }}{{ $toolHref = printf "zh/tools/%s/" .id | relURL }}{{ else if $isTW }}{{ $toolHref = printf "zh-tw/tools/%s/" .id | relURL }}{{ end }}
           <a href="{{ $toolHref }}">{{ $toolName }}</a>
         {{ end }}

@@ -3,23 +3,23 @@
 {{ $pageLang := .Params.pageLang | default "en" }}
 {{ $isZH := eq $pageLang "zh-CN" }}
 {{ $isTW := eq $pageLang "zh-TW" }}
-{{ $seo := index hugo.Data.tool_seo $toolId }}
+{{ $seo := index site.Data.tool_seo $toolId }}
 {{ $toolName := .Params.heading | default .Title }}
 {{ $toolSummary := .Params.summary | default .Params.description }}
 {{ $keywordsParam := .Params.keywords | default "" }}
 {{ $keywordString := cond (reflect.IsSlice $keywordsParam) (delimit $keywordsParam ",") $keywordsParam }}
 {{ $toolFaq := slice }}
 {{ if $isZH }}
-  {{ with index hugo.Data.zh_tool_guides $toolId }}{{ $seo = . }}{{ end }}
-  {{ with index hugo.Data.zh_tools $toolId }}
+  {{ with index site.Data.zh_tool_guides $toolId }}{{ $seo = . }}{{ end }}
+  {{ with index site.Data.zh_tools $toolId }}
     {{ $toolName = .name }}
     {{ $toolSummary = .summary }}
     {{ $keywordString = .keywords }}
     {{ $toolFaq = .faq }}
   {{ end }}
 {{ else if $isTW }}
-  {{ with index hugo.Data.zh_tw_tool_guides $toolId }}{{ $seo = . }}{{ end }}
-  {{ with index hugo.Data.zh_tw_tools $toolId }}
+  {{ with index site.Data.zh_tw_tool_guides $toolId }}{{ $seo = . }}{{ end }}
+  {{ with index site.Data.zh_tw_tools $toolId }}
     {{ $toolName = .name }}
     {{ $toolSummary = .summary }}
     {{ $keywordString = .keywords }}

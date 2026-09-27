@@ -13,9 +13,9 @@ TUXIA 图匣指南帮助你更高效地处理图片。无论你是优化网页�
 
 当前指南内容以英文为主，我们正在逐步添加中文翻译。以下指南已发布：
 
-- [图片压缩完全指南](/guides/image-compression-guide.html) — 学习有损与无损压缩、JPEG/PNG/WebP 格式选择和实际压缩技巧
-- [PNG vs JPG vs WebP vs SVG](/guides/image-formats-compared.html) — 对比各种图片格式，选择最合适的格式
-- [二维码设计最佳实践](/guides/qr-code-best-practices.html) — 掌握容错等级、颜色对比、Logo 嵌入和测试技巧
-- [图片元数据与隐私保护](/guides/image-metadata-and-privacy.html) — 了解 EXIF 数据会透露哪些照片信息
+- [图片压缩完全指南](/guides/image-compression-guide/) — 学习有损与无损压缩、JPEG/PNG/WebP 格式选择和实际压缩技巧
+- [PNG vs JPG vs WebP vs SVG](/guides/image-formats-compared/) — 对比各种图片格式，选择最合适的格式
+- [二维码设计最佳实践](/guides/qr-code-best-practices/) — 掌握容错等级、颜色对比、Logo 嵌入和测试技巧
+- [图片元数据与隐私保护](/guides/image-metadata-and-privacy/) — 了解 EXIF 数据会透露哪些照片信息
 
 [浏览全部英文指南 →](/guides/)

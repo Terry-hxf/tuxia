@@ -1,7 +1,7 @@
 {{ define "main" }}
 {{ $isTW := eq (.Params.pageLang | default "zh-CN") "zh-TW" }}
 {{ $toolId := .Params.toolId }}
-{{ $tool := cond $isTW (index hugo.Data.zh_tw_tools $toolId) (index hugo.Data.zh_tools $toolId) }}
+{{ $tool := cond $isTW (index site.Data.zh_tw_tools $toolId) (index site.Data.zh_tools $toolId) }}
 {{ $sourcePage := site.GetPage (printf "tools/%s.html" $toolId) }}
 {{ $badgeZH := dict
   "Text watermark" "文字水印"
