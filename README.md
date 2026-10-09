@@ -34,7 +34,7 @@ hugo --config hugo.toml --gc --minify --cleanDestinationDir --destination .\publ
 
 1. 在 **Settings → Pages** 选择 **Deploy from a branch**。
 2. 选择 `gh-pages`，目录选择 `/ (root)`。
-3. Custom domain 填 `tuxiatools.com`，打开 **Enforce HTTPS`。
+3. Custom domain 填 `tuxiatools.com`，打开 **Enforce HTTPS**。
 4. 确认仓库 Actions 有写入 contents 的权限，并在 **Actions** 页面手动运行一次 `Deploy TUXIA to GitHub Pages`。
 
 以后更新只需：
