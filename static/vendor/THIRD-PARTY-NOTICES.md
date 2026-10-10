@@ -25,4 +25,13 @@ TUXIA bundles the following third-party browser libraries under their upstream l
 - Copyright: © 2019 Denys Kozak
 - License text: [local copy](licenses/qr-code-styling-MIT.txt) · [upstream LICENSE](https://github.com/kozakdenys/qr-code-styling/blob/master/LICENSE)
 
+### Bundled dependency: qrcode-generator
+
+- Project: [kazuhikoarase/qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator)
+- Dependency: `qrcode-generator` `^1.4.4`, bundled through qr-code-styling
+- File: `static/vendor/qr-code-styling.js`
+- License: MIT
+- Copyright: © 2009 Kazuhiko Arase
+- License text: [local copy](licenses/qrcode-generator-MIT.txt) · [upstream LICENSE](https://github.com/kazuhikoarase/qrcode-generator/blob/js1.4.4/LICENSE)
+
 These notices identify the upstream projects and licenses for the copies bundled in this repository. The full license terms remain governed by the upstream license texts linked above.
