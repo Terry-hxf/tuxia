@@ -35,7 +35,7 @@ TUXIA is a static website. There is no user database, no membership tiers, and n
 
 ### Multi-Language Support
 
-TUXIA is available in English, Simplified Chinese (简体中文), and Traditional Chinese (繁體中文). Every tool page, guide, privacy policy, and terms page is fully translated to serve users across different regions.
+TUXIA is available in English, Simplified Chinese (简体中文), and Traditional Chinese (繁體中文). Tool pages and core legal pages are available in English, Simplified Chinese, and Traditional Chinese. Guides are currently published primarily in English, with more translations being added.
 
 ### Built with Modern Web Standards
 

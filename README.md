@@ -68,3 +68,5 @@ https://tuxiatools.com/tools/compress.html   (旧地址兼容跳转)
 - 不要诱导点击广告，也不要通过脚本、刷新或测试流量制造点击。
 
 更完整的上线检查在 [docs/search-console-and-growth-checklist.md](docs/search-console-and-growth-checklist.md)。
+
+第三方前端库的归属和许可证见 [static/vendor/THIRD-PARTY-NOTICES.md](static/vendor/THIRD-PARTY-NOTICES.md)。
